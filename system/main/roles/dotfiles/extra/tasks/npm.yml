@@ -1,0 +1,15 @@
+---
+- name: Setup Node.js
+  npm:
+    name:
+      - yarn
+      - typescript
+      - ts-node
+      - eslint
+      - prettier
+      - dotenv-cli
+      - semver
+      - json-server  # https://github.com/typicode/json-server
+    global: true
+  tags:
+    - personal

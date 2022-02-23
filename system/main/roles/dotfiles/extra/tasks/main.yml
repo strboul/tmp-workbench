@@ -1,0 +1,86 @@
+---
+- name: Python installs
+  import_tasks: pip.yml
+
+- name: Node installs
+  import_tasks: npm.yml
+
+- name: Install Chrome browser
+  yay: name=aur/google-chrome state=present
+  tags:
+    - work
+    - personal
+
+- name: Install Firefox browser
+  yay: name=extra/firefox state=present
+  tags:
+    - personal
+
+- name: Install Brave browser  # https://brave.com
+  yay: name=community/brave state=present
+  tags:
+    - work
+    - personal
+
+- name: Install LibreOffice Fresh (EN)
+  yay: name=extra/libreoffice-fresh state=present
+  tags:
+    - work
+    - personal
+
+- name: Install Slack desktop
+  yay: name=aur/slack-desktop state=present
+  tags:
+    - work
+
+- name: Install podman  # https://podman.io/
+  yay: name=community/podman state=present
+  tags:
+    - personal
+
+- name: Install DBeaver  # https://dbeaver.io/
+  yay: name=community/dbeaver state=present
+  tags:
+    - work
+    - personal
+
+- name: Install RStudio  # https://www.rstudio.com/
+  yay: name=aur/rstudio-desktop-bin state=present
+  tags:
+    - personal
+
+- name: Install virtualization software
+  yay:
+    name:
+      - community/libvirt
+      - community/gnome-boxes
+      - community/virt-manager
+      - aur/virtualbox-ext-oracle
+  tags:
+    - personal
+
+- name: Install Terraform & tools  # https://www.terraform.io/
+  yay:
+    name:
+      - community/terraform
+      - aur/terraform-ls  # LSP for terraform https://github.com/hashicorp/terraform-ls
+      - aur/tflint-bin  # https://github.com/terraform-linters/tflint
+      - aur/terraform-docs-bin  # https://github.com/terraform-docs/terraform-docs
+  tags:
+    - personal
+
+- name: Install Wireshark  # https://www.wireshark.org/
+  yay:
+    name:
+      - community/wireshark-cli
+      - community/wireshark-qt
+  tags:
+    - personal
+
+- name: CLI fetch utilities
+  yay:
+    name:
+      - community/neofetch  # https://github.com/dylanaraps/neofetch
+      - community/onefetch  # https://github.com/o2sh/onefetch
+    tags:
+      - personal

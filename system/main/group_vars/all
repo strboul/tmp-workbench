@@ -1,0 +1,2 @@
+group_vars:
+  workbench_dir: /opt/workbench

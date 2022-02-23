@@ -1,0 +1,9 @@
+fail_fast: true
+repos:
+-   repo: https://github.com/ansible-community/ansible-lint
+    rev: v5.3.2
+    hooks:
+    -   id: ansible-lint
+        name: "[ansible] ansible-lint"
+        pass_filenames: false
+        always_run: true

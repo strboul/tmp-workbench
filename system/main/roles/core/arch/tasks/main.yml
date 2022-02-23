@@ -1,0 +1,56 @@
+---
+- name: Create workbench folder and change ownership
+  file:
+    path: "{{ group_vars.workbench_dir }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+  become: true
+
+- name: Run pacman -Syu to update the system
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  become: true
+  # don't hammer arch servers
+  throttle: 1
+
+- name: Install yay (https://github.com/Jguer/yay)
+  block:
+    - name: Install yay dependencies
+      community.general.pacman:
+        name:
+          - git
+          - base-devel  # build-essential equivalent
+        state: present
+      become: true
+
+    - name: Clone yay source
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "{{ yay_install_dir }}"
+        version: master
+      register: yay_src
+
+    - name: Install yay
+      shell:
+        chdir: "{{ yay_install_dir }}"
+        cmd: "yes Y | makepkg -si"
+      when: yay_src.changed
+
+- name: Run yay -Syu
+  yay:
+    update_cache: true
+    upgrade: true
+  throttle: 1
+
+- name: Other essential packages
+  yay:
+    name:
+      - core/curl
+      - extra/wget
+      - extra/vim
+      - extra/tree
+      - extra/lsof
+      - extra/python-pip
+    state: present

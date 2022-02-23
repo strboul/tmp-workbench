@@ -1,0 +1,144 @@
+---
+- name: Setup zsh
+  block:
+    - name: Install zsh
+      yay:
+        name: extra/zsh
+        state: present
+
+    # add --unattended not to start the interactive prompt upon installation
+    # https://github.com/ohmyzsh/ohmyzsh#unattended-install
+    - name: Install oh-my-zsh
+      shell: |
+        script="$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+          sh -c "$script" "" --unattended
+      args:
+        # when this file exists, this step won't run.
+        creates: ~/.oh-my-zsh
+      changed_when: false
+
+    - name: oh-my-zsh custom dir
+      shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+      register: "oh_my_zsh_custom_dir"
+      changed_when: false
+
+    - name: Install zsh-autosuggestions plugin
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-autosuggestions"
+        depth: 1
+        version: master
+
+    - name: Install zsh-syntax-highlighting plugin
+      git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-syntax-highlighting"
+        depth: 1
+        version: master
+
+    - name: Install zsh-history-substring-search plugin
+      git:
+        repo: https://github.com/zsh-users/zsh-history-substring-search.git
+        dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-history-substring-search"
+        depth: 1
+        version: master
+
+    - name: Install powerlevel10k prompt theme
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
+        depth: 1
+        version: master
+
+    - name: Add zsh to /etc/shells
+      lineinfile:
+        line: "{{ zsh_command }}"
+        dest: /etc/shells
+        state: present
+      become: true
+      become_method: sudo
+
+    - name: Change default shell to zsh
+      command: "chsh -s {{ zsh_command }} {{ ansible_user }}"
+      changed_when: false
+      become: true
+      become_method: sudo
+
+- name: Setup neovim
+  block:
+    - name: Install neovim and tools
+      yay:
+        name:
+          - community/neovim  # https://github.com/neovim/neovim
+          - extra/ctags  # https://github.com/universal-ctags/ctags
+        state: present
+
+    - name: Install pynvim
+      pip:
+        name: pynvim  # python neovim modules. See `:h provider-python` in neovim
+        state: present
+
+- name: Install tmux
+  yay:
+    name:
+      - community/tmux  # https://github.com/tmux/tmux
+    state: present
+
+- name: Install command-line utilities
+  yay:
+    name:
+      - community/fzf  # https://github.com/junegunn/fzf
+      - community/ripgrep  # https://github.com/BurntSushi/ripgrep
+      - community/fd  # https://github.com/sharkdp/fd
+      - community/bat  # https://github.com/sharkdp/bat
+      - community/jq  # https://github.com/stedolan/jq
+      - community/hyperfine  # https://github.com/sharkdp/hyperfine
+    state: present
+
+- name: Install languages
+  yay:
+    name:
+      - community/nodejs
+      - extra/r
+    state: present
+
+- name: Setup Docker
+  block:
+    - name: Install Docker
+      yay:
+        name:
+          - community/docker
+          - community/docker-compose
+        state: present
+
+    - name: Setup Docker
+      block:
+        - name: Create the docker group
+          group:
+            name: docker
+            state: present
+
+        - name: Add your user to the docker group
+          user:
+            name: docker
+            group: "{{ ansible_user }}"
+
+        # reboot & reload is needed to have Docker ready.
+        # check the daemon with: `systemctl status docker`
+        # Follow the post-install steps here for the rest:
+        # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+      become: true
+      become_method: sudo
+
+- name: Install linters
+  yay:
+    name:
+      - community/shellcheck  # https://github.com/koalaman/shellcheck
+    state: present
+
+- name: Install terminal user interface tools
+  yay:
+    name:
+      - community/lazygit  # https://github.com/jesseduffield/lazygit
+      - aur/lazydocker-bin  # https://github.com/jesseduffield/lazydocker
+    state: present

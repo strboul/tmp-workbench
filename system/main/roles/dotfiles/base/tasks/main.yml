@@ -9,7 +9,7 @@
     # add --unattended not to start the interactive prompt upon installation
     # https://github.com/ohmyzsh/ohmyzsh#unattended-install
     - name: Install oh-my-zsh
-      shell: |
+      ansible.builtin.shell: |
         script="$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
           sh -c "$script" "" --unattended
       args:
@@ -18,40 +18,44 @@
       changed_when: false
 
     - name: oh-my-zsh custom dir
-      shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+      ansible.builtin.shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
       register: "oh_my_zsh_custom_dir"
       changed_when: false
 
     - name: Install zsh-autosuggestions plugin
-      git:
+      ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-autosuggestions.git
         dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-autosuggestions"
         depth: 1
         version: master
+        update: false
 
     - name: Install zsh-syntax-highlighting plugin
-      git:
+      ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
         dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-syntax-highlighting"
         depth: 1
         version: master
+        update: false
 
     - name: Install zsh-history-substring-search plugin
-      git:
+      ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-history-substring-search.git
         dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-history-substring-search"
         depth: 1
         version: master
+        update: false
 
     - name: Install powerlevel10k prompt theme
-      git:
+      ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
         dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
         depth: 1
         version: master
+        update: false
 
     - name: Add zsh to /etc/shells
-      lineinfile:
+      ansible.builtin.lineinfile:
         line: "{{ zsh_command }}"
         dest: /etc/shells
         state: present
@@ -59,39 +63,54 @@
       become_method: sudo
 
     - name: Change default shell to zsh
-      command: "chsh -s {{ zsh_command }} {{ ansible_user }}"
+      ansible.builtin.command:
+        cmd: "chsh -s {{ zsh_command }} {{ ansible_env.USER }}"
       changed_when: false
       become: true
       become_method: sudo
 
-- name: Setup neovim
+- name: Setup neovim  # https://github.com/neovim/neovim
   block:
-    - name: Install neovim and tools
+    - name: Install neovim
+      yay: name=community/neovim state=present
+
+    - name: Install vim-plug
+      vars:
+        vim_plug_path: "~/.local/share/nvim/site/autoload/plug.vim"
+      ansible.builtin.shell: |
+        sh -c 'curl -fLo "{{ vim_plug_path }} --create-dirs \
+         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+      args:
+        creates: "{{ vim_plug_path }}"
+      changed_when: false
+
+    - name: Install neovim tools
       yay:
         name:
-          - community/neovim  # https://github.com/neovim/neovim
           - extra/ctags  # https://github.com/universal-ctags/ctags
         state: present
 
     - name: Install pynvim
-      pip:
+      ansible.builtin.pip:
         name: pynvim  # python neovim modules. See `:h provider-python` in neovim
         state: present
 
-- name: Install tmux
-  yay:
-    name:
-      - community/tmux  # https://github.com/tmux/tmux
-    state: present
+- name: Install tmux  # https://github.com/tmux/tmux
+  yay: name=community/tmux state=present
+
+- name: Install alacritty terminal
+  yay: name=community/alacritty state=present
 
 - name: Install command-line utilities
   yay:
     name:
       - community/fzf  # https://github.com/junegunn/fzf
       - community/ripgrep  # https://github.com/BurntSushi/ripgrep
+      - community/lazygit  # https://github.com/jesseduffield/lazygit
       - community/fd  # https://github.com/sharkdp/fd
       - community/bat  # https://github.com/sharkdp/bat
       - community/jq  # https://github.com/stedolan/jq
+      - community/direnv  # https://github.com/direnv/direnv
       - community/hyperfine  # https://github.com/sharkdp/hyperfine
     state: present
 
@@ -114,19 +133,20 @@
     - name: Setup Docker
       block:
         - name: Create the docker group
-          group:
+          ansible.builtin.group:
             name: docker
             state: present
 
         - name: Add your user to the docker group
-          user:
+          ansible.builtin.user:
             name: docker
-            group: "{{ ansible_user }}"
+            group: "{{ ansible_env.USER }}"
 
-        # reboot & reload is needed to have Docker ready.
-        # check the daemon with: `systemctl status docker`
         # Follow the post-install steps here for the rest:
         # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+        #
+        # reboot & reload is needed to have Docker ready.
+        # check the daemon with: `systemctl status docker`
       become: true
       become_method: sudo
 
@@ -136,9 +156,12 @@
       - community/shellcheck  # https://github.com/koalaman/shellcheck
     state: present
 
-- name: Install terminal user interface tools
+- name: Install tools
   yay:
     name:
-      - community/lazygit  # https://github.com/jesseduffield/lazygit
+      - extra/meld  # https://meldmerge.org
       - aur/lazydocker-bin  # https://github.com/jesseduffield/lazydocker
+      - community/ranger  # https://github.com/ranger/ranger
+      - community/flameshot  # https://github.com/flameshot-org/flameshot
+      - community/gdu  # https://github.com/dundee/gdu
     state: present

@@ -1,11 +1,13 @@
 ---
 - name: Create workbench folder and change ownership
-  file:
+  ansible.builtin.file:
     path: "{{ group_vars.workbench_dir }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0700
     state: directory
   become: true
+  become_method: sudo
 
 - name: Run pacman -Syu to update the system
   community.general.pacman:
@@ -15,7 +17,28 @@
   # don't hammer arch servers
   throttle: 1
 
-- name: Install yay (https://github.com/Jguer/yay)
+# Install with yay: Yet Another Yogurt - An AUR Helper Written in Go
+# https://github.com/Jguer/yay
+#
+# Search Arch packages
+#   https://archlinux.org/packages/
+# AUR packages
+#   https://aur.archlinux.org/packages/
+#
+# Usage:
+# Install with
+#   yay -S <package>
+#
+# Uninstall with
+#   yay -R <package>
+#
+# Search with
+#   yay -Ss <package> | less
+#
+# Clear all unused cache
+#   yay -Sc
+#
+- name: Install yay
   block:
     - name: Install yay dependencies
       community.general.pacman:
@@ -26,14 +49,15 @@
       become: true
 
     - name: Clone yay source
-      git:
+      ansible.builtin.git:
         repo: https://aur.archlinux.org/yay.git
         dest: "{{ yay_install_dir }}"
         version: master
+        update: false
       register: yay_src
 
     - name: Install yay
-      shell:
+      ansible.builtin.shell:
         chdir: "{{ yay_install_dir }}"
         cmd: "yes Y | makepkg -si"
       when: yay_src.changed

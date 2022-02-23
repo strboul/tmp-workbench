@@ -2,17 +2,19 @@
   "audio": "pipewire",
   "bootloader": "grub-install",
   "hostname": "archpad",
-  "desktop-environment": "xfce4",
   "gfx_driver": "All open-source (default)",
   "kernels": [
     "linux"
   ],
   "keyboard-layout": "us",
   "nic": {
-    "NetworkManager": true,
-    "nic": "Use NetworkManager (necessary to configure internet graphically in GNOME and KDE)"
+    "NetworkManager": true
   },
   "ntp": true,
+  "packages": [
+    "git",
+    "base-devel"
+  ],
   "script": "guided",
   "swap": true,
   "sys-encoding": "utf-8",

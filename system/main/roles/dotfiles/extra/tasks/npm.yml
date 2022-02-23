@@ -1,15 +1,47 @@
 ---
+- name: Install npm
+  yay: name=community/npm state=present
+
+# https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+- name: Don't require sudo access while installing global packages
+  block:
+    - name: Create a directory for global installations
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.npm-global"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0755
+        state: directory
+
+    - name: Configure npm to use the new directory path
+      ansible.builtin.command: "npm config set prefix '~/.npm-global'"
+      changed_when: false
+
+    - name: Export the path in profile
+      ansible.builtin.blockinfile:
+        path: "{{ item }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          export PATH="~/.npm-global/bin:$PATH"
+        mode: 0644
+        create: true
+        state: present
+      with_items:
+        - "{{ ansible_env.HOME }}/.zprofile"
+        - "{{ ansible_env.HOME }}/.bash_profile"
+
 - name: Setup Node.js
-  npm:
-    name:
-      - yarn
-      - typescript
-      - ts-node
-      - eslint
-      - prettier
-      - dotenv-cli
-      - semver
-      - json-server  # https://github.com/typicode/json-server
+  community.general.npm:
+    name: "{{ item }}"
     global: true
+  with_items:
+    - yarn
+    - typescript
+    - ts-node
+    - eslint
+    - prettier
+    - dotenv-cli
+    - semver
+    - json-server  # https://github.com/typicode/json-server
   tags:
     - personal

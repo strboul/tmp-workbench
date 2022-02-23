@@ -6,7 +6,7 @@ Install Arch Linux with the guided installer `archinstall`.
 
 - https://github.com/archlinux/archinstall
 
-Apply JSON config file:
+## Config file
 
 ```bash
 archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/archinstall/config.json
@@ -21,12 +21,16 @@ archinstall --dry-run
 ls -l /var/log/archinstall
 ```
 
-## Notes
-
-+ You gonna fill out the missing parts in the config.
-
-+ `"ntp": true`: automatic time sync (ntp)
++ `"ntp": true`: automatic time sync ([NTP](https://www.ntp.org/))
 
 + `"swap": true`: swap on ZRAM
 
-+ disk layouts: choose `btrfs` with subvolumes.
+## Notes
+
+You gonna fill out the missing parts in the config.
+
++ Encrypt disk with `dmcrypt` (or should use LUKS?)
+
++ Choose `btrfs` filesystem with subvolumes.
+
++ Don't create a root user; instead, create a super-user with sudo privileges.

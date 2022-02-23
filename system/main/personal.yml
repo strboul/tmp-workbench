@@ -1,8 +1,9 @@
 ---
-- hosts: all
-  gather_facts: false
+- name: Personal profile
+  hosts: all
+  gather_facts: true
   roles:
-    - core/arch
+    - initial
     # - bluetooth
     - dotfiles/base
-    - {role: dotfiles/extra, tags: ['personal']}
+    - { role: dotfiles/extra, tags: ["personal"] }

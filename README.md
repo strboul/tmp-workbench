@@ -4,7 +4,7 @@ Once upon a time, this was just *dotfiles* with a setup script but it now has
 the full *workbench*.
 
 It's totally possible to use the parts, like `/bin` or `/dotfiles`, not
-necessary to install the full workbench.
+necessary to install the full suite.
 
 Fully supports Arch Linux :penguin:
 
@@ -18,23 +18,23 @@ Fully supports Arch Linux :penguin:
 
 ```sh
 .
-├── bin                  # my custom CLI helpers
+├── bin/                  # 1. my custom CLI helpers
 │   └── ...
-├── dotfiles             # my custom config files
+├── dotfiles/             # 2. my custom config files
 │   └── ...
-└── system               # system provision/installation
-    ├── core                 # OS installation
+└── system/               # 3. system provision/installation
+    ├── core/                 # 3.1. OS installation
     │   └── ...
-    └── main                 # provision with Ansible
-        ├── roles
-        │   ├── bluetooth
+    └── main/                 # 3.2. provision with Ansible
+        ├── roles/
+        │   ├── bluetooth/
         │   │   └── ...
-        │   ├── core             # core system provision
+        │   ├── core/             # core system provision
         │   │   └── ...
-        │   └── dotfiles         # dotfiles provision
-        │       ├── base         # base dotfiles, for all playbooks
+        │   └── dotfiles/         # dotfiles provision
+        │       ├── base/         # base dotfiles, for all playbooks
         │       │   ├── ...
-        │       └── extra        # extra dotfiles, installed by tags
+        │       └── extra/        # extra dotfiles, installed by tags
         │           └── ...
         ├── personal.yml
         └── work.yml
@@ -44,47 +44,18 @@ Check the most up-to-date structure with `tree --dirsfirst .` and `tree -d .`
 
 ## Setup
 
-After you install the OS;
-
-### 1. Clone the repository
+### Setup everything
 
 Clone this repository into your home (`$HOME/`) directory, and then change
-directory into the `dotfiles` folder. After all, execute the setup script.
+directory into the `workbench` folder. After all, execute the setup script.
 
 ```bash
-git clone https://github.com/strboul/workbench.git "$HOME"/dotfiles
-cd "$HOME"/dotfiles && ./setup.sh
+git clone https://github.com/strboul/tmp-workbench.git "$HOME"/workbench
 ```
 
-### 2. Install Ansible
-
-First, install Ansible:
-
-```bash
-pacman -S ansible
-```
-
-Then, install the yay module: https://github.com/mnussbaum/ansible-yay
-
-```bash
-module_path="$(python -c """
-from ansible import constants
-path = constants.config.get_config_value('DEFAULT_MODULE_PATH')[0]
-print(path)
-""")"
-wget -O "$module_path/yay" https://raw.githubusercontent.com/mnussbaum/ansible-yay/master/yay
-# returns something like ~/.ansible/plugins/modules
-```
-
-The ansible constants comes from `ansible-config`, check out
-[this link](https://docs.ansible.com/ansible/latest/dev_guide/developing_locally.html#adding-standalone-local-modules-for-all-playbooks-and-roles)
-and command `ansible-config dump | grep DEFAULT_MODULE_PATH` to print
-variables on the shell.
-
-### 3. Run the playbook
-
-```bash
-ansible-playbook system/personal.yml
-```
-
-Reboot the system after the installation is completed.
+| #  | Steps                  | Guide                                                |
+|:---|:-----------------------|:-----------------------------------------------------|
+| 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
+| 2. | Provision main system  | [system/main/](system/main/)                         |
+| 3. | Link dotfiles          | [dotfiles/](dotfiles/)                               |
+| 4. | Add bin/ to the path   | [bin/](bin/)                                         |

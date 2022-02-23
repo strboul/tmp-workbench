@@ -1,6 +1,6 @@
 ---
 - name: Setup Python
-  pip:
+  ansible.builtin.pip:
     name:
       - virtualenv
       - pylint  # https://github.com/PyCQA/pylint
@@ -12,7 +12,7 @@
     - personal
 
 - name: Data science tools
-  pip:
+  ansible.builtin.pip:
     name:
       - jupyter
       - radian  # https://github.com/randy3k/radian
@@ -21,12 +21,13 @@
     - personal
 
 - name: Other
-  pip:
+  ansible.builtin.pip:
     name:
       - git-substatus  # https://github.com/strboul/git-substatus
       - tmuxp  # https://github.com/tmux-python/tmuxp
       - youtube-dl  # https://github.com/ytdl-org/youtube-dl
       - pre-commit  # https://pre-commit.com/#installation
+      - visidata  # https://www.visidata.org/
     state: present
   tags:
     - personal

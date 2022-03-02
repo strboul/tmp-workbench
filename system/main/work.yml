@@ -1,9 +1,0 @@
----
-- name: Work profile
-  hosts: all
-  gather_facts: true
-  roles:
-    - initial
-    # - bluetooth
-    - dotfiles/base
-    - { role: dotfiles/extra, tags: ["work"] }

@@ -1,0 +1,6 @@
+---
+- name: Personal profile
+  hosts: all
+  gather_facts: true
+  roles:
+    - essential

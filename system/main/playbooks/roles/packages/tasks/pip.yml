@@ -1,6 +1,6 @@
 ---
-- name: Setup Python
-  ansible.builtin.pip:
+- name: Python tools
+  pip:
     name:
       - virtualenv
       - pylint  # https://github.com/PyCQA/pylint
@@ -12,7 +12,7 @@
     - personal
 
 - name: Data science tools
-  ansible.builtin.pip:
+  pip:
     name:
       - jupyter
       - radian  # https://github.com/randy3k/radian
@@ -21,7 +21,7 @@
     - personal
 
 - name: Other
-  ansible.builtin.pip:
+  pip:
     name:
       - git-substatus  # https://github.com/strboul/git-substatus
       - tmuxp  # https://github.com/tmux-python/tmuxp

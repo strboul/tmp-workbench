@@ -1,0 +1,10 @@
+---
+- name: Install virtualization software
+  yay:
+    name:
+      - community/libvirt
+      - community/gnome-boxes
+      - community/virt-manager
+      - aur/virtualbox-ext-oracle
+      - community/vagrant  # https://www.vagrantup.com/
+    state: present

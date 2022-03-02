@@ -8,11 +8,23 @@ necessary to install the full suite.
 
 Fully supports Arch Linux :penguin:
 
-## Parts
+## Setup
 
-+ [Arch Linux](https://archlinux.org/) installed in core.
+Clone this repository into your home (`$HOME/`) directory, and then change
+directory into the `workbench` folder. After all, execute the setup script.
 
-+ [Ansible](https://www.ansible.com/) is used for main system provisioning.
+```sh
+git clone https://github.com/strboul/workbench.git "$HOME"/workbench
+```
+
+Recommended to install the parts in the following order:
+
+| #  | Steps                  | Guide                                                |
+|:---|:-----------------------|:-----------------------------------------------------|
+| 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
+| 2. | Link dotfiles          | [dotfiles/](dotfiles/)                               |
+| 3. | Provision main system  | [system/main/](system/main/)                         |
+| 4. | Add bin/ to the path   | [bin/](bin/)                                         |
 
 ## Folder structure
 
@@ -41,21 +53,3 @@ Fully supports Arch Linux :penguin:
 ```
 
 Check the most up-to-date structure with `tree --dirsfirst .` and `tree -d .`
-
-## Setup
-
-### Setup everything
-
-Clone this repository into your home (`$HOME/`) directory, and then change
-directory into the `workbench` folder. After all, execute the setup script.
-
-```bash
-git clone https://github.com/strboul/tmp-workbench.git "$HOME"/workbench
-```
-
-| #  | Steps                  | Guide                                                |
-|:---|:-----------------------|:-----------------------------------------------------|
-| 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
-| 2. | Provision main system  | [system/main/](system/main/)                         |
-| 3. | Link dotfiles          | [dotfiles/](dotfiles/)                               |
-| 4. | Add bin/ to the path   | [bin/](bin/)                                         |

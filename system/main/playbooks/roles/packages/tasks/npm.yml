@@ -6,7 +6,7 @@
 - name: Don't require sudo access while installing global packages
   block:
     - name: Create a directory for global installations
-      ansible.builtin.file:
+      file:
         path: "{{ ansible_env.HOME }}/.npm-global"
         owner: "{{ ansible_env.USER }}"
         group: "{{ ansible_env.USER }}"
@@ -14,11 +14,11 @@
         state: directory
 
     - name: Configure npm to use the new directory path
-      ansible.builtin.command: "npm config set prefix '~/.npm-global'"
+      command: "npm config set prefix '~/.npm-global'"
       changed_when: false
 
     - name: Export the path in profile
-      ansible.builtin.blockinfile:
+      blockinfile:
         path: "{{ item }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |

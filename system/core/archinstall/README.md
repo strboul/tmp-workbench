@@ -8,13 +8,13 @@ Install Arch Linux with the guided installer `archinstall`.
 
 ## Config file
 
-```bash
+```sh
 archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/archinstall/config.json
 ```
 
 Dry run to generate the configuration file and exit:
 
-```bash
+```sh
 archinstall --dry-run
 
 # then check:

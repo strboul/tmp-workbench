@@ -1,23 +1,23 @@
-# main system
+# main
 
-Ansible system configuration.
+[Ansible](https://www.ansible.com/) system configuration.
 
-Change into the path:
+Be sure that you run the changes from the path:
 
-```bash
+```sh
 cd system/main
 ```
 
 ## 1. Install Ansible
 
-```bash
+```sh
 pacman -S ansible
 ```
 
-Then, install the yay module: https://github.com/mnussbaum/ansible-yay
+Then, install the `ansible-yay` module: https://github.com/mnussbaum/ansible-yay
 
-```bash
-install_yay_module() {
+```sh
+install_ansible_yay() {
   module_path="$(python -c """
 from ansible import constants
 path = constants.config.get_config_value('DEFAULT_MODULE_PATH')[0]
@@ -29,61 +29,24 @@ print(path)
     https://raw.githubusercontent.com/mnussbaum/ansible-yay/master/yay
 }
 
-install_yay_module
+install_ansible_yay
 ```
 
-The ansible constants comes from `ansible-config`, check out
+The ansible constants can be seen at `ansible-config`. For further information,
+check out
 [this link](https://docs.ansible.com/ansible/latest/dev_guide/developing_locally.html#adding-standalone-local-modules-for-all-playbooks-and-roles)
-and command `ansible-config dump | grep DEFAULT_MODULE_PATH` to print
-variables on the shell.
+and the command, e.g. `ansible-config dump | grep DEFAULT_MODULE_PATH`.
 
-## 2. Run the playbook
+## 2. Run the playbooks
 
-```bash
-ansible-playbook -v -i localhost.inventory.ini --ask-become-pass work.yml
+Run the Ansible playbooks against the localhost, the current machine.
+
+```sh
+ansible-playbook -v -i localhost.inventory --ask-become-pass playbooks/work.yml
 ```
 
 Enter the sudo password on start.
 
-TODO: check out ansible-vault for secrets.
+<!-- TODO: check out ansible-vault for secrets. -->
 
 Reboot the system after the installation is completed.
-
-<!-- TODO move this below and vagrant into a folder tests/vagrant -->
-
-## Testing
-
-### Vagrant playground
-
-Bring up & reboot & destroy the VM
-
-```
-vagrant up
-vagrant reload
-vagrant destroy -f
-```
-
-SSH into VM
-
-```
-vagrant ssh
-
-# or manually, from private network
-ssh -i .vagrant/machines/default/virtualbox/private_key vagrant@192.168.56.2
-```
-
-Run provisions
-```
-ansible-playbook -v -i vagrant.inventory.ini work.yml
-```
-
-+ Use `-vvv` for extra printing to debug Ansible.
-
-### Troubleshooting
-
-+ If can't connect to vagrant, check IP interfaces with `ip a` and find out
-  what the range is for `vboxnet0`.
-
-+ If you get unreachable error in ssh, try removing corresponding entries from
-  `.ssh/known_hosts` (it's now disabled the SSH host key checking so this is
-  unlikely).

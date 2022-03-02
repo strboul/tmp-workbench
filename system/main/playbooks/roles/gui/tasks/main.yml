@@ -1,0 +1,88 @@
+---
+- name: Install alacritty terminal  # https://github.com/alacritty/alacritty
+  yay: name=community/alacritty state=present
+  tags: alacritty
+
+- name: Install meld
+  yay: name=extra/meld  # https://meldmerge.org state=present
+  tags: meld
+
+- name: Install flameshot  # https://github.com/flameshot-org/flameshot
+  yay: name=community/flameshot state=present
+  tags: flameshot
+
+- name: Install gedit
+  yay: name=extra/gedit state=present
+  tags: gedit
+
+- name: Install Chrome browser
+  yay: name=aur/google-chrome state=present
+  tags: chrome_browser
+
+- name: Install Firefox browser
+  yay: name=extra/firefox state=present
+  tags: firefox_browser
+
+- name: Install Brave browser  # https://brave.com
+  yay: name=aur/brave-bin state=present
+  tags: brave_browser
+
+- name: Install vscode
+  yay: name=community/code state=present
+  tags: vscode
+
+- name: Install LibreOffice Fresh (EN)
+  yay: name=extra/libreoffice-fresh state=present
+  tags: libreoffice
+
+- name: Install Slack desktop
+  yay: name=aur/slack-desktop state=present
+  tags: slack
+
+- name: Install DBeaver  # https://dbeaver.io/
+  yay: name=community/dbeaver state=present
+  tags: dbeaver
+
+- name: Install RStudio  # https://www.rstudio.com/
+  yay: name=aur/rstudio-desktop-bin state=present
+  tags: rstudio
+
+- name: Install Signal
+  yay: name=community/signal-desktop state=present
+  tags: signal_im
+
+- name: Install Telegram
+  yay: name=community/telegram-desktop state=present
+  tags: telegram_im
+
+- name: Install Wireshark  # https://www.wireshark.org/
+  yay:
+    name:
+      - community/wireshark-cli
+      - community/wireshark-qt
+    state: present
+  tags: wireshark
+
+- name: Install VLC
+  yay: name=extra/vlc state=present
+  tags: vlc
+
+- name: Install keepassxc  # https://keepassxc.org/
+  yay: name=community/keepassxc state=present
+  tags: keepassxc
+
+- name: Install gThumb  # https://wiki.gnome.org/Apps/Gthumb
+  yay: name=extra/gthumb state=present
+  tags: gthumb
+
+- name: Install xcolor  # https://github.com/Soft/xcolor
+  yay: name=community/xcolor state=present
+  tags: xcolor
+
+- name: Install magicavoxel
+  yay: name=aur/magicavoxel state=present
+  tags: magicavoxel
+
+- name: Install virtualization
+  import_tasks: virtualization.yml
+  tags: virtualization

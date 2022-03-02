@@ -1,7 +1,7 @@
 ---
 # https://gist.github.com/andrebrait/961cefe730f4a2c41f57911e6195e444#enable-bluetooth-fast-connect-config
 - name: Enable bluetooth fast connect config
-  ansible.builtin.lineinfile:
+  lineinfile:
     path: /etc/bluetooth/main.conf
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"

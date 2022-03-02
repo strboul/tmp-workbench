@@ -1,0 +1,30 @@
+---
+- name: Install nodejs
+  yay: name=community/nodejs state=present
+  tags: node
+
+- name: Install R
+  yay: name=extra/r state=present
+  tags: r
+
+- name: Install golang
+  yay: name=community/go state=present
+  tags: golang
+
+- name: Install deno  # https://deno.land/
+  yay: name=community/deno state=present
+  tags: denoland
+
+- name: Install Rust
+  yay: name=extra/rust state=present
+  tags: rust
+
+- name: Install C/C++ tooling
+  yay:
+    name:
+      - extra/compiler-rt
+      - extra/clang
+      - aur/clang-format-static-bin
+      - extra/valgrind
+    state: present
+  tags: c_cpp_tools

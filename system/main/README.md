@@ -42,7 +42,7 @@ and the command, e.g. `ansible-config dump | grep DEFAULT_MODULE_PATH`.
 Run the Ansible playbooks against the localhost, the current machine.
 
 ```sh
-ansible-playbook -v -i localhost.inventory --ask-become-pass playbooks/work.yml
+ansible-playbook -v -i localhost.inventory --ask-become-pass playbooks/main.yml
 ```
 
 Enter the sudo password on start.

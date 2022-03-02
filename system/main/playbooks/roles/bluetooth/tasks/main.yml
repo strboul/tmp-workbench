@@ -1,8 +1,13 @@
 ---
+- name: Check if bluetooth conf file exists
+  stat:
+    path: "{{ bluetooth_conf_path }}"
+  register: bluetooth_conf_file
+
 # https://gist.github.com/andrebrait/961cefe730f4a2c41f57911e6195e444#enable-bluetooth-fast-connect-config
 - name: Enable bluetooth fast connect config
   lineinfile:
-    path: /etc/bluetooth/main.conf
+    path: "{{ bluetooth_conf_path }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   loop:
@@ -11,3 +16,4 @@
     - { regexp: "^#FastConnectable=", line: "FastConnectable=true" }
   become: true
   become_method: sudo
+  when: bluetooth_conf_file.stat.exists

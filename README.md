@@ -19,7 +19,7 @@ git clone https://github.com/strboul/workbench.git "$HOME"/workbench
 
 Recommended to install the parts in the following order:
 
-| #  | Steps                  | Guide                                                |
+| #  | step                   | guide                                                |
 |:---|:-----------------------|:-----------------------------------------------------|
 | 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
 | 2. | Link dotfiles          | [dotfiles/](dotfiles/)                               |

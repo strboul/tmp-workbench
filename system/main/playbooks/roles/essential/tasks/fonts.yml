@@ -1,0 +1,9 @@
+---
+# https://www.jetbrains.com/lp/mono/
+# https://www.nerdfonts.com/font-downloads
+- name: JetBrains Mono Nerd Fonts
+  kewlfft.aur.aur:
+    use: yay
+    name: nerd-fonts-jetbrains-mono
+    state: present
+

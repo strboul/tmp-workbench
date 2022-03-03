@@ -24,6 +24,10 @@
   import_tasks: ntp.yml
   tags: essential__ntp
 
+- name: Setup fonts
+  import_tasks: fonts.yml
+  tags: essential__fonts
+
 - name: Other essential packages
   pacman:
     name:

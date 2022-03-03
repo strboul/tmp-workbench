@@ -15,8 +15,12 @@
         creates: "{{ vim_plug_path }}"
       changed_when: false
 
-    - name: Install vim-plug packages
+    - name: Install vim-plug plugins
       command: "nvim +PlugInstall +qall"
+      changed_when: false
+
+    - name: Install coc-nvim plugins
+      command: "nvim +CocUpdateSync +qall"
       changed_when: false
 
 - name: Install neovim tools

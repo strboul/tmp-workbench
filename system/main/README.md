@@ -22,7 +22,7 @@ ansible-galaxy collection install kewlfft.aur
 Run the Ansible playbooks against the localhost, the current machine.
 
 ```sh
-ansible-playbook -v -i localhost.inventory --ask-become-pass playbooks/main.yml
+ansible-playbook -i localhost.inventory --ask-become-pass playbook.yml
 ```
 
 See more at [ansible.md](ansible.md).

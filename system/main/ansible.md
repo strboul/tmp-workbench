@@ -5,7 +5,7 @@
 List tasks
 
 ```sh
-ansible-playbook playbooks/main.yml --list-tasks
+ansible-playbook playbook.yml --list-tasks
 ```
 
 ### Tags
@@ -16,11 +16,11 @@ underscores and then put the tag names, i.e. `<playbook>__<name1>__<name2>`.
 List tags
 
 ```sh
-ansible-playbook playbooks/main.yml --list-tags
+ansible-playbook playbook.yml --list-tags
 ```
 
 Run only tags
 
 ```sh
-ansible-playbook -v -i <inventory> playbooks/main.yml --tags "zsh,tmux"
+ansible-playbook -v -i <inventory> playbook.yml --tags "zsh,tmux"
 ```

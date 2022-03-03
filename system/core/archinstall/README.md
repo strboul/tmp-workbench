@@ -29,8 +29,8 @@ ls -l /var/log/archinstall
 
 You gonna fill out the missing parts in the config.
 
-+ Encrypt disk with `dmcrypt` (or should use LUKS?)
-
 + Choose `btrfs` filesystem with subvolumes.
+
++ Encrypt disk with `dmcrypt` (or should use LUKS?)
 
 + Don't create a root user; instead, create a super-user with sudo privileges.

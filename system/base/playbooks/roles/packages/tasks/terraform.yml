@@ -1,0 +1,18 @@
+---
+- name: Install Terraform and tools  # https://www.terraform.io/
+  block:
+    - name: Terraform install
+      pacman:
+        name:
+          - community/terraform
+        state: present
+      become: true
+
+    - name: Tooling install
+      kewlfft.aur.aur:
+        use: yay
+        name:
+          - terraform-ls  # LSP for terraform https://github.com/hashicorp/terraform-ls
+          - tflint-bin  # https://github.com/terraform-linters/tflint
+          - terraform-docs-bin  # https://github.com/terraform-docs/terraform-docs
+        state: present

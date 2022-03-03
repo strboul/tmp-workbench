@@ -1,0 +1,24 @@
+---
+- name: Python tools
+  pip:
+    name:
+      - virtualenv
+      - pylint  # https://github.com/PyCQA/pylint
+      - bpython  # https://github.com/bpython/bpython
+      - pdbpp  # https://github.com/pdbpp/pdbpp (drop-in replacement for pdb)
+    state: present
+
+- name: Data science tools
+  pip:
+    name:
+      - jupyter
+      - radian  # https://github.com/randy3k/radian
+    state: present
+
+- name: Other
+  pip:
+    name:
+      - tmuxp  # https://github.com/tmux-python/tmuxp
+      - youtube-dl  # https://github.com/ytdl-org/youtube-dl
+      - visidata  # https://www.visidata.org/
+    state: present

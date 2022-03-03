@@ -1,0 +1,9 @@
+---
+- name: Install Kubernetes tools
+  pacman:
+    name:
+      - community/k9s  # https://k9scli.io/
+      - community/kubectx  # https://github.com/ahmetb/kubectx
+      - community/minikube  # https://github.com/kubernetes/minikube
+    state: present
+  become: true

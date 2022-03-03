@@ -1,0 +1,49 @@
+---
+# Install with yay: Yet Another Yogurt - An AUR Helper Written in Go
+# https://github.com/Jguer/yay
+#
+# Search Arch packages
+#   https://archlinux.org/packages/
+# AUR packages
+#   https://aur.archlinux.org/packages/
+#
+# Usage:
+# Install with
+#   yay -S <package>
+#
+# Uninstall with
+#   yay -R <package>
+#
+# Search with
+#   yay -Ss <package> | less
+#
+# Clear all unused cache
+#   yay -Sc
+#
+- name: Install yay dependencies
+  pacman:
+    name:
+      - git
+      - base-devel  # build-essential equivalent
+    state: present
+  become: true
+
+- name: Check if yay is installed
+  stat:
+    path: "{{ yay_command }}"
+  register: yay_cmd
+
+- name: Install yay
+  block:
+    - name: Clone yay source
+      git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: "{{ yay_install_dir }}"
+        version: master
+        update: false
+
+    - name: Build yay
+      shell:
+        chdir: "{{ yay_install_dir }}"
+        cmd: "yes Y | makepkg -si"
+  when: not yay_cmd.stat.exists

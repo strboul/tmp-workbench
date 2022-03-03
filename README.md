@@ -17,9 +17,9 @@ directory into the `workbench` folder. After all, execute the setup script.
 git clone https://github.com/strboul/workbench.git "$HOME"/workbench
 ```
 
-Recommended to install the parts in the following order:
+Recommended to install the parts of the workbench in the following order:
 
-| #  | step                   | guide                                                |
+| #  | step                   | part                                                 |
 |:---|:-----------------------|:-----------------------------------------------------|
 | 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
 | 2. | Link dotfiles          | [dotfiles/](dotfiles/)                               |
@@ -30,26 +30,18 @@ Recommended to install the parts in the following order:
 
 ```sh
 .
-├── bin/                  # 1. my custom CLI helpers
+├── bin/                  # my custom CLI helpers
 │   └── ...
-├── dotfiles/             # 2. my custom config files
+├── dotfiles/             # my custom config files
 │   └── ...
-└── system/               # 3. system provision/installation
-    ├── core/                 # 3.1. OS installation
+└── system/               # system provision/installation
+    ├── core/                 # core OS installation
     │   └── ...
-    └── main/                 # 3.2. provision with Ansible
-        ├── roles/
-        │   ├── bluetooth/
-        │   │   └── ...
-        │   ├── core/             # core system provision
-        │   │   └── ...
-        │   └── dotfiles/         # dotfiles provision
-        │       ├── base/         # base dotfiles, for all playbooks
-        │       │   ├── ...
-        │       └── extra/        # extra dotfiles, installed by tags
-        │           └── ...
-        ├── personal.yml
-        └── work.yml
+    └── base/                 # base system provision with Ansible
+        ├── playbooks/
+        │   └── ...
+        └── tests/
+            └── ...
 ```
 
 Check the most up-to-date structure with `tree --dirsfirst .` and `tree -d .`

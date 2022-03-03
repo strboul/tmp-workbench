@@ -1,0 +1,10 @@
+---
+- name: Main
+  hosts: all
+  gather_facts: true
+  roles:
+    - essential
+    - bluetooth
+    - packages
+    - languages
+    - gui

@@ -1,9 +1,0 @@
----
-- name: Install Terraform and tools  # https://www.terraform.io/
-  yay:
-    name:
-      - community/terraform
-      - aur/terraform-ls  # LSP for terraform https://github.com/hashicorp/terraform-ls
-      - aur/tflint-bin  # https://github.com/terraform-linters/tflint
-      - aur/terraform-docs-bin  # https://github.com/terraform-docs/terraform-docs
-    state: present

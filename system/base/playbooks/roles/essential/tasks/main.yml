@@ -1,0 +1,37 @@
+---
+- name: Have a workbench folder belonging to user
+  file:
+    path: "{{ group_vars.workbench_dir }}"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: 0700
+    state: directory
+  become: true
+
+- name: Run pacman -Syu to update the system
+  pacman:
+    update_cache: true
+    upgrade: true
+  become: true
+  # don't hammer arch servers
+  throttle: 1
+
+- name: Install yay
+  import_tasks: yay.yml
+  tags: essential__yay
+
+- name: Setup NTP
+  import_tasks: ntp.yml
+  tags: essential__ntp
+
+- name: Other essential packages
+  pacman:
+    name:
+      - core/curl
+      - extra/wget
+      - extra/vim
+      - extra/tree
+      - extra/lsof
+      - extra/python-pip
+    state: present
+  become: true

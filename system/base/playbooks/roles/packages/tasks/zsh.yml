@@ -1,0 +1,65 @@
+---
+- name: Install zsh
+  pacman: name=extra/zsh state=present
+  become: true
+
+# add --unattended not to start the interactive prompt upon installation
+# https://github.com/ohmyzsh/ohmyzsh#unattended-install
+- name: Install oh-my-zsh
+  shell: |
+    script="$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+      sh -c "$script" "" --unattended
+  args:
+    # when this file exists, this step won't run.
+    creates: ~/.oh-my-zsh
+  changed_when: false
+
+- name: oh-my-zsh custom dir
+  shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  register: "oh_my_zsh_custom_dir"
+  changed_when: false
+
+- name: Install zsh-autosuggestions plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-autosuggestions"
+    depth: 1
+    version: master
+    update: false
+
+- name: Install zsh-syntax-highlighting plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-syntax-highlighting"
+    depth: 1
+    version: master
+    update: false
+
+- name: Install zsh-history-substring-search plugin
+  git:
+    repo: https://github.com/zsh-users/zsh-history-substring-search.git
+    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-history-substring-search"
+    depth: 1
+    version: master
+    update: false
+
+- name: Install powerlevel10k prompt theme
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
+    depth: 1
+    version: master
+    update: false
+
+- name: Add zsh to /etc/shells
+  lineinfile:
+    line: "{{ zsh_command }}"
+    dest: /etc/shells
+    state: present
+  become: true
+
+- name: Change default shell to zsh
+  command:
+    cmd: "chsh -s {{ zsh_command }} {{ ansible_env.USER }}"
+  changed_when: false
+  become: true

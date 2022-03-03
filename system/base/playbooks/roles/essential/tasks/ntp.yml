@@ -1,0 +1,8 @@
+---
+# https://wiki.archlinux.org/title/Network_Time_Protocol_daemon
+- name: Ensure NTP is installed
+  pacman: name=extra/ntp state=present
+  become: true
+
+- name: Ensure NTP is running
+  service: name=systemd-timesyncd state=started enabled=yes

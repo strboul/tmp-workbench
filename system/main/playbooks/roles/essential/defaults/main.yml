@@ -1,2 +1,0 @@
----
-yay_install_dir: "{{ group_vars.workbench_dir }}/yay"

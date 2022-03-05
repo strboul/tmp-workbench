@@ -1,3 +1,0 @@
----
-yay_install_dir: "{{ group_vars.workbench_dir }}/yay"
-yay_command: /usr/bin/yay

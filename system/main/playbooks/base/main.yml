@@ -1,0 +1,47 @@
+- name: Base
+  hosts: all
+  vars:
+    workbench_dir: /opt/workbench
+    yay_install_dir: "{{ workbench_dir }}/yay"
+    yay_command: /usr/bin/yay
+  tasks:
+    - name: Have a workbench folder belonging to user
+      file:
+        path: "{{ workbench_dir }}"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0700
+        state: directory
+      become: true
+
+    - name: Run pacman -Syu to update the system
+      pacman:
+        update_cache: true
+        upgrade: true
+      become: true
+      # don't hammer arch servers
+      throttle: 1
+
+    - name: Install yay
+      import_tasks: yay.yml
+      tags: base__yay
+
+    - name: Setup NTP
+      import_tasks: ntp.yml
+      tags: base__ntp
+
+    - name: Setup fonts
+      import_tasks: fonts.yml
+      tags: base__fonts
+
+    - name: Other essential packages
+      pacman:
+        name:
+          - core/curl
+          - extra/wget
+          - extra/vim
+          - extra/tree
+          - extra/lsof
+          - extra/python-pip
+        state: present
+      become: true

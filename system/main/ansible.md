@@ -5,7 +5,7 @@
 List tasks
 
 ```sh
-ansible-playbook playbook.yml --list-tasks
+ansible-playbook main.yml --list-tasks
 ```
 
 ### Tags
@@ -16,11 +16,18 @@ underscores and then put the tag names, i.e. `<playbook>__<name1>__<name2>`.
 List tags
 
 ```sh
-ansible-playbook playbook.yml --list-tags
+ansible-playbook main.yml --list-tags
 ```
 
 Run only tags
 
 ```sh
-ansible-playbook -v -i <inventory> playbook.yml --tags "zsh,tmux"
+ansible-playbook -v -i <inventory> main.yml --tags="packages__zsh,packages__tmux"
 ```
+
+### Other arguments
+
+| argument            | description                                              |
+|:--------------------|:---------------------------------------------------------|
+| `--ask-become-pass` | will ask you to enter the sudo password in the beginning |
+| `--step`            | one-step-at-a-time: confirm each task before running     |

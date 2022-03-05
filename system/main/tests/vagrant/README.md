@@ -27,7 +27,7 @@ ssh -i ~/.vagrant.d/insecure_private_key vagrant@192.168.56.2
 Run provisions:
 
 ```sh
-ansible-playbook -v -i tests/vagrant/vagrant.inventory playbook.yml
+ansible-playbook -v -i tests/vagrant/vagrant.inventory main.yml
 ```
 
 ### Troubleshooting

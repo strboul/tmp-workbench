@@ -21,13 +21,13 @@
     - name: Export the path in profile
       blockinfile:
         path: "{{ item }}"
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: npm-global"
         block: |
           export PATH="~/.npm-global/bin:$PATH"
         mode: 0644
         create: true
         state: present
-      with_items:
+      loop:
         - "{{ ansible_env.HOME }}/.zprofile"
         - "{{ ansible_env.HOME }}/.bash_profile"
 
@@ -35,7 +35,7 @@
   community.general.npm:
     name: "{{ item }}"
     global: true
-  with_items:
+  loop:
     - yarn
     - typescript
     - ts-node

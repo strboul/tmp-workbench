@@ -1,0 +1,9 @@
+- name: Main
+  hosts: all
+  gather_facts: true
+
+- import_playbook: playbooks/base/main.yml
+- import_playbook: playbooks/bluetooth/main.yml
+- import_playbook: playbooks/packages/main.yml
+- import_playbook: playbooks/languages/main.yml
+- import_playbook: playbooks/gui/main.yml

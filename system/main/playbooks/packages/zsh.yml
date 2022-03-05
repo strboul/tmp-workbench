@@ -14,6 +14,19 @@
     creates: ~/.oh-my-zsh
   changed_when: false
 
+- name: Use the pre .zshrc file if it exists
+  block:
+    - name: Check pre .zshrc file exists
+      stat:
+        path: "$HOME/.zshrc.pre-oh-my-zsh"
+      register: pre_zshrc_file
+
+    - name: Rename pre .zshrc file
+      command: "mv {{ item.from }} {{ item.to }}"
+      loop:
+        - { from: ".zshrc.pre-oh-my-zsh", to: ".zshrc" }
+      when: pre_zshrc_file.stat.exists
+
 - name: oh-my-zsh custom dir
   shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   register: "oh_my_zsh_custom_dir"
@@ -44,12 +57,26 @@
     update: false
 
 - name: Install powerlevel10k prompt theme
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
-    depth: 1
-    version: master
-    update: false
+  block:
+    - name: Install p10k
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
+        depth: 1
+        version: master
+        update: false
+
+    - name: Disable p10 configuration wizard prompt
+      blockinfile:
+        path: "{{ item }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: p10k"
+        block: |
+          POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+        mode: 0644
+        create: true
+        state: present
+      loop:
+        - "{{ ansible_env.HOME }}/.zprofile"
 
 - name: Add zsh to /etc/shells
   lineinfile:

@@ -22,12 +22,14 @@ ansible-galaxy collection install kewlfft.aur
 Run the Ansible playbooks against the localhost, the current machine.
 
 ```sh
-ansible-playbook -i localhost.inventory --ask-become-pass playbook.yml
+# main playbook:
+ansible-playbook -i localhost.inventory --ask-become-pass main.yml
+
+# individual playbooks, e.g.
+ansible-playbook -i localhost.inventory --ask-become-pass playbooks/base/main.yml
 ```
 
-See more at [ansible.md](ansible.md).
-
-`--ask-become-pass` will ask you to enter the sudo password in the beginning.
+See more Ansible options at [ansible.md](ansible.md).
 
 <!-- TODO: check out ansible-vault for secrets. -->
 

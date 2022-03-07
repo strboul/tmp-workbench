@@ -46,4 +46,5 @@
       shell:
         chdir: "{{ yay_install_dir }}"
         cmd: "yes Y | makepkg -si"
+      changed_when: false
   when: not yay_cmd.stat.exists

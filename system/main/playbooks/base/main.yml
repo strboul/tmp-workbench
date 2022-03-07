@@ -26,10 +26,6 @@
       import_tasks: yay.yml
       tags: base__yay
 
-    - name: Setup NTP
-      import_tasks: ntp.yml
-      tags: base__ntp
-
     - name: Setup fonts
       import_tasks: fonts.yml
       tags: base__fonts

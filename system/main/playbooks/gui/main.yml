@@ -124,3 +124,8 @@
     - name: Install virtualization
       import_tasks: virtualization.yml
       tags: gui__virtualization
+
+    - name: Install gnome-disk-utility
+      pacman: name=extra/gnome-disk-utility state=present
+      become: true
+      tags: gui__gnome_disk_utility

@@ -3,6 +3,14 @@
   vars:
     bluetooth_conf_path: /etc/bluetooth/main.conf
   tasks:
+    - name: Install bluetooth tools
+      pacman:
+        name:
+          - extra/bluez
+          - extra/bluez-utils
+        state: present
+      become: true
+
     - name: Check if bluetooth conf file exists
       stat:
         path: "{{ bluetooth_conf_path }}"

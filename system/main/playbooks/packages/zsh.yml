@@ -24,7 +24,7 @@
     - name: Rename pre .zshrc file
       command: "mv {{ item.from }} {{ item.to }}"
       loop:
-        - { from: ".zshrc.pre-oh-my-zsh", to: ".zshrc" }
+        - { from: "$HOME/.zshrc.pre-oh-my-zsh", to: "$HOME/.zshrc" }
       when: pre_zshrc_file.stat.exists
 
 - name: oh-my-zsh custom dir
@@ -32,31 +32,19 @@
   register: "oh_my_zsh_custom_dir"
   changed_when: false
 
-- name: Install zsh-autosuggestions plugin
+- name: Install oh-my-zsh plugins
   git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-autosuggestions"
+    repo: "{{ item.repo }}"
+    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/{{ item.dest }}"
     depth: 1
     version: master
     update: false
+  loop:
+    - { repo: "https://github.com/zsh-users/zsh-autosuggestions.git", dest: "zsh-autosuggestions" }
+    - { repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git", dest: "zsh-syntax-highlighting" }
+    - { repo: "https://github.com/zsh-users/zsh-history-substring-search.git", dest: "zsh-history-substring-search" }
 
-- name: Install zsh-syntax-highlighting plugin
-  git:
-    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-syntax-highlighting"
-    depth: 1
-    version: master
-    update: false
-
-- name: Install zsh-history-substring-search plugin
-  git:
-    repo: https://github.com/zsh-users/zsh-history-substring-search.git
-    dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/zsh-history-substring-search"
-    depth: 1
-    version: master
-    update: false
-
-- name: Install powerlevel10k prompt theme
+- name: Install powerlevel10k prompt
   block:
     - name: Install p10k
       git:
@@ -66,7 +54,7 @@
         version: master
         update: false
 
-    - name: Disable p10 configuration wizard prompt
+    - name: Disable p10k configuration wizard prompt
       blockinfile:
         path: "{{ item }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: p10k"

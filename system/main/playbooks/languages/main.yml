@@ -1,30 +1,32 @@
+---
 - name: Languages
   hosts: all
+  tags: languages
   tasks:
     - name: Install nodejs
       pacman: name=community/nodejs state=present
       become: true
-      tags: languages__node
+      tags: languages.node
 
     - name: Install R
       pacman: name=extra/r state=present
       become: true
-      tags: languages__r
+      tags: languages.r
 
     - name: Install golang
       pacman: name=community/go state=present
       become: true
-      tags: languages__golang
+      tags: languages.golang
 
     - name: Install deno  # https://deno.land/
       pacman: name=community/deno state=present
       become: true
-      tags: languages__deno
+      tags: languages.deno
 
     - name: Install Rust
       pacman: name=extra/rust state=present
       become: true
-      tags: languages__rust
+      tags: languages.rust
 
     - name: Install C/C++ tooling
       block:
@@ -42,4 +44,4 @@
             use: yay
             name: clang-format-static-bin
             state: present
-      tags: languages__c_cpp_tools
+      tags: languages.c_cpp_tools

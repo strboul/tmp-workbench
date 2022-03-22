@@ -1,5 +1,6 @@
 - name: Bluetooth
   hosts: all
+  tags: bluetooth
   vars:
     bluetooth_conf_path: /etc/bluetooth/main.conf
   tasks:

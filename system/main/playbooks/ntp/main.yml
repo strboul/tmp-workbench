@@ -1,5 +1,6 @@
 - name: NTP  # https://wiki.archlinux.org/title/Network_Time_Protocol_daemon
   hosts: all
+  tags: ntp
   tasks:
     - name: Ensure NTP is installed
       pacman: name=extra/ntp state=present

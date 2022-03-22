@@ -1,0 +1,12 @@
+---
+- name: Other essential packages
+  pacman:
+    name:
+      - core/curl
+      - extra/wget
+      - extra/vim
+      - extra/tree
+      - extra/lsof
+      - extra/python-pip
+    state: present
+  become: true

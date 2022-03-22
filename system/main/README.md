@@ -13,23 +13,19 @@ cd system/main
 Install Ansible and AUR module.
 
 ```sh
-pacman -S ansible
+sudo pacman -S ansible
 ansible-galaxy collection install kewlfft.aur
 ```
 
 ## 2. Run the playbooks
 
-Run the Ansible playbooks against the localhost, the current machine.
+Run a playbook profile (with certain tags):
 
 ```sh
-# main playbook:
-ansible-playbook -i localhost.inventory --ask-become-pass main.yml
-
-# individual playbooks, e.g.
-ansible-playbook -i localhost.inventory --ask-become-pass playbooks/base/main.yml
+./profiles work.sh -i localhost.inventory --ask-become-pass
 ```
 
-See more Ansible options at [ansible.md](ansible.md).
+:arrow_right: See more Ansible options at [ansible.md](ansible.md)
 
 <!-- TODO: check out ansible-vault for secrets. -->
 

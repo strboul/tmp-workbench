@@ -1,0 +1,27 @@
+- name: Virtualization
+  hosts: all
+  tags: virt
+  tasks:
+    - name: Install vagrant  # https://www.vagrantup.com/
+      pacman: name=community/vagrant state=present
+      become: true
+      tags: virt.vagrant
+
+    - name: Install gnome-boxes
+      pacman:
+        name:
+          - community/libvirt
+          - community/gnome-boxes
+          - community/virt-manager
+        state: present
+      become: true
+      tags: virt.gnome_boxes
+
+    - name: Install VirtualBox  # https://www.virtualbox.org/
+      pacman:
+        name:
+          - community/virtualbox
+          - community/virtualbox-guest-utils
+        state: present
+      become: true
+      tags: virt.virtualbox

@@ -1,0 +1,10 @@
+---
+- name: Install iputils
+  pacman:
+    name:
+      - core/iputils
+      - core/traceroute
+      - extra/bind
+      - extra/gnu-netcat
+    state: present
+  become: true

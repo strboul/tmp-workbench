@@ -2,9 +2,9 @@
 
 Install Arch Linux with the guided installer `archinstall`.
 
-- https://wiki.archlinux.org/title/Archinstall
+- Github: https://github.com/archlinux/archinstall
 
-- https://github.com/archlinux/archinstall
+- Arch wiki: https://wiki.archlinux.org/title/Archinstall
 
 ## Config file
 
@@ -21,16 +21,28 @@ archinstall --dry-run
 ls -l /var/log/archinstall
 ```
 
-+ `"ntp": true`: automatic time sync ([NTP](https://www.ntp.org/))
+| key: value     | description                                          |
+|:---------------|:-----------------------------------------------------|
+| `"ntp": true`  | automatic time sync ([NTP](https://www.ntp.org/))    |
+| `"swap": true` | swap on ZRAM                                         |
 
-+ `"swap": true`: swap on ZRAM
+:point_right: **You fill out the missing parts in the config.** :point_left:
 
-## Notes
++ Partition: 
 
-You gonna fill out the missing parts in the config.
+    + Desired filesystem type for the partition: `btrfs`
 
-+ Choose `btrfs` filesystem with subvolumes.
+    + End sector is written like `x.0GB`
 
-+ Encrypt disk with `dmcrypt` (or should use LUKS?)
++ Choose `btrfs` filesystem and `Y` to subvolumes with a default structure.
 
-+ Don't create a root user; instead, create a super-user with sudo privileges.
++ Enter disk encryption password.
+  Encrypts the disk with `dmcrypt` (or should use LUKS?)
+
++ **Don't create root user**; instead, create a super-user with sudo privileges.
+
+After installation finished;
+
++ Do not chroot to perform post-installation configuration (`n`).
+
++ If the installation completed without any errors, command `reboot now`.

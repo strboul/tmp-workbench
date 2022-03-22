@@ -3,21 +3,22 @@
 Once upon a time, this was just *dotfiles* with a setup script but it now has
 the full *workbench*.
 
-It's totally possible to use the parts, like `/bin` or `/dotfiles`, not
-necessary to install the full suite.
+It's totally possible to use the parts, not necessary to install the full
+suite.
 
 Fully supports Arch Linux :penguin:
 
 ## Setup
 
 Clone this repository into your home (`$HOME/`) directory, and then change
-directory into the `workbench` folder. After all, execute the setup script.
+directory into the `workbench` folder.
 
 ```sh
 git clone https://github.com/strboul/workbench.git "$HOME"/workbench
+cd "$HOME/workbench"
 ```
 
-Recommended to install the parts of the workbench in the following order:
+Recommended steps to install the parts in the following order:
 
 | #  | step                   | part                                                 |
 |:---|:-----------------------|:-----------------------------------------------------|
@@ -28,20 +29,17 @@ Recommended to install the parts of the workbench in the following order:
 
 ## Folder structure
 
+<!--
+Run `tree -d .` for the updated structure.
+-->
 ```sh
-.
-├── bin/                  # my custom CLI helpers
-│   └── ...
-├── dotfiles/             # my custom config files
-│   └── ...
-└── system/               # system provision/installation
-    ├── core/                 # core OS installation
-    │   └── ...
-    └── base/                 # base system provision with Ansible
-        ├── playbooks/
-        │   └── ...
-        └── tests/
-            └── ...
+├── bin/          # my custom helpers
+│   └── ...
+├── files/        # my custom files (dotfiles)
+│   └── ...
+└── system/       # system provision/installation
+    ├── core/     # core OS installation
+    │   └── ...
+    └── main/     # system provision with Ansible
+        └── ...
 ```
-
-Check the most up-to-date structure with `tree --dirsfirst .` and `tree -d .`

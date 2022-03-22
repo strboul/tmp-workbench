@@ -1,0 +1,30 @@
+---
+- name: Install command-line utilities
+  block:
+    - name: Pacman
+      pacman:
+        name:
+          - extra/htop  # https://github.com/htop-dev/htop
+          - community/fzf  # https://github.com/junegunn/fzf
+          - community/ripgrep  # https://github.com/BurntSushi/ripgrep
+          - community/lazygit  # https://github.com/jesseduffield/lazygit
+          - community/fd  # https://github.com/sharkdp/fd
+          - community/bat  # https://github.com/sharkdp/bat
+          - community/jq  # https://github.com/stedolan/jq
+          - community/direnv  # https://github.com/direnv/direnv
+          - community/hyperfine  # https://github.com/sharkdp/hyperfine
+          - community/ranger  # https://github.com/ranger/ranger
+          - community/gdu  # https://github.com/dundee/gdu
+          - community/shellcheck  # https://github.com/koalaman/shellcheck
+          - community/neofetch  # https://github.com/dylanaraps/neofetch
+          - community/onefetch  # https://github.com/o2sh/onefetch
+        state: present
+      become: true
+
+    - name: pip
+      pip:
+        name:
+          - git-substatus  # https://github.com/strboul/git-substatus
+          - pre-commit  # https://pre-commit.com/#installation
+        state: present
+  tags: packages.cli_utils

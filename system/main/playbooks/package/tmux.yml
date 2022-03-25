@@ -1,4 +1,5 @@
 ---
-- name: Install tmux  # https://github.com/tmux/tmux
+# https://github.com/tmux/tmux
+- name: Install tmux
   pacman: name=community/tmux state=present
   become: true

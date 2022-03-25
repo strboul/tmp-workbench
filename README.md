@@ -22,8 +22,8 @@ Recommended steps to install the parts in the following order:
 
 | #  | step                   | part                                                 |
 |:---|:-----------------------|:-----------------------------------------------------|
-| 1. | Install core OS system | [system/core/archinstall/](system/core/archinstall/) |
-| 2. | Link dotfiles          | [dotfiles/](dotfiles/)                               |
+| 1. | Install core OS system | [system/core/](system/core/) |
+| 2. | Link files             | [files/](files/)                                     |
 | 3. | Provision main system  | [system/main/](system/main/)                         |
 | 4. | Add bin/ to the path   | [bin/](bin/)                                         |
 

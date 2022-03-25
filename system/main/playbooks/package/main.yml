@@ -1,41 +1,45 @@
-- name: Packages
+- name: Package
   hosts: all
-  tags: packages
+  tags: package
   vars:
     zsh_command: /usr/bin/zsh
   tasks:
     - name: Setup zsh
       import_tasks: zsh.yml
-      tags: packages.zsh
+      tags: package.zsh
 
     - name: Setup neovim
       import_tasks: nvim.yml
-      tags: packages.nvim
+      tags: package.nvim
 
     - name: Setup tmux
       import_tasks: tmux.yml
-      tags: packages.tmux
+      tags: package.tmux
 
     - name: Setup Docker
       import_tasks: docker.yml
-      tags: packages.docker
+      tags: package.docker
 
     - name: pip installs
       import_tasks: pip.yml
-      tags: packages.pip
+      tags: package.pip
 
     - name: npm installs
       import_tasks: npm.yml
-      tags: packages.npm
+      tags: package.npm
 
     - name: cli utils install
       import_tasks: cli-utils.yml
-      tags: packages.cli_utils
+      tags: package.cli_utils
 
     - name: Install Terraform
       import_tasks: terraform.yml
-      tags: packages.terraform
+      tags: package.terraform
 
     - name: Install Kubernetes
       import_tasks: kubernetes.yml
-      tags: packages.kubernetes
+      tags: package.kubernetes
+
+    - name: Install C/C++ tools
+      import_tasks: c-cpp-tools.yml
+      tags: package.c_cpp_tools

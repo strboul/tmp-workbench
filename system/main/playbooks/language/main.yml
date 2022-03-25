@@ -1,0 +1,33 @@
+---
+- name: Language
+  hosts: all
+  tags: language
+  tasks:
+    - name: Install python
+      import_tasks: python.yml
+      tags: language.python
+
+    - name: Install nodejs
+      import_tasks: node.yml
+      tags: language.node
+
+    - name: Install R
+      pacman: name=extra/r state=present
+      become: true
+      tags: language.r
+
+    - name: Install golang
+      pacman: name=community/go state=present
+      become: true
+      tags: language.golang
+
+    # https://deno.land/
+    - name: Install deno
+      pacman: name=community/deno state=present
+      become: true
+      tags: language.deno
+
+    - name: Install Rust
+      pacman: name=extra/rust state=present
+      become: true
+      tags: language.rust

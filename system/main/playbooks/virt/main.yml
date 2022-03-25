@@ -2,7 +2,8 @@
   hosts: all
   tags: virt
   tasks:
-    - name: Install vagrant  # https://www.vagrantup.com/
+    # https://www.vagrantup.com/
+    - name: Install vagrant
       pacman: name=community/vagrant state=present
       become: true
       tags: virt.vagrant
@@ -17,7 +18,8 @@
       become: true
       tags: virt.gnome_boxes
 
-    - name: Install VirtualBox  # https://www.virtualbox.org/
+    # https://www.virtualbox.org/
+    - name: Install VirtualBox
       pacman:
         name:
           - community/virtualbox

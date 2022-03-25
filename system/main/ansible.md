@@ -27,7 +27,7 @@ ansible-playbook main.yml --list-tags
 Run only tags
 
 ```sh
-ansible-playbook -v -i <inventory> main.yml --tags="packages.zsh,packages.nvim"
+ansible-playbook -v -i <inventory> main.yml --tags="package.zsh,package.nvim"
 ```
 
 ### Other arguments

@@ -2,6 +2,7 @@
 - name: Other essential packages
   pacman:
     name:
+      - core/man-db
       - core/curl
       - extra/wget
       - extra/vim

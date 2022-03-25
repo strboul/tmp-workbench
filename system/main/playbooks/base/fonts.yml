@@ -6,6 +6,15 @@
     state: present
   become: true
 
+# https://fonts.google.com/noto
+- name: Install noto-fonts
+  pacman:
+    name:
+      - extra/noto-fonts
+      - extra/noto-fonts-extra
+    state: present
+  become: true
+
 # https://www.jetbrains.com/lp/mono/
 # https://www.nerdfonts.com/font-downloads
 - name: Install JetBrains Mono Nerd Fonts

@@ -3,17 +3,20 @@
   hosts: all
   tags: gui
   tasks:
-    - name: Install alacritty terminal  # https://github.com/alacritty/alacritty
+    # https://github.com/alacritty/alacritty
+    - name: Install alacritty terminal
       pacman: name=community/alacritty state=present
       become: true
       tags: gui.alacritty
 
+    # https://meldmerge.org
     - name: Install meld
-      pacman: name=extra/meld  # https://meldmerge.org state=present
+      pacman: name=extra/meld state=present
       become: true
       tags: gui.meld
 
-    - name: Install flameshot  # https://github.com/flameshot-org/flameshot
+    # https://github.com/flameshot-org/flameshot
+    - name: Install flameshot
       pacman: name=community/flameshot state=present
       become: true
       tags: gui.flameshot
@@ -40,15 +43,20 @@
       become: true
       tags: gui.firefox
 
-    - name: Install Brave  # https://brave.com
+    # https://brave.com
+    - name: Install Brave
       kewlfft.aur.aur:
         use: yay
         name: brave-bin
         state: present
       tags: gui.brave
 
+    # https://wiki.archlinux.org/title/Visual_Studio_Code
     - name: Install vscode
-      pacman: name=community/code state=present
+      kewlfft.aur.aur:
+        use: yay
+        name: visual-studio-code-bin
+        state: present
       become: true
       tags: gui.vscode
 
@@ -64,12 +72,14 @@
         state: present
       tags: gui.slack
 
-    - name: Install DBeaver  # https://dbeaver.io/
+    # https://dbeaver.io/
+    - name: Install DBeaver
       pacman: name=community/dbeaver state=present
       become: true
       tags: gui.dbeaver
 
-    - name: Install RStudio  # https://www.rstudio.com/
+    # https://www.rstudio.com/
+    - name: Install RStudio
       kewlfft.aur.aur:
         use: yay
         name: rstudio-desktop-bin
@@ -86,7 +96,8 @@
       become: true
       tags: gui.telegram
 
-    - name: Install Wireshark  # https://www.wireshark.org/
+    # https://www.wireshark.org/
+    - name: Install Wireshark
       pacman:
         name:
           - community/wireshark-cli
@@ -100,22 +111,26 @@
       become: true
       tags: gui.vlc
 
-    - name: Install keepassxc  # https://keepassxc.org/
+    # https://keepassxc.org/
+    - name: Install keepassxc
       pacman: name=community/keepassxc state=present
       become: true
       tags: gui.keepassxc
 
-    - name: Install gThumb  # https://wiki.gnome.org/Apps/Gthumb
+    # https://wiki.gnome.org/Apps/Gthumb
+    - name: Install gThumb
       pacman: name=extra/gthumb state=present
       become: true
       tags: gui.gthumb
 
-    - name: Install xcolor  # https://github.com/Soft/xcolor
+    # https://github.com/Soft/xcolor
+    - name: Install xcolor
       pacman: name=community/xcolor state=present
       become: true
       tags: gui.xcolor
 
-    - name: Install magicavoxel  # https://ephtracy.github.io/
+    # https://ephtracy.github.io/
+    - name: Install magicavoxel
       kewlfft.aur.aur:
         use: yay
         name: magicavoxel

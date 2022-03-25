@@ -27,4 +27,4 @@
           - git-substatus  # https://github.com/strboul/git-substatus
           - pre-commit  # https://pre-commit.com/#installation
         state: present
-  tags: packages.cli_utils
+  tags: package.cli_utils

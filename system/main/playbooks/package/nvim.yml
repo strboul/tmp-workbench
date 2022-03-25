@@ -1,5 +1,6 @@
 ---
-- name: Install nvim  # https://github.com/neovim/neovim
+# https://github.com/neovim/neovim
+- name: Install nvim
   pacman: name=community/neovim state=present
   become: true
 

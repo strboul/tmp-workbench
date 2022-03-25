@@ -1,4 +1,5 @@
-- name: NTP  # https://wiki.archlinux.org/title/Network_Time_Protocol_daemon
+# https://wiki.archlinux.org/title/Network_Time_Protocol_daemon
+- name: NTP
   hosts: all
   tags: ntp
   tasks:

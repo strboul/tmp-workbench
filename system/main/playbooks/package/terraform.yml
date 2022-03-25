@@ -1,5 +1,6 @@
 ---
-- name: Install Terraform and tools  # https://www.terraform.io/
+# https://www.terraform.io/
+- name: Install Terraform and tools
   block:
     - name: Terraform install
       pacman:

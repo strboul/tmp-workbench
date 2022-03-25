@@ -22,11 +22,11 @@ ansible-galaxy collection install kewlfft.aur
 Run a playbook profile (with certain tags):
 
 ```sh
-./profiles work.sh -i localhost.inventory --ask-become-pass
+./profiles/work.sh -i localhost.inventory --ask-become-pass
 ```
 
 :arrow_right: See more Ansible options at [ansible.md](ansible.md)
 
 <!-- TODO: check out ansible-vault for secrets. -->
 
-Reboot the system after the installation is completed.
+Recommended to reboot the system after the installation is completed.

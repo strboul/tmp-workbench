@@ -9,7 +9,7 @@ Install Arch Linux with the guided installer `archinstall`.
 ## Config file
 
 ```sh
-archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/archinstall/config.json
+archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
 ```
 
 Dry run to generate the configuration file and exit:
@@ -21,6 +21,8 @@ archinstall --dry-run
 ls -l /var/log/archinstall
 ```
 
+The [config.json](config.json) file descriptions:
+
 | key: value     | description                                          |
 |:---------------|:-----------------------------------------------------|
 | `"ntp": true`  | automatic time sync ([NTP](https://www.ntp.org/))    |
@@ -30,9 +32,9 @@ ls -l /var/log/archinstall
 
 + Partition: 
 
-    + Desired filesystem type for the partition: `btrfs`
+  + Desired filesystem type for the partition: `btrfs`
 
-    + End sector is written like `x.0GB`
+  + End sector is written like `x.0GB`
 
 + Choose `btrfs` filesystem and `Y` to subvolumes with a default structure.
 
@@ -45,4 +47,5 @@ After installation finished;
 
 + Do not chroot to perform post-installation configuration (`n`).
 
-+ If the installation completed without any errors, command `reboot now`.
++ If the installation completed without any errors, shutdown `shutdown now` and
+  reboot.

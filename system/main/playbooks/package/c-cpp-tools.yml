@@ -1,0 +1,14 @@
+---
+- name: Install clang
+  pacman: name=extra/clang state=present
+  become: true
+
+- name: Install valgrind
+  pacman: name=extra/valgrind state=present
+  become: true
+
+- name: Install clang-format
+  kewlfft.aur.aur:
+    use: yay
+    name: clang-format-static-bin
+    state: present

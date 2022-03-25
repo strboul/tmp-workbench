@@ -1,0 +1,14 @@
+---
+- name: Install node packages
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+  loop:
+    - yarn
+    - typescript
+    - ts-node
+    - eslint
+    - prettier
+    - dotenv-cli
+    - semver
+    - json-server  # https://github.com/typicode/json-server

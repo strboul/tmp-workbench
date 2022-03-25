@@ -7,7 +7,7 @@
       - bpython  # https://github.com/bpython/bpython
       - pdbpp  # https://github.com/pdbpp/pdbpp (drop-in replacement for pdb)
     state: present
-  tags: packages.pip.python_tools
+  tags: package.pip.python_tools
 
 - name: Data science tools
   pip:
@@ -15,7 +15,7 @@
       - jupyter
       - radian  # https://github.com/randy3k/radian
     state: present
-  tags: packages.pip.ds_tools
+  tags: package.pip.ds_tools
 
 - name: Other tools
   pip:
@@ -24,4 +24,4 @@
       - youtube-dl  # https://github.com/ytdl-org/youtube-dl
       - visidata  # https://www.visidata.org/
     state: present
-  tags: packages.pip.other_tools
+  tags: package.pip.other_tools

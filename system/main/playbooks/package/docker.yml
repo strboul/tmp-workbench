@@ -14,10 +14,10 @@
         name: docker
         state: present
 
-    - name: Add your user to the docker group
+    - name: Add user to the docker group
       user:
-        name: docker
-        group: "{{ ansible_env.USER }}"
+        name: "{{ ansible_env.USER }}"
+        group: docker
 
     # Follow the post-install steps here for the rest:
     # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user

@@ -98,11 +98,19 @@
 
     # https://www.wireshark.org/
     - name: Install Wireshark
-      pacman:
-        name:
-          - community/wireshark-cli
-          - community/wireshark-qt
-        state: present
+      block:
+        - name: Install wireshark
+          pacman:
+            name:
+              - community/wireshark-cli
+              - community/wireshark-qt
+            state: present
+
+        # give the current user permission to capture packets
+        - name: Add user to the wireshark group
+          user:
+            name: "{{ ansible_env.USER }}"
+            group: wireshark
       become: true
       tags: gui.wireshark
 

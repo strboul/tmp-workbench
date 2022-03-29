@@ -20,12 +20,12 @@ cd "$HOME/workbench"
 
 Recommended steps to install the parts in the following order:
 
-| #  | step                   | part                                                 |
-|:---|:-----------------------|:-----------------------------------------------------|
+| #  | step                   | part                         |
+|:---|:-----------------------|:-----------------------------|
 | 1. | Install core OS system | [system/core/](system/core/) |
-| 2. | Link files             | [files/](files/)                                     |
-| 3. | Provision main system  | [system/main/](system/main/)                         |
-| 4. | Add bin/ to the path   | [bin/](bin/)                                         |
+| 2. | Link dotfiles          | [files/](files/)             |
+| 3. | Provision main system  | [system/main/](system/main/) |
+| 4. | Add bin/ to the path   | [bin/](bin/)                 |
 
 ## Folder structure
 
@@ -43,3 +43,5 @@ Run `tree -d .` for the updated structure.
     └── main/     # system provision with Ansible
         └── ...
 ```
+
+In the end, reboot the machine to complete the installation.

@@ -1,7 +1,7 @@
 ---
 - name: Install command-line utilities
   block:
-    - name: Pacman
+    - name: Install cli utils via pacman
       pacman:
         name:
           - extra/htop  # https://github.com/htop-dev/htop
@@ -21,7 +21,7 @@
         state: present
       become: true
 
-    - name: pip
+    - name: Install cli utils via pip
       pip:
         name:
           - git-substatus  # https://github.com/strboul/git-substatus

@@ -6,7 +6,9 @@ Install Arch Linux with the guided installer `archinstall`.
 
 - Arch wiki: https://wiki.archlinux.org/title/Archinstall
 
-## Config file
+## Install
+
+With the config file:
 
 ```sh
 archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
@@ -23,27 +25,53 @@ ls -l /var/log/archinstall
 
 The [config.json](config.json) file descriptions:
 
-| key: value     | description                                          |
-|:---------------|:-----------------------------------------------------|
-| `"ntp": true`  | automatic time sync ([NTP](https://www.ntp.org/))    |
-| `"swap": true` | swap on ZRAM                                         |
+| key          | description                                       |
+|:-------------|:--------------------------------------------------|
+| `ntp`        | automatic time sync ([NTP](https://www.ntp.org/)) |
+| `swap`       | swap on ZRAM                                      |
 
-:point_right: **You fill out the missing parts in the config.** :point_left:
+:point_right: You fill out the missing parts in the config. :point_left:
 
-+ Partition: 
+### Steps
+
++ Bootloader:
+
+  + `systemd-bootctl`, **use this**, or `grub-install`, not recommended but
+    VirtualBox does not work even though EFI is enabled.
+
++ Partition:
 
   + Desired filesystem type for the partition: `btrfs`
 
   + End sector is written like `x.0GB`
 
-+ Choose `btrfs` filesystem and `Y` to subvolumes with a default structure.
+1) Choose `btrfs` filesystem and `N` to subvolumes with a default structure.
 
-+ Enter disk encryption password.
-  Encrypts the disk with `dmcrypt` (or should use LUKS?)
+2) Enter disk encryption password. Encrypts the disk with `dmcrypt` (or should
+use LUKS?)
 
-+ **Don't create root user**; instead, create a super-user with sudo privileges.
+3) Enter desired hostname for the installation.
 
-After installation finished;
+4) **Don't create root user**; instead, create a super-user with sudo privileges.
+
+### Troubleshooting
+
+If the installation is failing halfway through, you need to start over.
+
+If you have a problem with the partition:
+
+```sh
+df
+# /dev/sda ...
+
+fdisk /dev/sda
+# Partition number (1,2, default 2): 2
+# Command:
+# w  write table to disk and exit
+#
+```
+
+### Post-installation
 
 + Do not chroot to perform post-installation configuration (`n`).
 

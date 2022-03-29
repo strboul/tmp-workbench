@@ -8,11 +8,9 @@
 - import_playbook: playbooks/ntp/main.yml
 # --- bluetooth
 - import_playbook: playbooks/bluetooth/main.yml
-# --- package
-- import_playbook: playbooks/package/main.yml
 # --- language
 - import_playbook: playbooks/language/main.yml
+# --- package
+- import_playbook: playbooks/package/main.yml
 # --- gui
 - import_playbook: playbooks/gui/main.yml
-# --- virtualization
-- import_playbook: playbooks/virt/main.yml

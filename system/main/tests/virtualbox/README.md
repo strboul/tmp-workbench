@@ -4,8 +4,8 @@
 
 1. Settings > Shared Folders > Machine Folders
 
-1. Select Folder Path on host > folder name `shared` > uncheck `Read-only` and
-   `Auto-mount`, and check `Make Permanent`
+1. Select Folder Path on host > folder name `shared` > **uncheck** `Read-only`
+   & **uncheck** `Auto-mount`, and **check** `Make Permanent`
 
 1. Get in the VM > command `mkdir ~/shared` > command `sudo mount -t vboxsf
    shared ~/shared`

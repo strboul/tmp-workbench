@@ -1,6 +1,6 @@
 ---
 - name: Install iputils
-  pacman:
+  community.general.pacman:
     name:
       - core/iputils
       - core/traceroute

@@ -5,7 +5,7 @@
     bluetooth_conf_path: /etc/bluetooth/main.conf
   tasks:
     - name: Install bluetooth tools
-      pacman:
+      community.general.pacman:
         name:
           - extra/bluez
           - extra/bluez-utils
@@ -13,13 +13,13 @@
       become: true
 
     - name: Check if bluetooth conf file exists
-      stat:
+      ansible.builtin.stat:
         path: "{{ bluetooth_conf_path }}"
       register: bluetooth_conf_file
 
     # https://gist.github.com/andrebrait/961cefe730f4a2c41f57911e6195e444#enable-bluetooth-fast-connect-config
     - name: Enable bluetooth fast connect config
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: "{{ bluetooth_conf_path }}"
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"

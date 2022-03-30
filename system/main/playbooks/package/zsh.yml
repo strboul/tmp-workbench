@@ -1,12 +1,12 @@
 ---
 - name: Install zsh
-  pacman: name=extra/zsh state=present
+  community.general.pacman: name=extra/zsh state=present
   become: true
 
 # add --unattended not to start the interactive prompt upon installation
 # https://github.com/ohmyzsh/ohmyzsh#unattended-install
 - name: Install oh-my-zsh
-  shell: |
+  ansible.builtin.shell: |
     script="$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
       sh -c "$script" "" --unattended
   args:
@@ -17,23 +17,23 @@
 - name: Use the pre .zshrc file if it exists
   block:
     - name: Check pre .zshrc file exists
-      stat:
+      ansible.builtin.stat:
         path: "$HOME/.zshrc.pre-oh-my-zsh"
       register: pre_zshrc_file
 
     - name: Rename pre .zshrc file
-      command: "mv {{ item.from }} {{ item.to }}"
+      ansible.builtin.command: "mv {{ item.from }} {{ item.to }}"
       loop:
         - { from: "$HOME/.zshrc.pre-oh-my-zsh", to: "$HOME/.zshrc" }
       when: pre_zshrc_file.stat.exists
 
 - name: oh-my-zsh custom dir
-  shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  ansible.builtin.shell: "echo ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   register: "oh_my_zsh_custom_dir"
   changed_when: false
 
 - name: Install oh-my-zsh plugins
-  git:
+  ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ oh_my_zsh_custom_dir.stdout }}/plugins/{{ item.dest }}"
     depth: 1
@@ -47,7 +47,7 @@
 - name: Install powerlevel10k prompt
   block:
     - name: Install p10k
-      git:
+      ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
         dest: "{{ oh_my_zsh_custom_dir.stdout }}/themes/powerlevel10k"
         depth: 1
@@ -55,7 +55,7 @@
         update: false
 
     - name: Disable p10k configuration wizard prompt
-      blockinfile:
+      ansible.builtin.blockinfile:
         path: "{{ item }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: p10k"
         block: |
@@ -67,14 +67,13 @@
         - "{{ ansible_env.HOME }}/.zprofile"
 
 - name: Add zsh to /etc/shells
-  lineinfile:
+  ansible.builtin.lineinfile:
     line: "{{ zsh_command }}"
     dest: /etc/shells
     state: present
   become: true
 
 - name: Change default shell to zsh
-  command:
-    cmd: "chsh -s {{ zsh_command }} {{ ansible_env.USER }}"
+  ansible.builtin.command: "chsh -s {{ zsh_command }} {{ ansible_env.USER }}"
   changed_when: false
   become: true

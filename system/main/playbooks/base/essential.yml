@@ -1,6 +1,6 @@
 ---
 - name: Other essential packages
-  pacman:
+  community.general.pacman:
     name:
       - extra/git
       - core/man-db
@@ -9,6 +9,5 @@
       - extra/vim
       - extra/tree
       - extra/lsof
-      - extra/python-pip
     state: present
   become: true

@@ -1,6 +1,7 @@
 ---
 - name: Python tools
-  pip:
+  ansible.builtin.pip:
+    executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
     name:
       - virtualenv
       - pylint  # https://github.com/PyCQA/pylint
@@ -10,7 +11,8 @@
   tags: package.pip.python_tools
 
 - name: Data science tools
-  pip:
+  ansible.builtin.pip:
+    executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
     name:
       - jupyter
       - radian  # https://github.com/randy3k/radian
@@ -18,7 +20,8 @@
   tags: package.pip.ds_tools
 
 - name: Other tools
-  pip:
+  ansible.builtin.pip:
+    executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
     name:
       - tmuxp  # https://github.com/tmux-python/tmuxp
       - youtube-dl  # https://github.com/ytdl-org/youtube-dl

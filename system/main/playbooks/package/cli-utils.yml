@@ -2,7 +2,7 @@
 - name: Install command-line utilities
   block:
     - name: Install cli utils via pacman
-      pacman:
+      community.general.pacman:
         name:
           - extra/htop  # https://github.com/htop-dev/htop
           - community/fzf  # https://github.com/junegunn/fzf
@@ -22,7 +22,8 @@
       become: true
 
     - name: Install cli utils via pip
-      pip:
+      ansible.builtin.pip:
+        executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
         name:
           - git-substatus  # https://github.com/strboul/git-substatus
           - pre-commit  # https://pre-commit.com/#installation

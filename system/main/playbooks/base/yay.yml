@@ -21,7 +21,7 @@
 #   yay -Sc
 #
 - name: Install yay dependencies
-  pacman:
+  community.general.pacman:
     name:
       - git
       - base-devel  # build-essential equivalent
@@ -29,21 +29,21 @@
   become: true
 
 - name: Check if yay is installed
-  stat:
+  ansible.builtin.stat:
     path: "{{ yay_command }}"
   register: yay_cmd
 
 - name: Install yay
   block:
     - name: Clone yay source
-      git:
+      ansible.builtin.git:
         repo: https://aur.archlinux.org/yay.git
         dest: "{{ yay_install_dir }}"
         version: master
         update: false
 
     - name: Build yay
-      shell:
+      ansible.builtin.shell:
         chdir: "{{ yay_install_dir }}"
         cmd: "yes Y | makepkg -si"
       changed_when: false

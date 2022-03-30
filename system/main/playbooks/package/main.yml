@@ -16,9 +16,9 @@
       import_tasks: tmux.yml
       tags: package.tmux
 
-    - name: Setup Docker
-      import_tasks: docker.yml
-      tags: package.docker
+    - name: cli utils install
+      import_tasks: cli-utils.yml
+      tags: package.cli_utils
 
     - name: pip installs
       import_tasks: pip.yml
@@ -27,10 +27,6 @@
     - name: npm installs
       import_tasks: npm.yml
       tags: package.npm
-
-    - name: cli utils install
-      import_tasks: cli-utils.yml
-      tags: package.cli_utils
 
     - name: Install Terraform
       import_tasks: terraform.yml

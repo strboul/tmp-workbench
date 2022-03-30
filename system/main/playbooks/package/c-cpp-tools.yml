@@ -1,10 +1,10 @@
 ---
 - name: Install clang
-  pacman: name=extra/clang state=present
+  community.general.pacman: name=extra/clang state=present
   become: true
 
 - name: Install valgrind
-  pacman: name=extra/valgrind state=present
+  community.general.pacman: name=extra/valgrind state=present
   become: true
 
 - name: Install clang-format

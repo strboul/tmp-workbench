@@ -1,0 +1,22 @@
+# Xfce Desktop Environment
+#
+# https://www.xfce.org/
+#
+- name: xfce
+  hosts: all
+  tags: xfce
+  tasks:
+    - name: Install xfce4 plugins
+      community.general.pacman:
+        name:
+          - community/xfce4-whiskermenu-plugin
+        state: present
+      become: true
+
+    - name: Install xfce-related utils
+      community.general.pacman:
+        name:
+          - community/galculator
+          - community/blueman
+        state: present
+      become: true

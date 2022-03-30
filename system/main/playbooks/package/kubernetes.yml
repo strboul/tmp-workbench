@@ -1,6 +1,6 @@
 ---
 - name: Install Kubernetes tools
-  pacman:
+  community.general.pacman:
     name:
       - community/k9s  # https://k9scli.io/
       - community/kubectx  # https://github.com/ahmetb/kubectx

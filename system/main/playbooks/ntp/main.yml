@@ -4,14 +4,13 @@
   tags: ntp
   tasks:
     - name: Ensure NTP is installed
-      pacman: name=extra/ntp state=present
+      community.general.pacman: name=extra/ntp state=present
       become: true
-      notify:
-        - NTP is running
+      notify: NTP is running
 
   handlers:
     - name: NTP is running
-      service:
+      ansible.builtin.service:
         name: systemd-timesyncd
         state: started
         enabled: true

@@ -9,7 +9,7 @@
     pacman_updated_file: "{{ workbench_dir }}/.ansible_pacman_updated"
   tasks:
     - name: Have a workbench folder belonging to user
-      file:
+      ansible.builtin.file:
         path: "{{ workbench_dir }}"
         # equivalent of `sudo chown -R $USER:$USER <path>`
         owner: "{{ ansible_env.USER }}"
@@ -26,12 +26,12 @@
     - name: Update the system
       block:
         - name: Check file for pacman updated
-          stat:
+          ansible.builtin.stat:
             path: "{{ pacman_updated_file }}"
           register: pacman_system_updated_status
 
         - name: pacman -Syu to update the system
-          pacman:
+          community.general.pacman:
             update_cache: true
             upgrade: true
           become: true
@@ -41,7 +41,7 @@
           register: pacman_system_updated
 
         - name: Create file for pacman updated
-          copy:
+          ansible.builtin.copy:
             dest: "{{ pacman_updated_file }}"
             content: "{{ lookup('pipe', 'date') }}\n"  # add timestamp info inside
             mode: 0644

@@ -5,12 +5,12 @@
   tasks:
     # https://github.com/alacritty/alacritty
     - name: Install Alacritty terminal
-      pacman: name=community/alacritty state=present
+      community.general.pacman: name=community/alacritty state=present
       become: true
       tags: gui.alacritty
 
     - name: Install gedit
-      pacman: name=extra/gedit state=present
+      community.general.pacman: name=extra/gedit state=present
       become: true
       tags: gui.gedit
 
@@ -22,12 +22,12 @@
       tags: gui.chrome
 
     - name: Install Chromium
-      pacman: name=extra/chromium state=present
+      community.general.pacman: name=extra/chromium state=present
       become: true
       tags: gui.chromium
 
     - name: Install Firefox
-      pacman: name=extra/firefox state=present
+      community.general.pacman: name=extra/firefox state=present
       become: true
       tags: gui.firefox
 
@@ -41,21 +41,26 @@
 
     # https://github.com/flameshot-org/flameshot
     - name: Install flameshot
-      pacman: name=community/flameshot state=present
+      community.general.pacman: name=community/flameshot state=present
       become: true
       tags: gui.flameshot
 
     # https://dbeaver.io/
     - name: Install DBeaver
-      pacman: name=community/dbeaver state=present
+      community.general.pacman: name=community/dbeaver state=present
       become: true
       tags: gui.dbeaver
 
-
     - name: Install LibreOffice
-      pacman: name=extra/libreoffice-fresh state=present
+      community.general.pacman: name=extra/libreoffice-fresh state=present
       become: true
       tags: gui.libreoffice
+
+    # https://www.thunderbird.net
+    - name: Install Thunderbird
+      community.general.pacman: name=extra/thunderbird state=present
+      become: true
+      tags: gui.thunderbird
 
     - name: Install Slack desktop
       kewlfft.aur.aur:
@@ -73,12 +78,12 @@
       tags: gui.rstudio
 
     - name: Install Signal
-      pacman: name=community/signal-desktop state=present
+      community.general.pacman: name=community/signal-desktop state=present
       become: true
       tags: gui.signal
 
     - name: Install Telegram
-      pacman: name=community/telegram-desktop state=present
+      community.general.pacman: name=community/telegram-desktop state=present
       become: true
       tags: gui.telegram
 
@@ -86,7 +91,7 @@
     - name: Install Wireshark
       block:
         - name: Install wireshark
-          pacman:
+          community.general.pacman:
             name:
               - community/wireshark-cli
               - community/wireshark-qt
@@ -94,32 +99,32 @@
 
         # give the current user permission to capture packets
         - name: Add user to the wireshark group
-          user:
+          ansible.builtin.user:
             name: "{{ ansible_env.USER }}"
             group: wireshark
       become: true
       tags: gui.wireshark
 
     - name: Install VLC
-      pacman: name=extra/vlc state=present
+      community.general.pacman: name=extra/vlc state=present
       become: true
       tags: gui.vlc
 
     # https://keepassxc.org/
     - name: Install keepassxc
-      pacman: name=community/keepassxc state=present
+      community.general.pacman: name=community/keepassxc state=present
       become: true
       tags: gui.keepassxc
 
     # https://wiki.gnome.org/Apps/Gthumb
     - name: Install gThumb
-      pacman: name=extra/gthumb state=present
+      community.general.pacman: name=extra/gthumb state=present
       become: true
       tags: gui.gthumb
 
     # https://github.com/Soft/xcolor
     - name: Install xcolor
-      pacman: name=community/xcolor state=present
+      community.general.pacman: name=community/xcolor state=present
       become: true
       tags: gui.xcolor
 
@@ -132,25 +137,25 @@
       tags: gui.magicavoxel
 
     - name: Install gnome-disk-utility
-      pacman: name=extra/gnome-disk-utility state=present
+      community.general.pacman: name=extra/gnome-disk-utility state=present
       become: true
       tags: gui.gnome_disk_utility
 
     # https://meldmerge.org
     - name: Install meld
-      pacman: name=extra/meld state=present
+      community.general.pacman: name=extra/meld state=present
       become: true
       tags: gui.meld
 
     # https://www.vagrantup.com/
     - name: Install vagrant
-      pacman: name=community/vagrant state=present
+      community.general.pacman: name=community/vagrant state=present
       become: true
       tags: gui.vagrant
 
     # https://www.virtualbox.org/
     - name: Install VirtualBox
-      pacman:
+      community.general.pacman:
         name:
           - community/virtualbox
           - community/virtualbox-guest-utils
@@ -159,7 +164,7 @@
       tags: gui.virtualbox
 
     - name: Install gnome-boxes
-      pacman:
+      community.general.pacman:
         name:
           - community/libvirt
           - community/gnome-boxes

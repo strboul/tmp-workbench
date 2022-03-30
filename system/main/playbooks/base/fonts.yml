@@ -1,14 +1,14 @@
 ---
 # https://www.gnu.org/software/freefont/
 - name: Install GNU Free Fonts
-  pacman:
+  community.general.pacman:
     name: extra/gnu-free-fonts
     state: present
   become: true
 
 # https://fonts.google.com/noto
 - name: Install noto-fonts
-  pacman:
+  community.general.pacman:
     name:
       - extra/noto-fonts
       - extra/noto-fonts-extra

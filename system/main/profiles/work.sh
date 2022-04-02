@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ansible-playbook "$@" main.yml --tags="""
+ansible-playbook -e="arg_hostname=work" "$@" main.yml --tags="""
 base,
 ntp,
 bluetooth,
@@ -29,5 +29,8 @@ gui.gthumb,
 gui.meld,
 gui.slack,
 gui.vscode,
+gui.vagrant,
+gui.virtualbox,
+gui.gnome_boxes,
 xfce,
 """

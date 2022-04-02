@@ -9,5 +9,6 @@
       - extra/vim
       - extra/tree
       - extra/lsof
+      - extra/xclip
     state: present
   become: true

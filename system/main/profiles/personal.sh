@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ansible-playbook "$@" main.yml --tags="""
+ansible-playbook -e="arg_hostname=personal" "$@" main.yml --tags="""
 base,
 ntp,
 bluetooth,
@@ -37,5 +37,8 @@ gui.vlc,
 gui.keepassxc,
 gui.meld,
 gui.vscode,
+gui.vagrant,
+gui.virtualbox,
+gui.gnome_boxes,
 xfce,
 """

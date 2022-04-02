@@ -45,10 +45,10 @@
         create: true
         state: present
       loop:
-        - "{{ ansible_env.HOME }}/.zprofile"
+        - "{{ ansible_env.HOME }}/.zshenv"
         - "{{ ansible_env.HOME }}/.bash_profile"
 
-    - name: "Install pyenv version {{ item }}"
+    - name: Install pyenv versions
       ansible.builtin.command:
         argv:
           - pyenv
@@ -62,9 +62,10 @@
         - "3.9.0"
         - "3.10.0"
       register: pyenv_install
-      changed_when: false
+      notify: Set default pyenv version
 
   handlers:
     # Set the highest Python version as global initially.
     - name: Set default pyenv version
-      ansible.builtin.command: pyenv global "$(pyenv versions | sort -r --version-sort | sed -n 2p | xargs)"
+      ansible.builtin.command: |
+        pyenv global "$(pyenv versions | sort -r --version-sort | sed -n 2p | xargs)"

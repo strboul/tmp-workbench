@@ -101,7 +101,8 @@
         - name: Add user to the wireshark group
           ansible.builtin.user:
             name: "{{ ansible_env.USER }}"
-            group: wireshark
+            groups: wireshark
+            append: true
       become: true
       tags: gui.wireshark
 

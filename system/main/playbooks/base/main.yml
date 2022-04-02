@@ -8,6 +8,12 @@
     yay_install_dir: "{{ workbench_dir }}/yay"
     pacman_updated_file: "{{ workbench_dir }}/.ansible_pacman_updated"
   tasks:
+    - name: Set the hostname
+      ansible.builtin.hostname:
+        name: "{{ arg_hostname }}"
+        use: systemd
+      become: true
+
     - name: Have a workbench folder belonging to user
       ansible.builtin.file:
         path: "{{ workbench_dir }}"

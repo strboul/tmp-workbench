@@ -32,4 +32,7 @@
   become: true
 
 - name: Install pynvim  # see `:h provider-python` in neovim
-  ansible.builtin.pip: name=pynvim state=present
+  ansible.builtin.pip:
+    executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
+    name: pynvim
+    state: present

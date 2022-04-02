@@ -34,5 +34,5 @@
             create: true
             state: present
           loop:
-            - "{{ ansible_env.HOME }}/.zprofile"
+            - "{{ ansible_env.HOME }}/.zshenv"
             - "{{ ansible_env.HOME }}/.bash_profile"

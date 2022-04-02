@@ -10,8 +10,12 @@ Install Arch Linux with the guided installer `archinstall`.
 
 With the config file:
 
+:warning: Test the output with dry-run first
+
 ```sh
-archinstall --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
+archinstall \
+  --dry-run \
+  --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
 ```
 
 Dry run to generate the configuration file and exit:
@@ -34,12 +38,7 @@ The [config.json](config.json) file descriptions:
 
 ### Steps
 
-+ Bootloader:
-
-  + `systemd-bootctl`, **use this**, or `grub-install`, not recommended but
-    VirtualBox does not work even though EFI is enabled.
-
-+ Partition:
+0) Partition:
 
   + Desired filesystem type for the partition: `btrfs`
 
@@ -50,9 +49,12 @@ The [config.json](config.json) file descriptions:
 2) Enter disk encryption password. Encrypts the disk with `dmcrypt` (or should
 use LUKS?)
 
-3) Enter desired hostname for the installation.
+3) `systemd-bootctl`, **use this**, or `grub-install`, not recommended but
+  VirtualBox does not work even though EFI is enabled.
 
-4) **Don't create root user**; instead, create a super-user with sudo privileges.
+4) Enter desired hostname for the installation.
+
+5) **Don't create root user**; instead, create a super-user with sudo privileges.
 
 ### Troubleshooting
 

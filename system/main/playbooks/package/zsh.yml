@@ -64,7 +64,7 @@
         create: true
         state: present
       loop:
-        - "{{ ansible_env.HOME }}/.zprofile"
+        - "{{ ansible_env.HOME }}/.zshenv"
 
 - name: Add zsh to /etc/shells
   ansible.builtin.lineinfile:

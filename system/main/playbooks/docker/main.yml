@@ -13,31 +13,32 @@
         state: present
       become: true
 
-    - name: Setup Docker
-      block:
-        - name: Create the docker group
-          ansible.builtin.group:
-            name: docker
-            state: present
-
-        - name: Add user to the docker group
-          ansible.builtin.user:
-            name: "{{ ansible_env.USER }}"
-            group: docker
-
-        - name: Change the group ownership of the docker socket
-          ansible.builtin.file:
-            path: /var/run/docker.sock
-            owner: "{{ ansible_env.USER }}"
+    - name: Create the docker group
+      ansible.builtin.group:
+        name: docker
+        state: present
       become: true
-      notify: Docker service is running
+
+    - name: Add user to the docker group
+      ansible.builtin.user:
+        name: "{{ ansible_env.USER }}"
+        groups: docker
+        append: true
+      become: true
+      notify: Docker service enabled and running
+
+    - name: Change the group ownership of the docker socket
+      ansible.builtin.file:
+        path: /var/run/docker.sock
+        owner: "{{ ansible_env.USER }}"
+      become: true
 
     - name: Test run Docker
       ansible.builtin.command: docker run --rm hello-world
       changed_when: false
 
   handlers:
-    - name: Docker service is running
+    - name: Docker service enabled and running
       ansible.builtin.service:
         name: docker.service
         state: started

@@ -12,9 +12,26 @@
       become: true
       tags: language.r
 
-    - name: Install golang
-      community.general.pacman: name=community/go state=present
-      become: true
+    - name: Setup golang
+      block:
+        - name: Install golang
+          community.general.pacman: name=community/go state=present
+          become: true
+
+        - name: Add golang paths
+          ansible.builtin.blockinfile:
+            path: "{{ item }}"
+            marker: "# {mark} ANSIBLE MANAGED BLOCK: golang"
+            block: |
+              export PATH=$PATH:/usr/local/go/bin
+              gopath="$(go env GOPATH)"
+              export PATH=$PATH:"$gopath"/bin
+            mode: 0644
+            create: true
+            state: present
+          loop:
+            - "{{ ansible_env.HOME }}/.zshenv"
+            - "{{ ansible_env.HOME }}/.bash_profile"
       tags: language.golang
 
     # https://deno.land/

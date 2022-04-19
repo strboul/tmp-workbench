@@ -9,9 +9,9 @@ the resources:
 
 - https://wiki.archlinux.org/title/User:Soloturn/Quick_Installation_guide_UEFI#Format_disk_and_mount_partitions
 
-## Prerequisites
+## Prerequisite
 
-- Secure boot disabled `Secure Boot > Secure Boot Disable`
+- Secure boot disabled at BIOS.
 
 - Change SATA Operation mode from `RAID` to `AHCI`. If dual-booting with
   Windows, follow
@@ -54,7 +54,7 @@ fdisk /dev/sda
 
 (No need to create a EFI partition if you are dual-booting)
 
-- Type last sector: `+350M`
+- Type last sector: `+500M`
 
 - Command `t` and choose `1` to change the partition type to `EFI system`.
 
@@ -86,7 +86,7 @@ mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 ```
 
-## Packages
+## Package
 
 Install essential packages:
 
@@ -114,7 +114,7 @@ Set up user:
 
 ```sh
 useradd --create-home --groups wheel $user # create user with the home directory
-passwd $user  # password
+passwd $user # password
 echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel # add user to sudoers
 ```
 
@@ -141,7 +141,7 @@ options root=PARTUUID="$disk_uuid" rw
 
 ## Finish
 
-Enable internet connection for the next boot
+Enable internet connection for the next boot:
 
 ```sh
 systemctl enable dhcpcd iwd

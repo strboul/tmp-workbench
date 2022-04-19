@@ -6,7 +6,7 @@
 
 - name: Setup vim-plug
   vars:
-    vim_plug_path: "$HOME/.local/share/nvim/site/autoload/plug.vim"
+    vim_plug_path: "{{ ansible_env.HOME }}/.local/share/nvim/site/autoload/plug.vim"
   block:
     - name: Install vim-plug
       ansible.builtin.shell: |
@@ -33,6 +33,7 @@
 
 - name: Install pynvim  # see `:h provider-python` in neovim
   ansible.builtin.pip:
-    executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
     name: pynvim
     state: present
+  environment:
+    PIP_REQUIRE_VIRTUALENV: false

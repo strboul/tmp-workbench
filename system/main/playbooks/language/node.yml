@@ -21,7 +21,7 @@
             state: directory
 
         - name: Configure npm to use the new directory path
-          ansible.builtin.command: "npm config set prefix '~/.npm-global'"
+          ansible.builtin.command: "npm config set prefix '{{ ansible_env.HOME }}/.npm-global'"
           changed_when: false
 
         - name: Export the path in profile
@@ -29,7 +29,7 @@
             path: "{{ item }}"
             marker: "# {mark} ANSIBLE MANAGED BLOCK: npm-global"
             block: |
-              export PATH="~/.npm-global/bin:$PATH"
+              export PATH="{{ ansible_env.HOME }}/.npm-global/bin:$PATH"
             mode: 0644
             create: true
             state: present

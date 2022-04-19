@@ -77,5 +77,4 @@ fdisk /dev/sda
 
 + Do not chroot to perform post-installation configuration (`n`).
 
-+ If the installation completed without any errors, shutdown `shutdown now` and
-  reboot.
++ If the installation completed without any errors, command `reboot now`.

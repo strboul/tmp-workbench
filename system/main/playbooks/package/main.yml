@@ -1,8 +1,6 @@
 - name: Package
   hosts: all
   tags: package
-  vars:
-    zsh_command: /usr/bin/zsh
   tasks:
     - name: Setup zsh
       import_tasks: zsh.yml
@@ -27,6 +25,10 @@
     - name: npm installs
       import_tasks: npm.yml
       tags: package.npm
+
+    - name: Install podman
+      import_tasks: podman.yml
+      tags: package.podman
 
     - name: Install Terraform
       import_tasks: terraform.yml

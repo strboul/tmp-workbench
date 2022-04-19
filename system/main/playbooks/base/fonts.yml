@@ -34,18 +34,28 @@
     state: present
 
 - name: Setup fontconfig
-  ansible.builtin.copy:
-    dest: "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf"
-    content: |
-      <?xml version="1.0"?>
-      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-      <fontconfig>
-      <alias>
-         <family>monospace</family>
-         <prefer>
-           <family>JetBrainsMono Nerd Font Mono</family>
-           <family>Noto Color Emoji</family>
-         </prefer>
-       </alias>
-      </fontconfig>
-    mode: 0644
+  block:
+    - name: Create fontconfig directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/fontconfig"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0700
+        state: directory
+
+    - name: Contents of fonts.conf
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf"
+        content: |
+          <?xml version="1.0"?>
+          <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+          <fontconfig>
+          <alias>
+             <family>monospace</family>
+             <prefer>
+               <family>JetBrainsMono Nerd Font Mono</family>
+               <family>Noto Color Emoji</family>
+             </prefer>
+           </alias>
+          </fontconfig>
+        mode: 0644

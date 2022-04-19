@@ -3,29 +3,14 @@
   hosts: all
   gather_facts: true
 
-- name: Base
-  import_playbook: playbooks/base/main.yml
-
-- name: ntp
-  import_playbook: playbooks/ntp/main.yml
-
-- name: Bluetooth
-  import_playbook: playbooks/bluetooth/main.yml
-
-- name: Docker
-  import_playbook: playbooks/docker/main.yml
-
-- name: Python
-  import_playbook: playbooks/python/main.yml
-
-- name: Language
-  import_playbook: playbooks/language/main.yml
-
-- name: Package
-  import_playbook: playbooks/package/main.yml
-
-- name: GUI
-  import_playbook: playbooks/gui/main.yml
-
-- name: xfce
-  import_playbook: playbooks/xfce/main.yml
+- import_playbook: playbooks/base/main.yml
+- import_playbook: playbooks/ntp/main.yml
+- import_playbook: playbooks/locale/main.yml
+- import_playbook: playbooks/bluetooth/main.yml
+- import_playbook: playbooks/ssh/main.yml
+- import_playbook: playbooks/docker/main.yml
+- import_playbook: playbooks/python/main.yml
+- import_playbook: playbooks/language/main.yml
+- import_playbook: playbooks/package/main.yml
+- import_playbook: playbooks/gui/main.yml
+- import_playbook: playbooks/xfce4/main.yml

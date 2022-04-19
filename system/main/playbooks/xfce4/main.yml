@@ -1,0 +1,38 @@
+# Xfce Desktop Environment
+#
+# https://www.xfce.org/
+#
+- name: xfce4
+  hosts: all
+  tags: xfce4
+  tasks:
+    - name: Install xfce4 plugins
+      community.general.pacman:
+        name:
+          - community/xfce4-whiskermenu-plugin
+          - extra/xfce4-clipman-plugin
+        state: present
+      become: true
+
+    - name: Install other relevant programs
+      community.general.pacman:
+        name:
+          - community/galculator
+          - community/blueman
+          - community/viewnior
+          - extra/file-roller
+          - community/flameshot  # https://github.com/flameshot-org/flameshot
+        state: present
+      become: true
+
+    - name: Apply xfconf-query commands
+      ansible.builtin.command: "sh {{ ansible_env.PWD }}/xfconf-query.sh"
+      changed_when: false
+
+    - name: Link xfce4 files
+      ansible.builtin.file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      loop:
+        - { src: "{{ ansible_env.PWD }}/whiskermenu-1.rc", dest: "{{ ansible_env.HOME }}/.config/xfce4/panel/whiskermenu-1.rc" }

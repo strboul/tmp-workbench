@@ -1,7 +1,6 @@
 {
   "script": "guided",
   "audio": "pipewire",
-  "filesystem": "btrfs",
   "gfx_driver": "All open-source (default)",
   "kernels": ["linux"],
   "keyboard-layout": "us",

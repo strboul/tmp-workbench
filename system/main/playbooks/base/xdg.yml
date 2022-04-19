@@ -1,0 +1,23 @@
+---
+- name: Set variables
+  ansible.builtin.set_fact:
+    vars_base_xdg:
+      default_text_editor: gnome.gedit.desktop
+      default_image_viewer: viewnior.desktop
+
+# find a file's MIME type, use:
+#   xdg-mime query filetype <file>
+#
+- name: Change default application MIME types
+  ansible.builtin.command:
+    argv:
+      - xdg-mime
+      - default
+      - "{{ item.application }}"
+      - "{{ item.mimetype }}"
+  loop:
+    - { application: "{{ vars_base_xdg.default_text_editor }}", mimetype: "text/plain" }
+    - { application: "{{ vars_base_xdg.default_text_editor }}", mimetype: "application/json" }
+    - { application: "{{ vars_base_xdg.default_image_viewer }}", mimetype: "image/jpeg" }
+    - { application: "{{ vars_base_xdg.default_image_viewer }}", mimetype: "image/png" }
+  changed_when: false

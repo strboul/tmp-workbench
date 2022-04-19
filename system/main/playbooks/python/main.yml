@@ -22,17 +22,25 @@
 # Temporarily set version
 # (To quickly test, this command activates the version specified by setting the
 # PYENV_VERSION environment variable.)
-#   pyenv shell 3.10
+#   pyenv shell 2.7.18
 #
 - name: Setup Python
   hosts: all
   tags: python
   tasks:
+    - name: Ensure system Python is installed
+      ansible.builtin.stat:
+        path: /usr/bin/python
+
+    - name: Ensure pip is ready
+      command: /usr/bin/python -m ensurepip
+      changed_when: false
+
     - name: Install pyenv
       community.general.pacman: name=community/pyenv state=present
       become: true
 
-    - name: Add pyenv to the profile
+    - name: Add pyenv to profiles
       ansible.builtin.blockinfile:
         path: "{{ item }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
@@ -58,14 +66,22 @@
           - --skip-existing
         creates: "{{ ansible_env.HOME }}/.pyenv/versions/{{ item }}"
       loop:
-        - "3.8.0"
-        - "3.9.0"
-        - "3.10.0"
+        - "2.7.18"  # last release of Python 2
+        - "3.8-dev"
+        - "3.9-dev"
+        - "3.10-dev"
       register: pyenv_install
       notify: Set default pyenv version
 
   handlers:
     # Set the highest Python version as global initially.
     - name: Set default pyenv version
-      ansible.builtin.command: |
-        pyenv global "$(pyenv versions | sort -r --version-sort | sed -n 2p | xargs)"
+      ansible.builtin.shell: |
+        version="$(pyenv versions |
+          sed '/.*system.*/d' |
+          sort -r --version-sort |
+          head -n 1 |
+          grep -Eo '[0-9]\.[0-9]+(\.[0-9]+|\-dev)?' |
+          xargs)"
+        pyenv global "$version"
+      changed_when: false

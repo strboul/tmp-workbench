@@ -1,0 +1,69 @@
+- name: SSH
+  hosts: all
+  tags: ssh
+  tasks:
+    - name: Set variables
+      ansible.builtin.set_fact:
+        vars_ssh:
+          path: "{{ ansible_env.HOME }}/.ssh"
+          key_identifier: "id_ed25519-workbench_{{ arg_hostname }}"
+
+    - name: Install ssh
+      community.general.pacman:
+        name:
+          - core/libssh2
+          - core/openssh
+          - extra/libssh
+      become: true
+      notify: SSH running
+
+    - name: Create ssh user directory if not exist
+      ansible.builtin.file:
+        path: "{{ vars_ssh.path }}"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0700
+        state: directory
+
+    - name: Generate an OpenSSH keypair with ed25519
+      community.crypto.openssh_keypair:
+        path: "{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}"
+        type: ed25519
+        # TODO: passphrase: {{ ansible_vault }}
+
+    - name: Create user ssh config file
+      ansible.builtin.blockinfile:
+        path: "{{ vars_ssh.path }}/config"
+        block: |
+          # default for all
+          Host *
+            IdentityFile {{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}
+        mode: 0644
+        create: true
+        state: present
+
+    - name: Add current pub key to authorized keys for passwordless access
+      ansible.builtin.blockinfile:
+        path: "{{ vars_ssh.path }}/authorized_keys"
+        block: |
+          # current key '{{ vars_ssh.key_identifier }}.pub':
+          {{ lookup('file', '{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}.pub') }}
+        mode: 0644
+        create: true
+        state: present
+
+    - name: Change sshd_config
+      ansible.builtin.blockinfile:
+        path: /etc/ssh/sshd_config
+        block: |
+          PubkeyAuthentication yes
+          AuthorizedKeysFile .ssh/authorized_keys
+      become: true
+
+  handlers:
+    - name: SSH running
+      ansible.builtin.service:
+        name: sshd
+        state: started
+        enabled: true
+      become: true

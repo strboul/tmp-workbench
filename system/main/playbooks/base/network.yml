@@ -1,10 +1,22 @@
 ---
-- name: Install iputils
+- name: Install network tools
   community.general.pacman:
     name:
-      - core/iputils
       - core/traceroute
-      - extra/bind
-      - extra/gnu-netcat
+      - core/iputils  # network monitoring tools, incl. ping
+      - core/inetutils  # collection of common network programs, e.g. telnet
+      - extra/bind  # dns stuff
+      - extra/gnu-netcat  # netcat, the network piping application
+      - extra/socat  # multipurpose relay
+      - extra/nmap  # utility for network discovery and security auditing
+      - extra/tcpdump  # powerful command-line packet analyzer
+    state: present
+  become: true
+
+- name: Install VPN tools
+  community.general.pacman:
+    name:
+      - extra/openvpn
+      - extra/networkmanager-openvpn
     state: present
   become: true

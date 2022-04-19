@@ -21,11 +21,18 @@
         state: present
       become: true
 
+    - name: Install cli utils from AUR
+      kewlfft.aur.aur:
+        use: yay
+        name: lazydocker  # https://github.com/jesseduffield/lazydocker
+        state: present
+
     - name: Install cli utils via pip
       ansible.builtin.pip:
-        executable: "{{ ansible_env.HOME }}/.pyenv/shims/pip"
         name:
           - git-substatus  # https://github.com/strboul/git-substatus
           - pre-commit  # https://pre-commit.com/#installation
         state: present
+      environment:
+        PIP_REQUIRE_VIRTUALENV: false
   tags: package.cli_utils

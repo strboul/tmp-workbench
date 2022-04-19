@@ -1,8 +1,8 @@
 # bin
 
-Given that the workbench path is `$HOME/workbench`, add the lines to `.bashrc`
-or `.zshrc`:
+Given that the workbench path is `$HOME/workbench`, run the command to make it
+available:
 
 ```sh
-export PATH="$PATH:$HOME/workbench/bin"
+echo 'export PATH="$PATH:$HOME/workbench/bin"' | tee -a ~/.zshenv ~/.bash_profile
 ```

@@ -44,3 +44,8 @@
       community.general.pacman: name=extra/rust state=present
       become: true
       tags: language.rust
+
+    - name: Install Lua
+      community.general.pacman: name=extra/lua state=present
+      become: true
+      tags: language.lua

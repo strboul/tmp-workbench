@@ -9,41 +9,57 @@
       become: true
       tags: gui.alacritty
 
-    - name: Install gedit
-      community.general.pacman: name=extra/gedit state=present
+    - name: Setup gedit
+      block:
+        - name: Install gedit
+          community.general.pacman: name=extra/gedit state=present
+
+        - name: Tweak gedit configuration
+          ansible.builtin.command: |
+            gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
+            gsettings set org.gnome.gedit.preferences.editor insert-spaces true
+            gsettings set org.gnome.gedit.preferences.editor tabs-size 2
+          changed_when: false
       become: true
       tags: gui.gedit
-
-    - name: Install Chrome
-      kewlfft.aur.aur:
-        use: yay
-        name: google-chrome
-        state: present
-      tags: gui.chrome
-
-    - name: Install Chromium
-      community.general.pacman: name=extra/chromium state=present
-      become: true
-      tags: gui.chromium
 
     - name: Install Firefox
       community.general.pacman: name=extra/firefox state=present
       become: true
       tags: gui.firefox
 
+    - name: Install Chromium
+      community.general.pacman: name=extra/chromium state=present
+      become: true
+      tags: gui.chromium
+
+    - name: Install Google Chrome
+      kewlfft.aur.aur:
+        use: yay
+        name: google-chrome
+        state: present
+      tags: gui.chrome
+
     # https://brave.com
-    - name: Install Brave
+    - name: Install Brave browser
       kewlfft.aur.aur:
         use: yay
         name: brave-bin
         state: present
       tags: gui.brave
 
-    # https://github.com/flameshot-org/flameshot
-    - name: Install flameshot
-      community.general.pacman: name=community/flameshot state=present
-      become: true
-      tags: gui.flameshot
+    # https://wiki.archlinux.org/title/Visual_Studio_Code (open source version)
+    - name: Install code
+      community.general.pacman: name=community/code state=present
+      tags: gui.code
+
+    # https://code.visualstudio.com/ (MS version)
+    - name: Install Visual Studio Code
+      kewlfft.aur.aur:
+        use: yay
+        name: visual-studio-code-bin
+        state: present
+      tags: gui.vscode
 
     # https://dbeaver.io/
     - name: Install DBeaver
@@ -173,3 +189,10 @@
         state: present
       become: true
       tags: gui.gnome_boxes
+
+    # Linux device manager for Logitech devices
+    # https://pwr-solaar.github.io/Solaar/
+    - name: Install solaar
+      community.general.pacman: name=community/solaar state=present
+      become: true
+      tags: gui.solaar

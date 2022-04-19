@@ -1,4 +1,9 @@
 ---
+- name: Set variables
+  ansible.builtin.set_fact:
+    vars_zsh:
+      zsh_command: /usr/bin/zsh
+
 - name: Install zsh
   community.general.pacman: name=extra/zsh state=present
   become: true
@@ -68,12 +73,12 @@
 
 - name: Add zsh to /etc/shells
   ansible.builtin.lineinfile:
-    line: "{{ zsh_command }}"
+    line: "{{ vars_zsh.zsh_command }}"
     dest: /etc/shells
     state: present
   become: true
 
 - name: Change default shell to zsh
-  ansible.builtin.command: "chsh -s {{ zsh_command }} {{ ansible_env.USER }}"
+  ansible.builtin.command: "chsh -s {{ vars_zsh.zsh_command }} {{ ansible_env.USER }}"
   changed_when: false
   become: true

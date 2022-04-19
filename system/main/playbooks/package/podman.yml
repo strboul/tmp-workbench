@@ -1,0 +1,5 @@
+---
+# https://podman.io/
+- name: Install podman
+  community.general.pacman: name=community/podman state=present
+  become: true

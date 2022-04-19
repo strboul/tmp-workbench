@@ -12,6 +12,7 @@
           - community/docker-compose
         state: present
       become: true
+      notify: Docker service running
 
     - name: Create the docker group
       ansible.builtin.group:
@@ -25,7 +26,9 @@
         groups: docker
         append: true
       become: true
-      notify: Docker service enabled and running
+
+    # force ansible run the notified handlers up to this point
+    - meta: flush_handlers
 
     - name: Change the group ownership of the docker socket
       ansible.builtin.file:
@@ -38,8 +41,9 @@
       changed_when: false
 
   handlers:
-    - name: Docker service enabled and running
+    - name: Docker service running
       ansible.builtin.service:
         name: docker.service
         state: started
         enabled: true
+      become: true

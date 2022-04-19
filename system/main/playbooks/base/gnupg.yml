@@ -1,0 +1,9 @@
+---
+- name: Install gnupg
+  community.general.pacman:
+    name:
+      - core/gpgme
+    state: present
+  become: true
+
+# TODO generate a gnu key?

@@ -16,6 +16,6 @@
       etckeeper init
       git config --local user.name root
       git config --local user.email root@{{ arg_hostname }}
-      etckeeper commit -m 'Initial commit'
+      etckeeper commit -m "Initial commit"
     chdir: /etc
   become: true

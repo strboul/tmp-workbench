@@ -1,0 +1,16 @@
+---
+- name: Install wireshark
+  community.general.pacman:
+    name:
+      - community/wireshark-cli
+      - community/wireshark-qt
+    state: present
+    become: true
+
+# give the current user permission to capture packets
+- name: Add user to the wireshark group
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    groups: wireshark
+    append: true
+    become: true

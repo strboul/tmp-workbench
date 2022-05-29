@@ -1,0 +1,4 @@
+Command=~/tmp-workbench/system/main/playbooks/xfce4/utils/genmon-sensors
+UseLabel=0
+UpdatePeriod=10000
+Font=Sans 10

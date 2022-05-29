@@ -8,7 +8,7 @@
       tags: language.node
 
     - name: Install R
-      community.general.pacman: name=extra/r state=present
+      community.general.pacman: name=community/r state=present
       become: true
       tags: language.r
 
@@ -23,15 +23,15 @@
             path: "{{ item }}"
             marker: "# {mark} ANSIBLE MANAGED BLOCK: golang"
             block: |
-              export PATH=$PATH:/usr/local/go/bin
-              gopath="$(go env GOPATH)"
-              export PATH=$PATH:"$gopath"/bin
+              typeset -U path PATH
+              path=(/usr/local/go/bin $path)
+              path=($(go env GOPATH) $path)
+              export PATH
             mode: 0644
             create: true
             state: present
           loop:
             - "{{ ansible_env.HOME }}/.zshenv"
-            - "{{ ansible_env.HOME }}/.bash_profile"
       tags: language.golang
 
     # https://deno.land/

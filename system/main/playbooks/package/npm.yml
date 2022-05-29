@@ -12,4 +12,4 @@
     - dotenv-cli
     - semver
     - json-server  # https://github.com/typicode/json-server
-    - git-standup # https://github.com/kamranahmedse/git-standup
+    - git-standup  # https://github.com/kamranahmedse/git-standup

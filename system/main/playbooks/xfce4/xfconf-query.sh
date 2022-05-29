@@ -52,11 +52,15 @@ echo "set panel plugins" && \
   xfconf-query -c xfce4-panel -p /plugins/plugin-12 -t string -s separator -n && \
   xfconf-query -c xfce4-panel -p /plugins/plugin-13 -t string -s actions -n
 
+  # genmon to show sensors
+  xfconf-query -c xfce4-panel -p /plugins/plugin-90 -t string -s genmon -n
+
 echo "order panel plugins" && \
   xfconf-query -c xfce4-panel -p /panels/panel-1/plugin-ids -a \
     -t int -s 1 -t int -s 2 -t int -s 3 -t int -s 4 -t int -s 5 \
-    -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 -t int -s 10 \
-    -t int -s 11 -t int -s 12 -t int -s 13 \
+    -t int -s 6 -t int -s 7 -t int -s 8 -t int -s 9 \
+    -t int -s 90 \
+    -t int -s 10 -t int -s 11 -t int -s 12 -t int -s 13 \
     -n
 
 echo "panel plugin: systray" && \

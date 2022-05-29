@@ -11,6 +11,7 @@
         name:
           - community/xfce4-whiskermenu-plugin
           - extra/xfce4-clipman-plugin
+          - extra/xfce4-genmon-plugin
         state: present
       become: true
 
@@ -29,10 +30,11 @@
       ansible.builtin.command: "sh {{ ansible_env.PWD }}/xfconf-query.sh"
       changed_when: false
 
-    - name: Link xfce4 files
-      ansible.builtin.file:
+    - name: Copy files (if not exist)
+      ansible.builtin.copy:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
-        state: link
+        mode: 0644
       loop:
         - { src: "{{ ansible_env.PWD }}/whiskermenu-1.rc", dest: "{{ ansible_env.HOME }}/.config/xfce4/panel/whiskermenu-1.rc" }
+        - { src: "{{ ansible_env.PWD }}/genmon-90.rc", dest: "{{ ansible_env.HOME }}/.config/xfce4/panel/genmon-90.rc" }

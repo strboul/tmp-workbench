@@ -29,10 +29,11 @@
             path: "{{ item }}"
             marker: "# {mark} ANSIBLE MANAGED BLOCK: npm-global"
             block: |
-              export PATH="{{ ansible_env.HOME }}/.npm-global/bin:$PATH"
+              typeset -U path PATH
+              path=({{ ansible_env.HOME }}/.npm-global/bin $path)
+              export PATH
             mode: 0644
             create: true
             state: present
           loop:
             - "{{ ansible_env.HOME }}/.zshenv"
-            - "{{ ansible_env.HOME }}/.bash_profile"

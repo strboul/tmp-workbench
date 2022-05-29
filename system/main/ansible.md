@@ -5,7 +5,7 @@
 Run the Ansible playbooks against the current machine
 
 ```sh
-ansible-playbook -v -i localhost.inventory --ask-become-pass main.yml
+ansible-playbook -v -i localhost.inventory -e "arg_hostname=<hostname>" --ask-become-pass main.yml
 ```
 
 ### Tasks

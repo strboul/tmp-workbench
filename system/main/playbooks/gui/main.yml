@@ -10,17 +10,7 @@
       tags: gui.alacritty
 
     - name: Setup gedit
-      block:
-        - name: Install gedit
-          community.general.pacman: name=extra/gedit state=present
-
-        - name: Tweak gedit configuration
-          ansible.builtin.command: |
-            gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
-            gsettings set org.gnome.gedit.preferences.editor insert-spaces true
-            gsettings set org.gnome.gedit.preferences.editor tabs-size 2
-          changed_when: false
-      become: true
+      import_tasks: gedit.yml
       tags: gui.gedit
 
     - name: Install Firefox
@@ -73,9 +63,8 @@
       tags: gui.libreoffice
 
     # https://www.thunderbird.net
-    - name: Install Thunderbird
-      community.general.pacman: name=extra/thunderbird state=present
-      become: true
+    - name: Setup Thunderbird
+      import_tasks: thunderbird.yml
       tags: gui.thunderbird
 
     - name: Install Slack desktop
@@ -105,21 +94,7 @@
 
     # https://www.wireshark.org/
     - name: Install Wireshark
-      block:
-        - name: Install wireshark
-          community.general.pacman:
-            name:
-              - community/wireshark-cli
-              - community/wireshark-qt
-            state: present
-
-        # give the current user permission to capture packets
-        - name: Add user to the wireshark group
-          ansible.builtin.user:
-            name: "{{ ansible_env.USER }}"
-            groups: wireshark
-            append: true
-      become: true
+      import_tasks: wireshark.yml
       tags: gui.wireshark
 
     - name: Install VLC
@@ -132,6 +107,12 @@
       community.general.pacman: name=community/keepassxc state=present
       become: true
       tags: gui.keepassxc
+
+    # https://www.gimp.org/
+    - name: Install gimp
+      community.general.pacman: name=extra/gimp state=present
+      become: true
+      tags: gui.gimp
 
     # https://wiki.gnome.org/Apps/Gthumb
     - name: Install gThumb

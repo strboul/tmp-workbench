@@ -6,13 +6,14 @@
 - import_playbook: playbooks/base/main.yml
 - import_playbook: playbooks/ntp/main.yml
 - import_playbook: playbooks/locale/main.yml
-- import_playbook: playbooks/ufw/main.yml
 - import_playbook: playbooks/bluetooth/main.yml
 - import_playbook: playbooks/ssh/main.yml
 - import_playbook: playbooks/docker/main.yml
+- import_playbook: playbooks/firewalld/main.yml
 - import_playbook: playbooks/python/main.yml
 - import_playbook: playbooks/language/main.yml
 - import_playbook: playbooks/package/main.yml
 - import_playbook: playbooks/gui/main.yml
 - import_playbook: playbooks/xfce4/main.yml
-- import_playbook: playbooks/work/main.yml
+- import_playbook: playbooks/yubikey/main.yml
+# - import_playbook: playbooks/work/main_vault.yml

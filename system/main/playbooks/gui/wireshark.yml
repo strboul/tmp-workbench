@@ -2,8 +2,8 @@
 - name: Install wireshark
   community.general.pacman:
     name:
-      - community/wireshark-cli
-      - community/wireshark-qt
+      - "{{ config.packages.pacman.wireshark-cli }}"
+      - "{{ config.packages.pacman.wireshark-qt }}"
     state: present
     become: true
 

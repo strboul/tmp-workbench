@@ -7,8 +7,8 @@
     - name: Install bluetooth tools
       community.general.pacman:
         name:
-          - extra/bluez
-          - extra/bluez-utils
+          - "{{ config.packages.pacman.bluez }}"
+          - "{{ config.packages.pacman.bluez-utils }}"
         state: present
       become: true
       notify: Bluetooth running
@@ -37,7 +37,7 @@
 
   handlers:
     - name: Bluetooth running
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: bluetooth
         state: started
         enabled: true

@@ -1,0 +1,3 @@
+---
+- src: git+https://github.com/kewlfft/ansible-aur
+  version: "v0.10.0"

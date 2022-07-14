@@ -1,12 +1,12 @@
 ---
 - name: Install nodejs
-  community.general.pacman: name=community/nodejs state=present
+  community.general.pacman: name="{{ config.packages.pacman.nodejs }}" state=present
   become: true
 
 - name: Setup npm
   block:
     - name: Install npm
-      community.general.pacman: name=community/npm state=present
+      community.general.pacman: name="{{ config.packages.pacman.npm }}" state=present
       become: true
 
     # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally

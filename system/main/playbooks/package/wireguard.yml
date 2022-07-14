@@ -1,0 +1,5 @@
+---
+# https://www.wireguard.com
+- name: Install wireguard
+  community.general.pacman: name="{{ config.packages.pacman.wireguard-tools }}" state=present
+  become: true

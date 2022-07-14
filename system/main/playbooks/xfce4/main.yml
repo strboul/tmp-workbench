@@ -6,23 +6,31 @@
   hosts: all
   tags: xfce4
   tasks:
+    - name: Install Xorg utils
+      community.general.pacman:
+        name:
+          - "{{ config.packages.pacman.xorg-xev }}"  # print contents of X events
+        state: present
+      become: true
+
     - name: Install xfce4 plugins
       community.general.pacman:
         name:
-          - community/xfce4-whiskermenu-plugin
-          - extra/xfce4-clipman-plugin
-          - extra/xfce4-genmon-plugin
+          - "{{ config.packages.pacman.xfce4-whiskermenu-plugin }}"
+          - "{{ config.packages.pacman.xfce4-clipman-plugin }}"
+          - "{{ config.packages.pacman.xfce4-genmon-plugin }}"
         state: present
       become: true
 
     - name: Install other relevant programs
       community.general.pacman:
         name:
-          - community/galculator
-          - community/blueman
-          - community/viewnior
-          - extra/file-roller
-          - community/flameshot  # https://github.com/flameshot-org/flameshot
+          - "{{ config.packages.pacman.galculator }}"
+          - "{{ config.packages.pacman.blueman }}"
+          - "{{ config.packages.pacman.viewnior }}"
+          - "{{ config.packages.pacman.file-roller }}"
+          - "{{ config.packages.pacman.flameshot }}"  # Screenshot | https://github.com/flameshot-org/flameshot
+          - "{{ config.packages.pacman.peek }}"  # GIF recorder | https://github.com/phw/peek
         state: present
       become: true
 
@@ -38,3 +46,12 @@
       loop:
         - { src: "{{ ansible_env.PWD }}/whiskermenu-1.rc", dest: "{{ ansible_env.HOME }}/.config/xfce4/panel/whiskermenu-1.rc" }
         - { src: "{{ ansible_env.PWD }}/genmon-90.rc", dest: "{{ ansible_env.HOME }}/.config/xfce4/panel/genmon-90.rc" }
+
+    - name: Remap caps lock to escape in the keyboard
+      ansible.builtin.blockinfile:
+        path: "{{ ansible_env.HOME }}/.xprofile"
+        block: |
+          setxkbmap -option caps:escape
+        mode: 0644
+        create: true
+        state: present

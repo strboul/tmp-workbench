@@ -1,0 +1,58 @@
+- name: Printer
+  hosts: all
+  tags: printer
+  vars:
+    printer:
+      name: "brother-dcp-l2530dw"
+      ipv4_address: "192.168.1.124"
+  tasks:
+    - name: Install CUPS
+      community.general.pacman: name="{{ config.packages.pacman.cups }}" state=present
+      become: true
+      notify: cups.socket started
+
+    - meta: flush_handlers
+
+    - name: Install ghostscript  # brother printer requires it.
+      community.general.pacman: name="{{ config.packages.pacman.ghostscript }}" state=present
+      become: true
+
+    # lpadmin
+    # -p destination  Specify/add the named destination. This can be
+    #                 arbitrary e.g. foobar.
+    # -E              Enable and accept jobs on the printer (after -p)
+    # -v device-uri   Specify the device URI for the printer. Needs go have the
+    #                 format ipp://192.168.1.1/ipp using the real IP address of
+    #                 the printer
+    # -m model        Specify a standard model/PPD file for the printer. Must be
+    #                 'everywhere'.
+    # See: https://wiki.gentoo.org/wiki/Driverless_printing
+    - name: Add printer
+      ansible.builtin.shell: |
+        lpadmin -p "{{ printer.name }}" -E -v "ipp://{{ printer.ipv4_address }}/ipp" -m everywhere
+      changed_when: false
+      become: true
+
+    # A reboot may be needed in the end.
+    #
+    # lpstat -a   # get printer info
+    # lpstat -t   # get jobs status
+    #
+    # Test it with:
+    #   echo 'IPP everywhere' | lp
+    #
+
+  handlers:
+    # > cups provides a cups.socket unit. If cups.socket is enabled (and
+    # > cups.service is disabled), systemd will not start CUPS immediately; it
+    # > will just listen to the appropriate sockets. Then, whenever a program
+    # > attempts to connect to one of these CUPS sockets, systemd will start
+    # > cups.service and transparently hand over control of these ports to the
+    # > CUPS process.
+    # https://wiki.archlinux.org/title/CUPS#Socket_activation
+    - name: cups.socket started
+      ansible.builtin.systemd:
+        name: cups.socket
+        state: started
+        enabled: true
+      become: true

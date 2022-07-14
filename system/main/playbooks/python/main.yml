@@ -37,7 +37,7 @@
       changed_when: false
 
     - name: Install pyenv
-      community.general.pacman: name=community/pyenv state=present
+      community.general.pacman: name="{{ config.packages.pacman.pyenv }}" state=present
       become: true
 
     - name: Add pyenv to profiles

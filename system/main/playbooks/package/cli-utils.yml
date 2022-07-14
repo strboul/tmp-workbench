@@ -4,27 +4,27 @@
     - name: Install cli utils via pacman
       community.general.pacman:
         name:
-          - extra/htop  # https://github.com/htop-dev/htop
-          - community/fzf  # https://github.com/junegunn/fzf
-          - community/ripgrep  # https://github.com/BurntSushi/ripgrep
-          - community/lazygit  # https://github.com/jesseduffield/lazygit
-          - community/fd  # https://github.com/sharkdp/fd
-          - community/bat  # https://github.com/sharkdp/bat
-          - community/jq  # https://github.com/stedolan/jq
-          - community/direnv  # https://github.com/direnv/direnv
-          - community/hyperfine  # https://github.com/sharkdp/hyperfine
-          - community/ranger  # https://github.com/ranger/ranger
-          - community/gdu  # https://github.com/dundee/gdu
-          - community/shellcheck  # https://github.com/koalaman/shellcheck
-          - community/neofetch  # https://github.com/dylanaraps/neofetch
-          - community/onefetch  # https://github.com/o2sh/onefetch
+          - "{{ config.packages.pacman.htop }}"  # https://github.com/htop-dev/htop
+          - "{{ config.packages.pacman.fzf }}"  # https://github.com/junegunn/fzf
+          - "{{ config.packages.pacman.ripgrep }}"  # https://github.com/BurntSushi/ripgrep
+          - "{{ config.packages.pacman.lazygit }}"  # https://github.com/jesseduffield/lazygit
+          - "{{ config.packages.pacman.fd }}"  # https://github.com/sharkdp/fd
+          - "{{ config.packages.pacman.bat }}"  # https://github.com/sharkdp/bat
+          - "{{ config.packages.pacman.jq }}"  # https://github.com/stedolan/jq
+          - "{{ config.packages.pacman.direnv }}"  # https://github.com/direnv/direnv
+          - "{{ config.packages.pacman.hyperfine }}"  # https://github.com/sharkdp/hyperfine
+          - "{{ config.packages.pacman.ranger }}"  # https://github.com/ranger/ranger
+          - "{{ config.packages.pacman.gdu }}"  # https://github.com/dundee/gdu
+          - "{{ config.packages.pacman.shellcheck }}"  # https://github.com/koalaman/shellcheck
+          - "{{ config.packages.pacman.neofetch }}"  # https://github.com/dylanaraps/neofetch
+          - "{{ config.packages.pacman.onefetch }}"  # https://github.com/o2sh/onefetch
         state: present
       become: true
 
     - name: Install cli utils from AUR
       kewlfft.aur.aur:
         use: yay
-        name: lazydocker  # https://github.com/jesseduffield/lazydocker
+        name: "{{ config.packages.aur.lazydocker }}"  # https://github.com/jesseduffield/lazydocker
         state: present
 
     - name: Install cli utils via pip

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-ansible-playbook -e="arg_hostname=personal" "$@" main.yml --tags="""
+ansible-playbook -e="arg_hostname=personal" --extra-vars="@config.yml" --ask-become-pass "$@" main.yml --tags="""
 base,
 ntp,
 locale,
-ufw,
 bluetooth,
 ssh,
 docker,
+firewalld,
 python,
 language.r,
 language.node,
@@ -21,7 +21,6 @@ package.pip.python_tools,
 package.npm,
 package.cli_utils,
 package.podman,
-package.terraform,
 package.c_cpp_tools,
 gui.alacritty,
 gui.chrome,
@@ -46,4 +45,6 @@ gui.vagrant,
 gui.virtualbox,
 gui.gnome_boxes,
 xfce4,
+yubikey,
+printer,
 """

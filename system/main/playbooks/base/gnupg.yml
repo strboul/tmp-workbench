@@ -1,7 +1,21 @@
 ---
+# List keys and subkeys
+#
+# gpg --list-keys --keyid-format=long
+#
 - name: Install GnuPG
-  community.general.pacman:
-    name:
-      - core/gpgme
-    state: present
+  community.general.pacman: name="{{ config.packages.pacman.gpgme }}" state=present
   become: true
+
+- name: Import my public key
+  block:
+    - name: Download the public key file
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/strboul/strboul/master/gpg/{{ gpg.master_pub }}.key"
+        dest: "/tmp/{{ config.gpg.master_pub }}.key"
+        checksum: sha256:9954873f3e1395eaa4102443797dffe4f18532e83e720b532f62cc38dcaa9759
+
+    - name: Import key
+      ansible.builtin.shell: |
+        gpg --import /tmp/{{ config.gpg.master_pub }}.key
+      changed_when: false

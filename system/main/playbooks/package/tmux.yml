@@ -1,5 +1,5 @@
 ---
 # https://github.com/tmux/tmux
 - name: Install tmux
-  community.general.pacman: name=community/tmux state=present
+  community.general.pacman: name="{{ config.packages.pacman.tmux }}" state=present
   become: true

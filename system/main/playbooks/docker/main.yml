@@ -8,8 +8,8 @@
     - name: Install Docker
       community.general.pacman:
         name:
-          - community/docker
-          - community/docker-compose
+          - "{{ config.packages.pacman.docker }}"
+          - "{{ config.packages.pacman.docker-compose }}"
         state: present
       become: true
       notify: Docker service running
@@ -42,7 +42,7 @@
 
   handlers:
     - name: Docker service running
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: docker.service
         state: started
         enabled: true

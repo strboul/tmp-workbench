@@ -10,19 +10,17 @@
 
 # https://www.gnu.org/software/freefont/
 - name: Install GNU Free Fonts
-  community.general.pacman:
-    name: extra/gnu-free-fonts
-    state: present
+  community.general.pacman: name="{{ config.packages.pacman.gnu-free-fonts }}" state=present
   become: true
 
 # https://fonts.google.com/noto
 - name: Install noto-fonts
   community.general.pacman:
     name:
-      - extra/noto-fonts
-      - extra/noto-fonts-extra
-      - extra/noto-fonts-emoji
-      - extra/noto-fonts-cjk
+      - "{{ config.packages.pacman.noto-fonts }}"
+      - "{{ config.packages.pacman.noto-fonts-extra }}"
+      - "{{ config.packages.pacman.noto-fonts-emoji }}"
+      - "{{ config.packages.pacman.noto-fonts-cjk }}"
     state: present
   become: true
 
@@ -31,14 +29,14 @@
 - name: Install JetBrains Mono Nerd Fonts
   kewlfft.aur.aur:
     use: yay
-    name: nerd-fonts-jetbrains-mono
+    name: "{{ config.packages.aur.nerd-fonts-jetbrains-mono }}"
     state: present
 
 - name: Setup fontconfig
   block:
     - name: Create fontconfig directory
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.config/fontconfig"
+        path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/fontconfig"
         owner: "{{ ansible_env.USER }}"
         group: "{{ ansible_env.USER }}"
         mode: 0700
@@ -46,7 +44,7 @@
 
     - name: Contents of fonts.conf
       ansible.builtin.copy:
-        dest: "{{ ansible_env.HOME }}/.config/fontconfig/fonts.conf"
+        dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/fontconfig/fonts.conf"
         content: |
           <?xml version="1.0"?>
           <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">

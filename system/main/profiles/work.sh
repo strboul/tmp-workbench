@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-ansible-playbook -e="arg_hostname=work" "$@" main.yml --tags="""
+ansible-playbook -e="arg_hostname=work" --extra-vars="@config.yml" --ask-become-pass "$@" main.yml --tags="""
 base,
 ntp,
 locale,
-ufw,
 bluetooth,
 ssh,
 docker,
+firewalld,
 python,
 language.node,
 language.deno,
@@ -18,6 +18,8 @@ package.tmux,
 package.pip.python_tools,
 package.npm,
 package.cli_utils,
+package.podman,
+package.wireguard,
 gui.alacritty,
 gui.brave,
 gui.chromium,
@@ -37,5 +39,6 @@ gui.vagrant,
 gui.virtualbox,
 gui.gnome_boxes,
 xfce4,
+yubikey.client,
 work,
 """

@@ -3,17 +3,14 @@
 - name: Install Terraform and tools
   block:
     - name: Terraform install
-      community.general.pacman:
-        name:
-          - community/terraform
-        state: present
+      community.general.pacman: name="{{ config.packages.pacman.terraform }}" state=present
       become: true
 
     - name: Tooling install
       kewlfft.aur.aur:
         use: yay
         name:
-          - terraform-ls  # LSP for terraform https://github.com/hashicorp/terraform-ls
-          - tflint-bin  # https://github.com/terraform-linters/tflint
-          - terraform-docs-bin  # https://github.com/terraform-docs/terraform-docs
+          - "{{ config.packages.aur.terraform-ls }}"  # LSP for terraform https://github.com/hashicorp/terraform-ls
+          - "{{ config.packages.aur.tflint-bin }}"  # https://github.com/terraform-linters/tflint
+          - "{{ config.packages.aur.terraform-docs-bin }}"  # https://github.com/terraform-docs/terraform-docs
         state: present

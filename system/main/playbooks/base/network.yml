@@ -2,21 +2,21 @@
 - name: Install network tools
   community.general.pacman:
     name:
-      - core/traceroute
-      - core/iputils  # network monitoring tools, incl. ping
-      - core/inetutils  # collection of common network programs, e.g. telnet
-      - extra/bind  # dns stuff
-      - extra/gnu-netcat  # netcat, the network piping application
-      - extra/socat  # multipurpose relay
-      - extra/nmap  # utility for network discovery and security auditing
-      - extra/tcpdump  # powerful command-line packet analyzer
+      - "{{ config.packages.pacman.traceroute }}"
+      - "{{ config.packages.pacman.iputils }}"  # network monitoring tools, incl. ping
+      - "{{ config.packages.pacman.inetutils }}"  # collection of common network programs, e.g. telnet
+      - "{{ config.packages.pacman.bind }}"  # dns stuff
+      - "{{ config.packages.pacman.gnu-netcat }}"  # netcat, the network piping application
+      - "{{ config.packages.pacman.socat }}"  # multipurpose relay
+      - "{{ config.packages.pacman.nmap }}"  # utility for network discovery and security auditing
+      - "{{ config.packages.pacman.tcpdump }}"  # powerful command-line packet analyzer
     state: present
   become: true
 
 - name: Install VPN tools
   community.general.pacman:
     name:
-      - extra/openvpn
-      - extra/networkmanager-openvpn
+      - "{{ config.packages.pacman.openvpn }}"
+      - "{{ config.packages.pacman.networkmanager-openvpn }}"
     state: present
   become: true

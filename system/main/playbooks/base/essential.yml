@@ -2,16 +2,16 @@
 - name: Other essential packages
   community.general.pacman:
     name:
-      - core/coreutils
-      - core/man-db
-      - core/curl
-      - extra/git
-      - extra/wget
-      - extra/vim
-      - extra/tree
-      - extra/lsof
-      - extra/xclip
-      - extra/strace
-      - community/pwgen
+      - "{{ config.packages.pacman.coreutils }}"
+      - "{{ config.packages.pacman.man-db }}"
+      - "{{ config.packages.pacman.curl }}"
+      - "{{ config.packages.pacman.git }}"
+      - "{{ config.packages.pacman.wget }}"
+      - "{{ config.packages.pacman.vim }}"
+      - "{{ config.packages.pacman.tree }}"
+      - "{{ config.packages.pacman.lsof }}"
+      - "{{ config.packages.pacman.xclip }}"
+      - "{{ config.packages.pacman.strace }}"
+      - "{{ config.packages.pacman.pwgen }}"
     state: present
   become: true

@@ -1,0 +1,67 @@
+# Yubikey
+#
+# There are two types of programs:
+#
+# - managers: config/manage yubikey
+# - clients: helpers to use yubikey
+#
+# both managers and clients are helpers therefore they're optional, they don't
+# affect the use of the key.
+#
+- name: Yubikey
+  hosts: all
+  tags: yubikey
+  tasks:
+    # ykman: YubiKey Manager CLI
+    # https://github.com/Yubico/yubikey-manager
+    #
+    # Check openpgp details
+    #   ykman openpgp info
+    #
+    - name: Install yubikey managers
+      block:
+        - name: Install yubikey managers (to manage yubikey)
+          community.general.pacman:
+            name:
+              - "{{ config.packages.pacman.yubikey-manager }}"
+              - "{{ config.packages.pacman.yubikey-manager-qt }}"
+            state: present
+          become: true
+          notify: pcsd.service running
+      tags: yubikey.manager
+
+    - name: Install yubikey client programs (to use yubikey on other machines)
+      block:
+        - name: Get touch alert from yubikey
+          block:
+            - name: Install yubikey-touch-detector  # https://github.com/maximbaz/yubikey-touch-detector
+              community.general.pacman: name="{{ config.packages.pacman.yubikey-touch-detector }}" state=present
+              become: true
+              notify: yubikey-touch-detector.service running
+
+            - name: Set config file
+              ansible.builtin.blockinfile:
+                path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/yubikey-touch-detector/service.conf"
+                marker: "# {mark} ANSIBLE MANAGED BLOCK: yubikey-touch-detector"
+                block: |
+                  YUBIKEY_TOUCH_DETECTOR_VERBOSE=true
+                  YUBIKEY_TOUCH_DETECTOR_LIBNOTIFY=true
+                mode: 0644
+                create: true
+                state: present
+      tags: yubikey.client
+
+  handlers:
+    - name: pcsd.service running
+      ansible.builtin.systemd:
+        name: pcsd
+        state: started
+        enabled: true
+      become: true
+
+    - name: yubikey-touch-detector.service running
+      ansible.builtin.systemd:
+        name: yubikey-touch-detector
+        state: started
+        scope: user
+        enabled: true

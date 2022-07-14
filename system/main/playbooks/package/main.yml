@@ -41,3 +41,7 @@
     - name: Install C/C++ tools
       import_tasks: c-cpp-tools.yml
       tags: package.c_cpp_tools
+
+    - name: Install wireguard
+      import_tasks: wireguard.yml
+      tags: package.wireguard

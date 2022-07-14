@@ -23,33 +23,9 @@
       become: true
       register: workbench_folder
 
-    # Create a dummy file to check if system is updated via Ansible in the
-    # beginning. This is because I don't want to update the system via Ansible
-    # at the subsequent runs, but I control this process myself. I don't know
-    # if there's a better way of doing it.
-    - name: Update the system
-      block:
-        - name: Check file for pacman updated
-          ansible.builtin.stat:
-            path: "{{ pacman_updated_file }}"
-          register: pacman_system_updated_status
-
-        - name: pacman -Syu to update the system
-          community.general.pacman:
-            update_cache: true
-            upgrade: true
-          become: true
-          # don't hammer arch servers
-          throttle: 1
-          when: not pacman_system_updated_status.stat.exists
-          register: pacman_system_updated
-
-        - name: Create file for pacman updated
-          ansible.builtin.copy:
-            dest: "{{ pacman_updated_file }}"
-            content: "{{ lookup('pipe', 'date') }}\n"  # add timestamp info inside
-            mode: 0644
-          when: pacman_system_updated.changed
+    - name: Setup pacman
+      import_tasks: pacman.yml
+      tags: base.pacman
 
     - name: Install yay
       import_tasks: yay.yml
@@ -74,3 +50,15 @@
     - name: Network tools
       import_tasks: network.yml
       tags: base.network
+
+    - name: GnuPG
+      import_tasks: gnupg.yml
+      tags: base.gnupg
+
+    - name: pass
+      import_tasks: pass.yml
+      tags: base.pass
+
+    - name: qrcode
+      import_tasks: qrcode.yml
+      tags: base.qrcode

@@ -1,6 +1,6 @@
 ---
 - name: Install gedit
-  community.general.pacman: name=extra/gedit state=present
+  community.general.pacman: name="{{ config.packages.pacman.gedit }}" state=present
   become: true
 
 - name: Tweak gedit configuration

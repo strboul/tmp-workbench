@@ -5,7 +5,7 @@
       zsh_command: /usr/bin/zsh
 
 - name: Install zsh
-  community.general.pacman: name=extra/zsh state=present
+  community.general.pacman: name="{{ config.packages.pacman.zsh }}" state=present
   become: true
 
 # add --unattended not to start the interactive prompt upon installation
@@ -23,13 +23,13 @@
   block:
     - name: Check pre .zshrc file exists
       ansible.builtin.stat:
-        path: "$HOME/.zshrc.pre-oh-my-zsh"
+        path: "{{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh"
       register: pre_zshrc_file
 
     - name: Rename pre .zshrc file
       ansible.builtin.command: "mv {{ item.from }} {{ item.to }}"
       loop:
-        - { from: "$HOME/.zshrc.pre-oh-my-zsh", to: "$HOME/.zshrc" }
+        - { from: "{{ ansible_env.HOME }}/.zshrc.pre-oh-my-zsh", to: "{{ ansible_env.HOME }}/.zshrc" }
       when: pre_zshrc_file.stat.exists
 
 - name: oh-my-zsh custom dir

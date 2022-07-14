@@ -11,9 +11,9 @@
     - name: Install ssh
       community.general.pacman:
         name:
-          - core/libssh2
-          - core/openssh
-          - extra/libssh
+          - "{{ config.packages.pacman.libssh2 }}"
+          - "{{ config.packages.pacman.openssh }}"
+          - "{{ config.packages.pacman.libssh }}"
       become: true
       notify: SSH running
 
@@ -29,7 +29,8 @@
       community.crypto.openssh_keypair:
         path: "{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}"
         type: ed25519
-        # TODO: passphrase: {{ ansible_vault }}
+        comment: "{{ vars_ssh.key_identifier }}"
+        # TODO: passphrase: ?
 
     - name: Create user ssh config file
       ansible.builtin.blockinfile:
@@ -45,6 +46,8 @@
     - name: Add current pub key to authorized keys for passwordless access
       ansible.builtin.blockinfile:
         path: "{{ vars_ssh.path }}/authorized_keys"
+        marker_begin: "BEGIN ANSIBLE MANAGED BLOCK: ssh authorized_keys"
+        marker_end: "END ANSIBLE MANAGED BLOCK: ssh authorized_keys\n\n# Add authorized public keys down below"
         block: |
           # current key '{{ vars_ssh.key_identifier }}.pub':
           {{ lookup('file', '{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}.pub') }}
@@ -62,7 +65,7 @@
 
   handlers:
     - name: SSH running
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: sshd
         state: started
         enabled: true

@@ -23,8 +23,8 @@
 - name: Install yay dependencies
   community.general.pacman:
     name:
-      - git
-      - base-devel  # build-essential equivalent
+      - "{{ config.packages.pacman.git }}"
+      - "{{ config.packages.pacman.base-devel }}"  # build-essential equivalent https://archlinux.org/groups/x86_64/base-devel/
     state: present
   become: true
 
@@ -48,3 +48,13 @@
         cmd: "yes Y | makepkg -si"
       changed_when: false
   when: not yay_cmd.stat.exists
+
+- name: Create yay config file
+  ansible.builtin.copy:
+    dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/yay/config.json"
+    content: |
+      {
+        "upgrademenu": true,
+        "combinedupgrade": true
+      }
+    mode: 0644

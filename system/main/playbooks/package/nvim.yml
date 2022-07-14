@@ -1,7 +1,7 @@
 ---
 # https://github.com/neovim/neovim
 - name: Install nvim
-  community.general.pacman: name=community/neovim state=present
+  community.general.pacman: name="{{ config.packages.pacman.neovim }}" state=present
   become: true
 
 - name: Setup vim-plug
@@ -27,7 +27,7 @@
 - name: Install neovim tools
   community.general.pacman:
     name:
-      - extra/ctags  # https://github.com/universal-ctags/ctags
+      - "{{ config.packages.pacman.ctags }}"  # https://github.com/universal-ctags/ctags
     state: present
   become: true
 

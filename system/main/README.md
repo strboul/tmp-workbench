@@ -10,65 +10,59 @@ cd system/main
 
 ## 1. Setup Ansible
 
-Install Ansible and AUR module.
+Install Ansible and Ansible Galaxy requirements.
 
 ```sh
 sudo pacman -S ansible
-ansible-galaxy collection install kewlfft.aur
+ansible-galaxy install -r ansible-galaxy.yml
 ```
 
 ## 2. Run the playbooks
 
-Run a playbook profile (with certain tags):
+Run whole profile:
 
 ```sh
-./profiles/work.sh -i localhost.inventory --ask-become-pass
+./profiles/work.sh -i localhost.inventory
 ```
 
-:arrow_right: See more Ansible options at [ansible.md](ansible.md)
+Run particular tags:
 
-Recommended to reboot the system after the installation is completed.
+```sh
+ansible-playbook -v -i localhost.inventory -e "arg_hostname=hostname" --extra-vars="@config.yml" --tags="<tag1>,<tag2>" --ask-become-pass main.yml
+```
+
+Optional arguments:
+
+- `--vault-password-file=vault_pass.sh`: to access to the encrypted stuff.
+
+Helper commands to list the playbooks:
+
+```sh
+ansible-playbook main.yml --list-tasks
+ansible-playbook main.yml --list-tags
+```
 
 ## 3. Encrypted content
 
-Some content is encrypted with `ansible-vault` passphrase, which is encrypted with gpg.
+Some content is encrypted with `ansible-vault` passphrase, which is encrypted
+with `gpg`.
 
-<details>
-
-#### Setup gpg passphrase
-
-Generate a new vault passphrase and encrypt with `gpg`:
+#### Encrypted files
 
 ```sh
-pwgen -n 71 -1 | gpg --armor --recipient <GPG-ID> -e -o vault_passphrase.gpg
+ansible-vault --vault-password-file=vault_pass.sh encrypt <file>
 ```
 
-Create the executable to pass to `--vault-password-file`:
+View/decrypt the encrypted files with `view`, `decrypt` respectively.
+
+Edit the encrypted file with your favorite editor:
 
 ```sh
-echo '''#!/bin/sh
-gpg --batch --use-agent --decrypt vault_passphrase.gpg''' > vault_pass.sh
-chmod +x vault_pass.sh
+EDITOR=nvim ansible-vault --vault-password-file=vault_pass.sh edit <file>
 ```
 
-`vault_password_file` is already added to `ansible.cfg` but it can also be
-called with an argument.
-
-#### Encrypt files
-
-Encrypt existing files. Due to `vault_password_file` set in `ansible.cfg`,
-vault password will not be prompted.
-
-```sh
-ansible-vault encrypt <file>
-```
-
-View/edit encrypted files with `view` and `edit`, respectively.
-
-Resources:
+#### Resources
 
 - [Encrypting content with Ansible Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 - [Encrypting the Ansible Vault passphrase using GPG](https://disjoint.ca/til/2016/12/14/encrypting-the-ansible-vault-passphrase-using-gpg/)
-
-</details>

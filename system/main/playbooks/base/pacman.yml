@@ -1,0 +1,51 @@
+---
+# See the config file in:
+# https://archlinux.org/pacman/pacman.conf.5.html
+#
+- name: Update pacman config file
+  ansible.builtin.lineinfile:
+    path: /etc/pacman.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    # Log action messages through syslog(). This will insert log entries into
+    # /var/log/messages or equivalent.
+    - { regexp: "^#UseSyslog", line: "UseSyslog" }
+    # Automatically enable colors only when pacman’s output is on a tty.
+    - { regexp: "^#Color", line: "Color" }
+    # Performs an approximate check for adequate available disk space before
+    # installing packages.
+    - { regexp: "^#CheckSpace", line: "CheckSpace" }
+    # Displays name, version and size of target packages formatted as a table
+    # for upgrade, sync and remove operations.
+    - { regexp: "^#VerbosePkgLists", line: "VerbosePkgLists" }
+  become: true
+
+# Create a dummy file to check if system is updated via Ansible in the
+# beginning. This is because I don't want to update the system via Ansible
+# at the subsequent runs, but I control this process myself. I don't know
+# if there's a better way of doing it.
+- name: Check file for pacman updated
+  ansible.builtin.stat:
+    path: "{{ pacman_updated_file }}"
+  register: pacman_system_updated_status
+
+- name: Update archlinux-keyring
+  community.general.pacman: name="{{ config.packages.pacman.archlinux-keyring }}" state=present
+  become: true
+
+- name: pacman -Syu to update the system
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+  become: true
+  throttle: 1  # don't hammer arch servers
+  when: not pacman_system_updated_status.stat.exists
+  register: pacman_system_updated
+
+- name: Create file for pacman updated
+  ansible.builtin.copy:
+    dest: "{{ pacman_updated_file }}"
+    content: "{{ lookup('pipe', 'date') }}\n"  # add timestamp info inside
+    mode: 0644
+  when: pacman_system_updated.changed

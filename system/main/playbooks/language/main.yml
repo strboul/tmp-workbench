@@ -8,14 +8,14 @@
       tags: language.node
 
     - name: Install R
-      community.general.pacman: name=community/r state=present
+      community.general.pacman: name="{{ config.packages.pacman.r }}" state=present
       become: true
       tags: language.r
 
     - name: Setup golang
       block:
         - name: Install golang
-          community.general.pacman: name=community/go state=present
+          community.general.pacman: name="{{ config.packages.pacman.go }}" state=present
           become: true
 
         - name: Add golang paths
@@ -36,16 +36,16 @@
 
     # https://deno.land/
     - name: Install deno
-      community.general.pacman: name=community/deno state=present
+      community.general.pacman: name="{{ config.packages.pacman.deno }}" state=present
       become: true
       tags: language.deno
 
     - name: Install Rust
-      community.general.pacman: name=extra/rust state=present
+      community.general.pacman: name="{{ config.packages.pacman.rust }}" state=present
       become: true
       tags: language.rust
 
     - name: Install Lua
-      community.general.pacman: name=extra/lua state=present
+      community.general.pacman: name="{{ config.packages.pacman.lua }}" state=present
       become: true
       tags: language.lua

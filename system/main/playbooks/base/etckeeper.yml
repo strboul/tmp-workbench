@@ -5,9 +5,7 @@
 #   sudo etckeeper vcs status
 #
 - name: Install etckeeper
-  community.general.pacman:
-    name: community/etckeeper
-    state: present
+  community.general.pacman: name="{{ config.packages.pacman.etckeeper }}" state=present
   become: true
 
 - name: Init etckeeper and first commit

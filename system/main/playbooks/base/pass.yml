@@ -1,0 +1,10 @@
+---
+# https://www.passwordstore.org
+- name: Install pass (passwordstore)
+  community.general.pacman: name="{{ config.packages.pacman.pass }}" state=present
+  become: true
+
+- name: Check pass folder
+  ansible.builtin.shell: |
+    pass init "{{ config.gpg.subkey_encrypt_pub }}"
+  changed_when: false

@@ -2,23 +2,26 @@
 
 Install Arch Linux with the guided installer `archinstall`.
 
-- Github: https://github.com/archlinux/archinstall
+- https://github.com/archlinux/archinstall
 
-- Arch wiki: https://wiki.archlinux.org/title/Archinstall
+- https://wiki.archlinux.org/title/Archinstall
 
 ## Install
 
-With the config file:
-
-:warning: Test the output with dry-run first
+Update keyring first if the Arch Linux ISO isn't the most up to date version:
 
 ```sh
-archinstall \
-  --dry-run \
-  --config https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
+pacman -S archlinux-keyring
 ```
 
-Dry run to generate the configuration file and exit:
+With the config file:
+
+```sh
+archinstall --config \
+  https://raw.githubusercontent.com/strboul/tmp-workbench/master/system/core/arch/archinstall/config.json
+```
+
+Test with dry run to generate the configuration file and exit:
 
 ```sh
 archinstall --dry-run
@@ -34,31 +37,31 @@ The [config.json](config.json) file descriptions:
 | `ntp`        | automatic time sync ([NTP](https://www.ntp.org/)) |
 | `swap`       | swap on ZRAM                                      |
 
-:point_right: You fill out the missing parts in the config. :point_left:
+:point_right: Fill out the missing parts in the config :point_left:
 
 ### Steps
 
-0) Partition:
+**0)** Partition:
 
   + Desired filesystem type for the partition: `btrfs`
 
   + End sector is written like `x.0GB`
 
-1) Choose `btrfs` filesystem and `N` to subvolumes with a default structure.
+**1)** Choose `btrfs` filesystem and `N` to subvolumes with a default structure.
 
-2) Enter disk encryption password. Encrypts the disk with `dmcrypt` (or should
+**2)** Enter disk encryption password. Encrypts the disk with `dmcrypt` (or should
 use LUKS?)
 
-3) `systemd-bootctl`, **use this**, or `grub-install`, not recommended but
+**3)** `systemd-bootctl`, **use this**, or `grub-install`, not recommended but
   VirtualBox does not work even though EFI is enabled.
 
-4) Enter desired hostname for the installation.
+**4)** Enter desired hostname for the installation.
 
-5) **Don't create root user**; instead, create a super-user with sudo privileges.
+**5)** **Don't create root user**; instead, create a super-user with sudo privileges.
 
 ### Troubleshooting
 
-If the installation is failing halfway through, you need to start over.
+If the installation failed halfway through, you need to start over.
 
 If you have a problem with the partition:
 

@@ -4,7 +4,7 @@
   tags: language
   tasks:
     - name: Install nodejs
-      import_tasks: node.yml
+      ansible.builtin.import_tasks: node.yml
       tags: language.node
 
     - name: Install R

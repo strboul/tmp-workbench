@@ -10,7 +10,7 @@
       tags: gui.alacritty
 
     - name: Setup gedit
-      import_tasks: gedit.yml
+      ansible.builtin.import_tasks: gedit.yml
       tags: gui.gedit
 
     - name: Install Firefox
@@ -64,7 +64,7 @@
 
     # https://www.thunderbird.net
     - name: Setup Thunderbird
-      import_tasks: thunderbird.yml
+      ansible.builtin.import_tasks: thunderbird.yml
       tags: gui.thunderbird
 
     - name: Install Slack desktop
@@ -94,7 +94,7 @@
 
     # https://www.wireshark.org/
     - name: Install Wireshark
-      import_tasks: wireshark.yml
+      ansible.builtin.import_tasks: wireshark.yml
       tags: gui.wireshark
 
     - name: Install VLC

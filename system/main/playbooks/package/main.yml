@@ -3,45 +3,45 @@
   tags: package
   tasks:
     - name: Setup zsh
-      import_tasks: zsh.yml
+      ansible.builtin.import_tasks: zsh.yml
       tags: package.zsh
 
     - name: Setup neovim
-      import_tasks: nvim.yml
+      ansible.builtin.import_tasks: nvim.yml
       tags: package.nvim
 
     - name: Setup tmux
-      import_tasks: tmux.yml
+      ansible.builtin.import_tasks: tmux.yml
       tags: package.tmux
 
     - name: cli utils install
-      import_tasks: cli-utils.yml
+      ansible.builtin.import_tasks: cli-utils.yml
       tags: package.cli_utils
 
     - name: pip installs
-      import_tasks: pip.yml
+      ansible.builtin.import_tasks: pip.yml
       tags: package.pip
 
     - name: npm installs
-      import_tasks: npm.yml
+      ansible.builtin.import_tasks: npm.yml
       tags: package.npm
 
     - name: Install podman
-      import_tasks: podman.yml
+      ansible.builtin.import_tasks: podman.yml
       tags: package.podman
 
     - name: Install Terraform
-      import_tasks: terraform.yml
+      ansible.builtin.import_tasks: terraform.yml
       tags: package.terraform
 
     - name: Install Kubernetes
-      import_tasks: kubernetes.yml
+      ansible.builtin.import_tasks: kubernetes.yml
       tags: package.kubernetes
 
     - name: Install C/C++ tools
-      import_tasks: c-cpp-tools.yml
+      ansible.builtin.import_tasks: c-cpp-tools.yml
       tags: package.c_cpp_tools
 
     - name: Install wireguard
-      import_tasks: wireguard.yml
+      ansible.builtin.import_tasks: wireguard.yml
       tags: package.wireguard

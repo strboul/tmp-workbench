@@ -9,7 +9,7 @@
     pacman_updated_file: "{{ workbench_dir }}/.ansible_pacman_updated"
   tasks:
     - name: Set hostname
-      import_tasks: hostname.yml
+      ansible.builtin.import_tasks: hostname.yml
       tags: base.hostname
 
     - name: Have a workbench folder belonging to user
@@ -24,41 +24,41 @@
       register: workbench_folder
 
     - name: Setup pacman
-      import_tasks: pacman.yml
+      ansible.builtin.import_tasks: pacman.yml
       tags: base.pacman
 
     - name: Install yay
-      import_tasks: yay.yml
+      ansible.builtin.import_tasks: yay.yml
       tags: base.yay
 
     - name: Essential packages
-      import_tasks: essential.yml
+      ansible.builtin.import_tasks: essential.yml
       tags: base.essential
 
     - name: Setup etckeeper
-      import_tasks: etckeeper.yml
+      ansible.builtin.import_tasks: etckeeper.yml
       tags: base.etckeeper
 
     - name: Setup fonts
-      import_tasks: fonts.yml
+      ansible.builtin.import_tasks: fonts.yml
       tags: base.fonts
 
     - name: Setup xdg
-      import_tasks: xdg.yml
+      ansible.builtin.import_tasks: xdg.yml
       tags: base.xdg
 
     - name: Network tools
-      import_tasks: network.yml
+      ansible.builtin.import_tasks: network.yml
       tags: base.network
 
     - name: GnuPG
-      import_tasks: gnupg.yml
+      ansible.builtin.import_tasks: gnupg.yml
       tags: base.gnupg
 
     - name: pass
-      import_tasks: pass.yml
+      ansible.builtin.import_tasks: pass.yml
       tags: base.pass
 
     - name: qrcode
-      import_tasks: qrcode.yml
+      ansible.builtin.import_tasks: qrcode.yml
       tags: base.qrcode

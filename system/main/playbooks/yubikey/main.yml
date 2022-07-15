@@ -18,37 +18,34 @@
     # Check openpgp details
     #   ykman openpgp info
     #
-    - name: Install yubikey managers
-      block:
-        - name: Install yubikey managers (to manage yubikey)
-          community.general.pacman:
-            name:
-              - "{{ config.packages.pacman.yubikey-manager }}"
-              - "{{ config.packages.pacman.yubikey-manager-qt }}"
-            state: present
-          become: true
-          notify: pcsd.service running
+    - name: Install yubikey managers (to manage yubikey)
+      community.general.pacman:
+        name:
+          - "{{ config.packages.pacman.yubikey-manager }}"
+          - "{{ config.packages.pacman.yubikey-manager-qt }}"
+        state: present
+      become: true
+      notify: pcsd.service running
       tags: yubikey.manager
 
     - name: Install yubikey client programs (to use yubikey on other machines)
       block:
-        - name: Get touch alert from yubikey
-          block:
-            - name: Install yubikey-touch-detector  # https://github.com/maximbaz/yubikey-touch-detector
-              community.general.pacman: name="{{ config.packages.pacman.yubikey-touch-detector }}" state=present
-              become: true
-              notify: yubikey-touch-detector.service running
+        # https://github.com/maximbaz/yubikey-touch-detector
+        - name: Install yubikey-touch-detector
+          community.general.pacman: name="{{ config.packages.pacman.yubikey-touch-detector }}" state=present
+          become: true
+          notify: yubikey-touch-detector.service running
 
-            - name: Set config file
-              ansible.builtin.blockinfile:
-                path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/yubikey-touch-detector/service.conf"
-                marker: "# {mark} ANSIBLE MANAGED BLOCK: yubikey-touch-detector"
-                block: |
-                  YUBIKEY_TOUCH_DETECTOR_VERBOSE=true
-                  YUBIKEY_TOUCH_DETECTOR_LIBNOTIFY=true
-                mode: 0644
-                create: true
-                state: present
+        - name: Set yubikey-touch-detector config file
+          ansible.builtin.blockinfile:
+            path: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/yubikey-touch-detector/service.conf"
+            marker: "# {mark} ANSIBLE MANAGED BLOCK: yubikey-touch-detector"
+            block: |
+              YUBIKEY_TOUCH_DETECTOR_VERBOSE=true
+              YUBIKEY_TOUCH_DETECTOR_LIBNOTIFY=true
+            mode: 0644
+            create: true
+            state: present
       tags: yubikey.client
 
   handlers:

@@ -49,7 +49,7 @@ config:
       gnome-disk-utility: extra/gnome-disk-utility
       gnu-free-fonts: extra/gnu-free-fonts
       gnu-netcat: extra/gnu-netcat
-      go: community/go
+      golang: community/go
       gpgme: core/gpgme
       gthumb: extra/gthumb
       htop: extra/htop

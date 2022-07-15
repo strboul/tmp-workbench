@@ -3,36 +3,20 @@
   hosts: all
   tags: language
   tasks:
-    - name: Install nodejs
+    - name: Setup nodejs
       ansible.builtin.import_tasks: node.yml
       tags: language.node
 
+    # https://go.dev/
+    - name: Setup golang
+      ansible.builtin.import_tasks: golang.yml
+      tags: language.golang
+
+    # https://r-project.org
     - name: Install R
       community.general.pacman: name="{{ config.packages.pacman.r }}" state=present
       become: true
       tags: language.r
-
-    - name: Setup golang
-      block:
-        - name: Install golang
-          community.general.pacman: name="{{ config.packages.pacman.go }}" state=present
-          become: true
-
-        - name: Add golang paths
-          ansible.builtin.blockinfile:
-            path: "{{ item }}"
-            marker: "# {mark} ANSIBLE MANAGED BLOCK: golang"
-            block: |
-              typeset -U path PATH
-              path=(/usr/local/go/bin $path)
-              path=($(go env GOPATH) $path)
-              export PATH
-            mode: 0644
-            create: true
-            state: present
-          loop:
-            - "{{ ansible_env.HOME }}/.zshenv"
-      tags: language.golang
 
     # https://deno.land/
     - name: Install deno
@@ -40,11 +24,13 @@
       become: true
       tags: language.deno
 
+    # https://rust-lang.org/
     - name: Install Rust
       community.general.pacman: name="{{ config.packages.pacman.rust }}" state=present
       become: true
       tags: language.rust
 
+    # https://lua.org/
     - name: Install Lua
       community.general.pacman: name="{{ config.packages.pacman.lua }}" state=present
       become: true

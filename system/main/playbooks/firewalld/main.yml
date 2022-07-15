@@ -13,6 +13,7 @@
       become: true
       notify: firewalld running
 
+    # TODO: should it be --zone=home?
     - name: Allow port range (expo.dev)
       ansible.builtin.shell: |
         firewall-cmd --zone=public --add-port=19000-19100/tcp --permanent

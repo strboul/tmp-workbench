@@ -17,5 +17,7 @@
 
     - name: Import key
       ansible.builtin.shell: |
-        gpg --import /tmp/{{ config.gpg.master_pub }}.key
+        gpg --import "/tmp/{{ config.gpg.master_pub }}.key"
       changed_when: false
+
+# vim: ft=yaml.ansible

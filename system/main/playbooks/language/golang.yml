@@ -1,0 +1,21 @@
+---
+- name: Install golang
+  community.general.pacman: name="{{ config.packages.pacman.golang }}" state=present
+  become: true
+
+- name: Add golang paths
+  ansible.builtin.blockinfile:
+    path: "{{ item }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: golang"
+    block: |
+      typeset -U path PATH
+      path=(/usr/local/go/bin $path)
+      path=($(go env GOPATH) $path)
+      export PATH
+    mode: 0644
+    create: true
+    state: present
+  loop:
+    - "{{ ansible_env.HOME }}/.zshenv"
+
+# vim: ft=yaml.ansible

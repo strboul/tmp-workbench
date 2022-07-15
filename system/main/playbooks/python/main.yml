@@ -40,7 +40,7 @@
       community.general.pacman: name="{{ config.packages.pacman.pyenv }}" state=present
       become: true
 
-    - name: Add pyenv to profiles
+    - name: Add pyenv to zsh profile
       ansible.builtin.blockinfile:
         path: "{{ item }}"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
@@ -65,6 +65,8 @@
           - "{{ item }}"
           - --skip-existing
         creates: "{{ ansible_env.HOME }}/.pyenv/versions/{{ item }}"
+      # TODO: programmatically create the items below. install last 4 minor
+      # -dev versions of python 3.
       loop:
         - "2.7.18"  # last release of Python 2
         - "3.8-dev"

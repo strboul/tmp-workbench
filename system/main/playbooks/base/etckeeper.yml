@@ -8,6 +8,7 @@
   community.general.pacman: name="{{ config.packages.pacman.etckeeper }}" state=present
   become: true
 
+# TODO: get arg_hostname from the hostname module via register
 - name: Init etckeeper and first commit
   ansible.builtin.command:
     cmd: |
@@ -17,3 +18,5 @@
       etckeeper commit -m "Initial commit"
     chdir: /etc
   become: true
+
+# vim: ft=yaml.ansible

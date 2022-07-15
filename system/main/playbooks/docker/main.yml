@@ -36,6 +36,7 @@
         owner: "{{ ansible_env.USER }}"
       become: true
 
+    # TODO: do try, fail: if fail print a message and fail to be more explicit.
     - name: Test run Docker
       ansible.builtin.command: docker run --rm hello-world
       changed_when: false

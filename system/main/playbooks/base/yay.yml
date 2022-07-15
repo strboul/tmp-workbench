@@ -1,8 +1,8 @@
 ---
-# Install with yay: Yet Another Yogurt - An AUR Helper Written in Go
+# Yet Another Yogurt - An AUR Helper Written in Go
 # https://github.com/Jguer/yay
 #
-# Search Arch packages
+# Search Arch repository packages
 #   https://archlinux.org/packages/
 # AUR packages
 #   https://aur.archlinux.org/packages/
@@ -49,7 +49,7 @@
       changed_when: false
   when: not yay_cmd.stat.exists
 
-- name: Create yay config file
+- name: yay config file
   ansible.builtin.copy:
     dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/yay/config.json"
     content: |

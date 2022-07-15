@@ -42,7 +42,7 @@
         mode: 0700
         state: directory
 
-    - name: Contents of fonts.conf
+    - name: Create config for fonts.conf
       ansible.builtin.copy:
         dest: "{{ lookup('env', 'XDG_CONFIG_HOME') }}/fontconfig/fonts.conf"
         content: |
@@ -58,3 +58,5 @@
            </alias>
           </fontconfig>
         mode: 0644
+
+# vim: ft=yaml.ansible

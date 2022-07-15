@@ -2,7 +2,7 @@
 - name: Install network tools
   community.general.pacman:
     name:
-      - "{{ config.packages.pacman.traceroute }}"
+      - "{{ config.packages.pacman.traceroute }}"  # print the route packets trace to network host
       - "{{ config.packages.pacman.iputils }}"  # network monitoring tools, incl. ping
       - "{{ config.packages.pacman.inetutils }}"  # collection of common network programs, e.g. telnet
       - "{{ config.packages.pacman.bind }}"  # dns stuff

@@ -1,2 +1,2 @@
 exclude_paths:
-  - playbooks/work/main_vault.yml
+  - playbooks/**/*vault.yml

@@ -1,0 +1,65 @@
+common: &common
+  - base
+  - ntp
+  - locale
+  - bluetooth
+  - ssh
+  - docker
+  - firewalld
+  - python
+  - language.node
+  - language.deno
+  - language.golang
+  - language.lua
+  - package.zsh
+  - package.nvim
+  - package.tmux
+  - package.pip.python_tools
+  - package.pip.other_tools
+  - package.cli_utils
+  - package.npm
+  - package.podman
+  - gui.alacritty
+  - gui.brave
+  - gui.chromium
+  - gui.chrome
+  - gui.firefox
+  - gui.libreoffice
+  - gui.gedit
+  - gui.gnome_disk_utility
+  - gui.gimp
+  - gui.gthumb
+  - gui.meld
+  - gui.vagrant
+  - gui.virtualbox
+  - gui.gnome_boxes
+  - xfce4
+
+personal:
+  - *common
+  - package.c_cpp_tools
+  - package.terraform
+  - package.cli_utils_extra
+  - language.r
+  - printer
+  - yubikey
+  - gui.wireshark
+  - gui.vscode
+  - gui.vlc
+  - gui.signal
+  - gui.telegram
+  - gui.rstudio
+  - gui.solaar
+  - gui.xcolor
+
+work:
+  - *common
+  - package.wireguard
+  - gui.thunderbird
+  - work
+  - yubikey.client
+  - gui.code
+  - gui.dbeaver
+  - gui.slack
+  - gui.thunderbird
+  - gui.keepassxc

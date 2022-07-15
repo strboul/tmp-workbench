@@ -20,6 +20,8 @@
       ansible.builtin.command: "nvim +PlugInstall +qall"
       changed_when: false
 
+- name: Setup coc-nvim
+  block:
     - name: Install coc-nvim plugins
       ansible.builtin.command: "nvim +CocUpdateSync +qall"
       changed_when: false
@@ -32,8 +34,8 @@
   become: true
 
 - name: Install pynvim  # see `:h provider-python` in neovim
-  ansible.builtin.pip:
-    name: pynvim
-    state: present
+  ansible.builtin.pip: name=pynvim state=present
   environment:
     PIP_REQUIRE_VIRTUALENV: false
+
+# vim: ft=yaml.ansible

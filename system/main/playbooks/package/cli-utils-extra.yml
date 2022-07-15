@@ -1,0 +1,10 @@
+---
+- name: Extra cli utils
+  ansible.builtin.pip:
+    name:
+      - tmuxp  # https://github.com/tmux-python/tmuxp
+      - youtube-dl  # https://github.com/ytdl-org/youtube-dl
+      - visidata  # https://www.visidata.org/
+    state: present
+  environment:
+    PIP_REQUIRE_VIRTUALENV: false

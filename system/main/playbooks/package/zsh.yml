@@ -82,3 +82,5 @@
   ansible.builtin.command: "chsh -s {{ vars_zsh.zsh_command }} {{ ansible_env.USER }}"
   changed_when: false
   become: true
+
+# vim: ft=yaml.ansible

@@ -91,7 +91,7 @@ class AnsibleRun:
             "-v",
             "--inventory-file",
             "localhost.inventory",
-            f'--extra-vars="@{_PATH_CONFIG}"',
+            f"--extra-vars=@{_PATH_CONFIG}",
             "--ask-become-pass",
         ]
         if self._playbook_main_vault:
@@ -99,7 +99,8 @@ class AnsibleRun:
         # file path should be the last argument
         main_path = str(playbook_main_file)
         cmd.append(main_path)
-        subprocess.check_output(cmd).decode("utf-8")
+        log.info("running playbook: %r", cmd)
+        subprocess.run(cmd, check=True)
 
     def validate_playbook_type(self):
         playbook_list = [p.name for p in self._playbooks]
@@ -146,8 +147,10 @@ class AnsibleRun:
         parser.add_argument("--tags", nargs="*", help="")
 
         args = parser.parse_args()
-        log.info("ansible-run called with: %r", vars(args))
-
+        log.info(
+            "ansible-run called with: %r",
+            {k: v for k, v in vars(args).items() if v is not None},
+        )
         self._args = args
 
 

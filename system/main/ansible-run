@@ -5,8 +5,8 @@ import argparse
 import sys
 import logging
 import pathlib
-import yaml
 import subprocess
+import yaml
 
 logging.basicConfig(format="%(levelname)s: %(message)s")
 log = logging.getLogger(__name__)
@@ -68,6 +68,7 @@ class AnsibleRun:
 
                     if file.name.endswith("_vault.yml"):
                         self._playbook_main_vault = True
+                        log.info("🔑 vault file detected, will ask the key")
 
                 if len(main_file_paths) == 0:
                     error_exit(

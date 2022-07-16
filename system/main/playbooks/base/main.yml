@@ -10,7 +10,6 @@
   tasks:
     - name: Set hostname
       ansible.builtin.import_tasks: hostname.yml
-      tags: base.hostname
 
     - name: Create workbench dir belonging to main user
       ansible.builtin.file:

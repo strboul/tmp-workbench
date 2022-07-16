@@ -56,6 +56,7 @@ class AnsibleRun:
         if self._args.type == "profile":
             self._profiles = self.read_profiles()
             self.validate_profile_type()
+            self.detect_playbooks_from_profiles()
 
     def get_playbook_main_file(self):
         for playbook in self._playbooks:
@@ -72,7 +73,7 @@ class AnsibleRun:
 
                 if len(main_file_paths) == 0:
                     error_exit(
-                        "playbook doesn't have main file: playbook=%r", self._args.name
+                        "playbook not having main file: playbook=%r", self._args.name
                     )
 
                 if len(main_file_paths) > 1:
@@ -86,6 +87,31 @@ class AnsibleRun:
                 log.info("playbook found: %r", str(main_file))
                 return main_file
 
+    def detect_playbooks_from_profiles(self):
+        """
+        Detects the name of the playbooks from the profiles file.
+        Profiles file includes playbooks and tags. For example:
+
+        - p1
+        - p2.t1
+        - p2.t2.t3
+        - p3.t1
+
+        will give:
+
+        p1, p2, p3
+
+        playbooks.
+        """
+        profile = self._profiles[self._args.name]
+        playbooks = frozenset([p.split(".")[0] for p in profile])
+        return playbooks
+
+
+    def create_main_playbook_file(self):
+        pass
+
+
     def run_playbook(self, playbook_main_file):
         cmd = [
             "ansible-playbook",
@@ -97,10 +123,12 @@ class AnsibleRun:
         ]
         if self._playbook_main_vault:
             cmd.append(f"--vault-password-file={_PATH_VAULT_PASS_FILE}")
+        if self._args.tags:
+            cmd.append(f"--tags='{self._args.tags}'")
         # file path should be the last argument
         main_path = str(playbook_main_file)
         cmd.append(main_path)
-        log.info("running playbook: %r", cmd)
+        log.info("running playbook: %r", " ".join(cmd))
         subprocess.run(cmd, check=True)
 
     def validate_playbook_type(self):
@@ -119,7 +147,7 @@ class AnsibleRun:
         hostname = socket.getfqdn()
         if profile != hostname:
             error_exit(
-                "profile doesn't match hostname: profile=%r hostname=%r",
+                "profile not matching hostname: profile=%r hostname=%r",
                 profile,
                 hostname,
             )
@@ -145,9 +173,10 @@ class AnsibleRun:
         )
         parser.add_argument("type", nargs="?", help="")
         parser.add_argument("name", nargs="?", help="")
-        parser.add_argument("--tags", nargs="*", help="")
+        parser.add_argument("--tags", nargs="?", help="")
 
         args = parser.parse_args()
+
         log.info(
             "ansible-run called with: %r",
             {k: v for k, v in vars(args).items() if v is not None},

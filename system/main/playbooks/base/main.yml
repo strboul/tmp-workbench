@@ -1,6 +1,7 @@
 ---
 - name: Base
   hosts: all
+  gather_facts: true
   tags: base
   vars:
     yay_command: /usr/bin/yay
@@ -8,9 +9,6 @@
     yay_install_dir: "{{ workbench_dir }}/yay"
     pacman_updated_file: "{{ workbench_dir }}/.ansible_pacman_updated"
   tasks:
-    - name: Set hostname
-      ansible.builtin.import_tasks: hostname.yml
-
     - name: Create workbench dir belonging to main user
       ansible.builtin.file:
         path: "{{ workbench_dir }}"

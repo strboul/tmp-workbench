@@ -1,0 +1,155 @@
+#!/usr/bin/env python
+
+import socket
+import argparse
+import sys
+import logging
+import pathlib
+import yaml
+import subprocess
+
+logging.basicConfig(format="%(levelname)s: %(message)s")
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
+_PATH_PROFILES = "profiles.yml"
+_PATH_CONFIG = "config.yml"
+_PATH_VAULT_PASS_FILE = "vault_pass.sh"
+_ARGS_TYPE = ["playbook", "profile"]
+_MAIN_FILES = ["main.yml", "main_vault.yml"]
+
+
+def error_exit(message, *args):
+    log.error(message, *args)
+    sys.exit(1)
+
+
+def flatten(x):
+    """
+    Helper to flatten the multi-dimensional list to 1d.
+    """
+    for xi in x:
+        if isinstance(xi, (list, tuple)):
+            yield from flatten(xi)
+        else:
+            yield xi
+
+
+class AnsibleRun:
+
+    _playbooks = None
+    _profiles = None
+    _args = None
+    _playbook_main_vault = False
+
+    def main(self):
+        self.parse_args()
+        if self._args.type not in _ARGS_TYPE:
+            error_exit("type must be one of: %r", _ARGS_TYPE)
+
+        if self._args.type == "playbook":
+            self._playbooks = self.read_playbooks()
+            self.validate_playbook_type()
+            playbook_main_file = self.get_playbook_main_file()
+            self.run_playbook(playbook_main_file)
+
+        if self._args.type == "profile":
+            self._profiles = self.read_profiles()
+            self.validate_profile_type()
+
+    def get_playbook_main_file(self):
+        for playbook in self._playbooks:
+            if playbook.name == self._args.name:
+                folder = playbook.iterdir()
+                main_file_paths = []
+                for file in folder:
+                    if file.name in _MAIN_FILES:
+                        main_file_paths.append(file.name)
+
+                    if file.name.endswith("_vault.yml"):
+                        self._playbook_main_vault = True
+
+                if len(main_file_paths) == 0:
+                    error_exit(
+                        "playbook doesn't have main file: playbook=%r", self._args.name
+                    )
+
+                if len(main_file_paths) > 1:
+                    error_exit(
+                        "playbook has multiple main files: main_file=%r",
+                        main_file_paths,
+                    )
+
+                main_file_path = main_file_paths[0]
+                main_file = playbook.joinpath(main_file_path)
+                log.info("playbook found: %r", str(main_file))
+                return main_file
+
+    def run_playbook(self, playbook_main_file):
+        cmd = [
+            "ansible-playbook",
+            "-v",
+            "--inventory-file",
+            "localhost.inventory",
+            f'--extra-vars="@{_PATH_CONFIG}"',
+            "--ask-become-pass",
+        ]
+        if self._playbook_main_vault:
+            cmd.append(f"--vault-password-file={_PATH_VAULT_PASS_FILE}")
+        # file path should be the last argument
+        main_path = str(playbook_main_file)
+        cmd.append(main_path)
+        subprocess.check_output(cmd).decode("utf-8")
+
+    def validate_playbook_type(self):
+        playbook_list = [p.name for p in self._playbooks]
+        if self._args.name not in playbook_list:
+            error_exit("%r not found in playbook directory", self._args.name)
+
+    def validate_profile_type(self):
+        if self._args.name not in self._profiles.keys():
+            error_exit("%r not found in exported profiles", self._args.name)
+
+        self.validate_profile_hostname(self._args.name)
+
+    @staticmethod
+    def validate_profile_hostname(profile):
+        hostname = socket.getfqdn()
+        if profile != hostname:
+            error_exit(
+                "profile doesn't match hostname: profile=%r hostname=%r",
+                profile,
+                hostname,
+            )
+
+    @staticmethod
+    def read_profiles():
+        with open(_PATH_PROFILES, mode="r", encoding="utf-8") as stream:
+            profiles = yaml.safe_load(stream)
+        exported = profiles["export"]
+        for key, value in exported.items():
+            flat = list(flatten(value))
+            exported[key] = flat
+        return exported
+
+    @staticmethod
+    def read_playbooks():
+        return [d for d in pathlib.Path("playbooks").iterdir() if d.is_dir()]
+
+    def parse_args(self):
+        parser = argparse.ArgumentParser(
+            prog="ansible-run",
+            description="",
+        )
+        parser.add_argument("type", nargs="?", help="")
+        parser.add_argument("name", nargs="?", help="")
+        parser.add_argument("--tags", nargs="*", help="")
+
+        args = parser.parse_args()
+        log.info("ansible-run called with: %r", vars(args))
+
+        self._args = args
+
+
+if __name__ == "__main__":
+    AnsibleRun().main()

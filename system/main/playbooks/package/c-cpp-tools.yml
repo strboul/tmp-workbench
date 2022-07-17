@@ -10,5 +10,5 @@
 - name: Install clang-format
   kewlfft.aur.aur:
     use: yay
-    name: "{{ config.packages.aur.clang-format-static-bin }}"
+    name: "{{ config.packages.aur.clang_format_static_bin }}"
     state: present

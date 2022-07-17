@@ -9,7 +9,7 @@
       community.general.pacman:
         name:
           - "{{ config.packages.pacman.docker }}"
-          - "{{ config.packages.pacman.docker-compose }}"
+          - "{{ config.packages.pacman.docker_compose }}"
         state: present
       become: true
       notify: Docker service running

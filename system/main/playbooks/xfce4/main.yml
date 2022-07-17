@@ -9,16 +9,16 @@
     - name: Install Xorg utils
       community.general.pacman:
         name:
-          - "{{ config.packages.pacman.xorg-xev }}"  # print contents of X events
+          - "{{ config.packages.pacman.xorg_xev }}"  # print contents of X events
         state: present
       become: true
 
     - name: Install xfce4 plugins
       community.general.pacman:
         name:
-          - "{{ config.packages.pacman.xfce4-whiskermenu-plugin }}"
-          - "{{ config.packages.pacman.xfce4-clipman-plugin }}"
-          - "{{ config.packages.pacman.xfce4-genmon-plugin }}"
+          - "{{ config.packages.pacman.xfce4_whiskermenu_plugin }}"
+          - "{{ config.packages.pacman.xfce4_clipman_plugin }}"
+          - "{{ config.packages.pacman.xfce4_genmon_plugin }}"
         state: present
       become: true
 
@@ -28,7 +28,7 @@
           - "{{ config.packages.pacman.galculator }}"
           - "{{ config.packages.pacman.blueman }}"
           - "{{ config.packages.pacman.viewnior }}"
-          - "{{ config.packages.pacman.file-roller }}"
+          - "{{ config.packages.pacman.file_roller }}"
           - "{{ config.packages.pacman.flameshot }}"  # Screenshot | https://github.com/flameshot-org/flameshot
           - "{{ config.packages.pacman.peek }}"  # GIF recorder | https://github.com/phw/peek
         state: present

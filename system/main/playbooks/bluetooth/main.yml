@@ -8,7 +8,7 @@
       community.general.pacman:
         name:
           - "{{ config.packages.pacman.bluez }}"
-          - "{{ config.packages.pacman.bluez-utils }}"
+          - "{{ config.packages.pacman.bluez_utils }}"
         state: present
       become: true
       notify: Bluetooth running

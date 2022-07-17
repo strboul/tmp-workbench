@@ -26,7 +26,7 @@
     - name: Install Google Chrome
       kewlfft.aur.aur:
         use: yay
-        name: "{{ config.packages.aur.google-chrome }}"
+        name: "{{ config.packages.aur.google_chrome }}"
         state: present
       tags: gui.chrome
 
@@ -34,7 +34,7 @@
     - name: Install Brave browser
       kewlfft.aur.aur:
         use: yay
-        name: "{{ config.packages.aur.brave-bin }}"
+        name: "{{ config.packages.aur.brave_bin }}"
         state: present
       tags: gui.brave
 
@@ -47,7 +47,7 @@
     - name: Install Visual Studio Code
       kewlfft.aur.aur:
         use: yay
-        name: "{{ config.packages.aur.visual-studio-code-bin }}"
+        name: "{{ config.packages.aur.visual_studio_code_bin }}"
         state: present
       tags: gui.vscode
 
@@ -58,7 +58,7 @@
       tags: gui.dbeaver
 
     - name: Install LibreOffice
-      community.general.pacman: name="{{ config.packages.pacman.libreoffice-fresh }}" state=present
+      community.general.pacman: name="{{ config.packages.pacman.libreoffice_fresh }}" state=present
       become: true
       tags: gui.libreoffice
 
@@ -70,7 +70,7 @@
     - name: Install Slack desktop
       kewlfft.aur.aur:
         use: yay
-        name: "{{ config.packages.aur.slack-desktop }}"
+        name: "{{ config.packages.aur.slack_desktop }}"
         state: present
       tags: gui.slack
 
@@ -78,17 +78,17 @@
     - name: Install RStudio
       kewlfft.aur.aur:
         use: yay
-        name: "{{ config.packages.aur.rstudio-desktop-bin }}"
+        name: "{{ config.packages.aur.rstudio_desktop_bin }}"
         state: present
       tags: gui.rstudio
 
     - name: Install Signal
-      community.general.pacman: name="{{ config.packages.pacman.signal-desktop }}" state=present
+      community.general.pacman: name="{{ config.packages.pacman.signal_desktop }}" state=present
       become: true
       tags: gui.signal
 
     - name: Install Telegram
-      community.general.pacman: name="{{ config.packages.pacman.telegram-desktop }}" state=present
+      community.general.pacman: name="{{ config.packages.pacman.telegram_desktop }}" state=present
       become: true
       tags: gui.telegram
 
@@ -135,7 +135,7 @@
       tags: gui.magicavoxel
 
     - name: Install gnome-disk-utility
-      community.general.pacman: name="{{ config.packages.pacman.gnome-disk-utility }}" state=present
+      community.general.pacman: name="{{ config.packages.pacman.gnome_disk_utility }}" state=present
       become: true
       tags: gui.gnome_disk_utility
 
@@ -156,7 +156,7 @@
       community.general.pacman:
         name:
           - "{{ config.packages.pacman.virtualbox }}"
-          - "{{ config.packages.pacman.virtualbox-guest-utils }}"
+          - "{{ config.packages.pacman.virtualbox_guest_utils }}"
         state: present
       become: true
       tags: gui.virtualbox
@@ -165,8 +165,8 @@
       community.general.pacman:
         name:
           - "{{ config.packages.pacman.libvirt }}"
-          - "{{ config.packages.pacman.gnome-boxes }}"
-          - "{{ config.packages.pacman.virt-manager }}"
+          - "{{ config.packages.pacman.gnome_boxes }}"
+          - "{{ config.packages.pacman.virt_manager }}"
         state: present
       become: true
       tags: gui.gnome_boxes

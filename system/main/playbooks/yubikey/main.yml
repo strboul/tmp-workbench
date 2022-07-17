@@ -21,8 +21,8 @@
     - name: Install yubikey managers (to manage yubikey)
       community.general.pacman:
         name:
-          - "{{ config.packages.pacman.yubikey-manager }}"
-          - "{{ config.packages.pacman.yubikey-manager-qt }}"
+          - "{{ config.packages.pacman.yubikey_manager }}"
+          - "{{ config.packages.pacman.yubikey_manager_qt }}"
         state: present
       become: true
       notify: pcsd.service running
@@ -32,7 +32,7 @@
       block:
         # https://github.com/maximbaz/yubikey-touch-detector
         - name: Install yubikey-touch-detector
-          community.general.pacman: name="{{ config.packages.pacman.yubikey-touch-detector }}" state=present
+          community.general.pacman: name="{{ config.packages.pacman.yubikey_touch_detector }}" state=present
           become: true
           notify: yubikey-touch-detector.service running
 

@@ -6,7 +6,7 @@
       - "{{ config.packages.pacman.iputils }}"  # network monitoring tools, incl. ping
       - "{{ config.packages.pacman.inetutils }}"  # collection of common network programs, e.g. telnet
       - "{{ config.packages.pacman.bind }}"  # dns stuff
-      - "{{ config.packages.pacman.gnu-netcat }}"  # netcat, the network piping application
+      - "{{ config.packages.pacman.gnu_netcat }}"  # netcat, the network piping application
       - "{{ config.packages.pacman.socat }}"  # multipurpose relay
       - "{{ config.packages.pacman.nmap }}"  # utility for network discovery and security auditing
       - "{{ config.packages.pacman.tcpdump }}"  # powerful command-line packet analyzer
@@ -17,6 +17,6 @@
   community.general.pacman:
     name:
       - "{{ config.packages.pacman.openvpn }}"
-      - "{{ config.packages.pacman.networkmanager-openvpn }}"
+      - "{{ config.packages.pacman.networkmanager_openvpn }}"
     state: present
   become: true

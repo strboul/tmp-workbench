@@ -24,7 +24,7 @@
   community.general.pacman:
     name:
       - "{{ config.packages.pacman.git }}"
-      - "{{ config.packages.pacman.base-devel }}"  # build-essential equivalent https://archlinux.org/groups/x86_64/base-devel/
+      - "{{ config.packages.pacman.base_devel }}"  # build-essential equivalent https://archlinux.org/groups/x86_64/base-devel/
     state: present
   become: true
 

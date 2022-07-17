@@ -3,7 +3,7 @@
   community.general.pacman:
     name:
       - "{{ config.packages.pacman.coreutils }}"
-      - "{{ config.packages.pacman.man-db }}"
+      - "{{ config.packages.pacman.man_db }}"
       - "{{ config.packages.pacman.curl }}"
       - "{{ config.packages.pacman.git }}"
       - "{{ config.packages.pacman.wget }}"

@@ -6,8 +6,7 @@
       ansible.builtin.set_fact:
         vars_ssh:
           path: "{{ ansible_env.HOME }}/.ssh"
-          key_identifier: "id_ed25519-workbench_{{ arg_hostname }}"
-    # TODO: get arg_hostname from the hostname module via register
+          key_identifier: "id_ed25519-workbench_{{ ansible_hostname }}"
 
     - name: Install ssh
       community.general.pacman:

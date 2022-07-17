@@ -1,7 +1,6 @@
 ---
 - name: Base
   hosts: all
-  gather_facts: true
   tags: base
   vars:
     yay_command: /usr/bin/yay

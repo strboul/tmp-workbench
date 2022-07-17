@@ -8,13 +8,12 @@
   community.general.pacman: name="{{ config.packages.pacman.etckeeper }}" state=present
   become: true
 
-# TODO: get arg_hostname from the hostname module via register
 - name: Init etckeeper and first commit
   ansible.builtin.command:
     cmd: |
       etckeeper init
       git config --local user.name "root"
-      git config --local user.email "root@{{ arg_hostname }}"
+      git config --local user.email "root@{{ ansible_hostname }}"
       etckeeper commit -m "Initial commit"
     chdir: /etc
   become: true

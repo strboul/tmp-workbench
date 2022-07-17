@@ -57,10 +57,10 @@ export:
     - *common
     - package.wireguard
     - gui.thunderbird
-    - work
-    - yubikey.client
     - gui.code
     - gui.dbeaver
     - gui.slack
     - gui.thunderbird
     - gui.keepassxc
+    - yubikey.client
+    - work

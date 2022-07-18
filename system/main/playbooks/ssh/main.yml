@@ -30,7 +30,7 @@
         path: "{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}"
         type: ed25519
         comment: "{{ vars_ssh.key_identifier }}"
-        # TODO: passphrase: ?
+        # TODO: passphrase: ? | add ansible prompt?
 
     - name: Create user ssh config file
       ansible.builtin.blockinfile:

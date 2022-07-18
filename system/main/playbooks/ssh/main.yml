@@ -39,7 +39,11 @@
           # default for all
           Host *
             IdentityFile {{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}
-        mode: 0644
+        # Because of the potential for abuse, this file must have strict
+        # permissions: read/write for the user, and not accessible by others.
+        # It may be group-writable, provided that the group in question
+        # contains only the user.
+        mode: 0600
         create: true
         state: present
 
@@ -51,7 +55,9 @@
         block: |
           # current key '{{ vars_ssh.key_identifier }}.pub':
           {{ lookup('file', '{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}.pub') }}
-        mode: 0644
+        # This file is not highly sensitive, but the recommended permissions
+        # are read/write for the user, and not accessible by others.
+        mode: 0600
         create: true
         state: present
 
@@ -59,6 +65,7 @@
       ansible.builtin.blockinfile:
         path: /etc/ssh/sshd_config
         block: |
+          PasswordAuthentication no
           PubkeyAuthentication yes
           AuthorizedKeysFile .ssh/authorized_keys
       become: true

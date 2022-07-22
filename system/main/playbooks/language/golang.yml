@@ -5,7 +5,7 @@
 
 - name: Add golang paths
   ansible.builtin.blockinfile:
-    path: "{{ item }}"
+    path: "{{ ansible_env.HOME }}/.zshenv"
     marker: "# {mark} ANSIBLE MANAGED BLOCK: golang"
     block: |
       typeset -U path PATH
@@ -15,7 +15,5 @@
     mode: 0644
     create: true
     state: present
-  loop:
-    - "{{ ansible_env.HOME }}/.zshenv"
 
 # vim: ft=yaml.ansible

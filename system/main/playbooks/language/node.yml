@@ -26,7 +26,7 @@
 
         - name: Export the path in profile
           ansible.builtin.blockinfile:
-            path: "{{ item }}"
+            path: "{{ ansible_env.HOME }}/.zshenv"
             marker: "# {mark} ANSIBLE MANAGED BLOCK: npm-global"
             block: |
               typeset -U path PATH
@@ -35,5 +35,3 @@
             mode: 0644
             create: true
             state: present
-          loop:
-            - "{{ ansible_env.HOME }}/.zshenv"

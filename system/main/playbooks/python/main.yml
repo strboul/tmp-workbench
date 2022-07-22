@@ -42,7 +42,7 @@
 
     - name: Add pyenv to zsh profile
       ansible.builtin.blockinfile:
-        path: "{{ item }}"
+        path: "{{ ansible_env.HOME }}/.zshenv"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: pyenv"
         block: |
           typeset -U path PATH
@@ -53,8 +53,6 @@
         mode: 0644
         create: true
         state: present
-      loop:
-        - "{{ ansible_env.HOME }}/.zshenv"
 
     - name: Install pyenv versions
       ansible.builtin.command:

@@ -61,15 +61,13 @@
 
     - name: Disable p10k configuration wizard prompt
       ansible.builtin.blockinfile:
-        path: "{{ item }}"
+        path: "{{ ansible_env.HOME }}/.zshenv"
         marker: "# {mark} ANSIBLE MANAGED BLOCK: p10k"
         block: |
           POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
         mode: 0644
         create: true
         state: present
-      loop:
-        - "{{ ansible_env.HOME }}/.zshenv"
 
 - name: Add zsh to /etc/shells
   ansible.builtin.lineinfile:

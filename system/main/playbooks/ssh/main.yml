@@ -50,11 +50,13 @@
     - name: Add current pub key to authorized keys for passwordless access
       ansible.builtin.blockinfile:
         path: "{{ vars_ssh.path }}/authorized_keys"
-        marker_begin: "BEGIN ANSIBLE MANAGED BLOCK: ssh authorized_keys"
-        marker_end: "END ANSIBLE MANAGED BLOCK: ssh authorized_keys\n\n# Add authorized public keys down below"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK: ssh"
         block: |
           # current key '{{ vars_ssh.key_identifier }}.pub':
           {{ lookup('file', '{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}.pub') }}
+
+          # *** Add your own authorized public keys down below (outside the managed block) ***
+          # ==============================================
         # This file is not highly sensitive, but the recommended permissions
         # are read/write for the user, and not accessible by others.
         mode: 0600
@@ -63,11 +65,11 @@
 
     - name: Change sshd_config
       ansible.builtin.blockinfile:
-        path: /etc/ssh/sshd_config
+        path: /etc/ssh/sshd_config  # TODO: use /etc/ssh/ssh_config instead?
         block: |
           PasswordAuthentication no
           PubkeyAuthentication yes
-          AuthorizedKeysFile .ssh/authorized_keys
+          AuthorizedKeysFile ~/.ssh/authorized_keys
       become: true
 
   handlers:

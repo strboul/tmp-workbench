@@ -21,6 +21,13 @@
       changed_when: false
       become: true
 
+    - name: Allow port range (my socat)
+      ansible.builtin.shell: |
+        firewall-cmd --zone=public --add-port=3333/tcp --permanent
+        firewall-cmd --reload
+      changed_when: false
+      become: true
+
   handlers:
     - name: firewalld running
       ansible.builtin.systemd:

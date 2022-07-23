@@ -65,7 +65,7 @@
 
     - name: Change sshd_config
       ansible.builtin.blockinfile:
-        path: /etc/ssh/sshd_config  # TODO: use /etc/ssh/ssh_config instead?
+        path: /etc/ssh/sshd_config  # TODO: use /etc/ssh/ssh_config instead? As this one isn't working.
         block: |
           PasswordAuthentication no
           PubkeyAuthentication yes

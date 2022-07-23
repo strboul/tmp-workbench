@@ -79,7 +79,6 @@ class AnsibleRun:
 
                     if file.name.endswith("_vault.yml"):
                         self._playbook_main_vault = True
-                        log.info("🔑 vault file detected, will ask the key")
 
                 if len(main_file_paths) == 0:
                     error_exit(
@@ -129,7 +128,9 @@ class AnsibleRun:
             f"--extra-vars=@{_PATH_CONFIG}",
             "--ask-become-pass",
         ]
+        log.info("🔴 will ask the become (sudo) pass")
         if self._playbook_main_vault:
+            log.info("🔑 vault file detected, will ask the key")
             cmd.append(f"--vault-password-file={_PATH_VAULT_PASS_FILE}")
         if self._args.tags:
             cmd.append(f"--tags='{self._args.tags}'")

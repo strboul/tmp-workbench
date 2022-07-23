@@ -6,7 +6,7 @@ the full *workbench*.
 It's totally possible to use the parts, not necessary to install the full
 suite.
 
-Fully supports Arch Linux :penguin:
+Fully supports Arch Linux ![](https://archlinux.org/static/favicon.29302f683ff8.ico)
 
 ## Setup
 

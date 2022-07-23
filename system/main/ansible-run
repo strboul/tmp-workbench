@@ -37,12 +37,21 @@ def flatten(x):
 
 class AnsibleRun:
 
+    _parser = None
     _playbooks = None
     _profiles = None
     _args = None
     _playbook_main_vault = False
 
     def main(self):
+        try:
+            self.run()
+        except:
+            print("")
+            self._parser.print_help()
+            sys.exit(1)
+
+    def run(self):
         self.parse_args()
         if self._args.type not in _ARGS_TYPE:
             error_exit("type must be one of: %r", _ARGS_TYPE)
@@ -50,12 +59,14 @@ class AnsibleRun:
         if self._args.type == "playbook":
             self._playbooks = self.read_playbooks()
             self.validate_playbook_type()
+            self.print_info_args()
             playbook_main_file = self.get_playbook_main_file()
             self.run_playbook(playbook_main_file)
 
         if self._args.type == "profile":
             self._profiles = self.read_profiles()
             self.validate_profile_type()
+            self.print_info_args()
             self.detect_playbooks_from_profiles()
 
     def get_playbook_main_file(self):
@@ -152,6 +163,12 @@ class AnsibleRun:
                 hostname,
             )
 
+    def print_info_args(self):
+        log.info(
+            "ansible-run called with: %r",
+            {k: v for k, v in vars(self._args).items() if v is not None},
+        )
+
     @staticmethod
     def read_profiles():
         with open(_PATH_PROFILES, mode="r", encoding="utf-8") as stream:
@@ -177,10 +194,7 @@ class AnsibleRun:
 
         args = parser.parse_args()
 
-        log.info(
-            "ansible-run called with: %r",
-            {k: v for k, v in vars(args).items() if v is not None},
-        )
+        self._parser = parser
         self._args = args
 
 

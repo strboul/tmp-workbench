@@ -32,6 +32,16 @@
         comment: "{{ vars_ssh.key_identifier }}"
         # TODO: passphrase: ? | add ansible prompt?
 
+    - name: Be sure the key permissions are restrictive
+      ansible.builtin.file:
+        path: "{{ item }}"
+        owner: "{{ ansible_env.USER }}"
+        group: "{{ ansible_env.USER }}"
+        mode: 0400
+      loop:
+        - "{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}"
+        - "{{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}.pub"
+
     - name: Create user ssh config file
       ansible.builtin.blockinfile:
         path: "{{ vars_ssh.path }}/config"

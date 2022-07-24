@@ -47,6 +47,9 @@ class AnsibleRun:
             self.run()
         except:
             print("")
+            # FIXME: parser.print_help should only run when there's a arg or
+            # arg validation error. No need to print it for a failing ansible
+            # job.
             self._parser.print_help()
             sys.exit(1)
 

@@ -82,6 +82,16 @@
           AuthorizedKeysFile ~/.ssh/authorized_keys
       become: true
 
+    - import_tasks: ../_utils/util_notify.yml
+      vars:
+        id: check-ssh-key-passphrase
+        command: |
+          "{{ ansible_env.HOME }}/dotfiles/bin/check-ssh-key-passphrase {{ vars_ssh.path }}/{{ vars_ssh.key_identifier }}"
+        on_calendar: hourly
+        additional_message: |
+          Having ssh private key without a passphrase isn't safe.
+          Use a passphrase to protect it.
+
   handlers:
     - name: SSH running
       ansible.builtin.systemd:

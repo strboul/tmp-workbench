@@ -4,13 +4,12 @@
   tags: base
   vars:
     yay_command: /usr/bin/yay
-    workbench_dir: /opt/workbench
-    yay_install_dir: "{{ workbench_dir }}/yay"
-    pacman_updated_file: "{{ workbench_dir }}/.ansible_pacman_updated"
+    yay_install_dir: "{{ config.vars.workbench_dir }}/yay"
+    pacman_updated_file: "{{ config.vars.workbench_dir }}/ansible_pacman_updated"
   tasks:
     - name: Create workbench dir belonging to main user
       ansible.builtin.file:
-        path: "{{ workbench_dir }}"
+        path: "{{ config.vars.workbench_dir }}"
         # equivalent of `sudo chown -R $USER:$USER <path>`
         owner: "{{ ansible_env.USER }}"
         group: "{{ ansible_env.USER }}"

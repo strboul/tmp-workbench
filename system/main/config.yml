@@ -2,6 +2,9 @@
 # General configuration
 #
 config:
+  vars:
+    workbench_dir: /opt/workbench
+
   # https://github.com/strboul/strboul/tree/master/gpg
   gpg:
     master_pub: 4C884872307BB096C0EB226D9DFB9FAB33E2BB02
